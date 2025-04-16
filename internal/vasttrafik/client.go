@@ -69,8 +69,6 @@ func (c *Client) ListVehicles(ctx context.Context, lowerLeft, upperRight Coordin
 	params.Set("lowerLeftLong", fmt.Sprintf("%f", lowerLeft.Long))
 	params.Set("upperRightLat", fmt.Sprintf("%f", upperRight.Lat))
 	params.Set("upperRightLong", fmt.Sprintf("%f", upperRight.Long))
-	params.Add("transportMode", "bus")
-	params.Add("transportMode", "tram")
 	params.Set("limit", "200")
 
 	resp, err := c.client.Get("https://ext-api.vasttrafik.se/pr/v4/positions?" + params.Encode())
