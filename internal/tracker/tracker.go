@@ -4,7 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"log"
+	"log/slog"
 	"math"
 	"time"
 
@@ -49,7 +49,7 @@ func (s *Tracker) Watch(ctx context.Context) error {
 		case <-ticker.C:
 			vv, err := s.client.ListVehicles(ctx, leftLower, rightUpper)
 			if err != nil {
-				log.Printf("failed to list vehicles: %v", err)
+				slog.ErrorContext(ctx, "failed to list vehicles", "error", err)
 				continue
 			}
 
@@ -59,9 +59,8 @@ func (s *Tracker) Watch(ctx context.Context) error {
 			for _, event := range events {
 				jsonBytes, err := json.Marshal(event)
 				if err != nil {
-					log.Printf("failed to marshal: %v", err)
+					slog.ErrorContext(ctx, "failed to marshal event", "event", event)
 				} else {
-					log.Printf("Broadcasting event: %s\n", string(jsonBytes))
 					s.stream.Broadcast(jsonBytes)
 				}
 			}

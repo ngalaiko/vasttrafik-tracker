@@ -4,6 +4,7 @@ import (
 	"context"
 	"flag"
 	"log"
+	"log/slog"
 	"net/http"
 	"os"
 
@@ -11,6 +12,7 @@ import (
 	"github.com/ngalaiko/kollpaspar/backend/internal/static"
 	"github.com/ngalaiko/kollpaspar/backend/internal/tracker"
 	"github.com/ngalaiko/kollpaspar/backend/internal/vasttrafik"
+	"golang.org/x/sync/errgroup"
 )
 
 var address = flag.String("address", ":8080", "address to listen on")
@@ -36,15 +38,24 @@ func main() {
 	stream := sse.NewStream()
 
 	w := tracker.New(client, stream)
-	go func() {
-		if err := w.Watch(ctx); err != nil {
-			log.Printf("watch: %v", err)
-		}
-	}()
+
+	wg, ctx := errgroup.WithContext(ctx)
+	wg.Go(func() error {
+		return w.Watch(ctx)
+	})
 
 	http.Handle("/", static.Handler())
 	http.HandleFunc("/events", stream.Handler())
 
-	log.Println("🚀 Serving on :8080")
-	log.Fatal(http.ListenAndServe(":8080", nil))
+	wg.Go(func() error {
+		slog.InfoContext(ctx, "starting server", "address", *address)
+		if err := http.ListenAndServe(":8080", nil); err != http.ErrServerClosed {
+			return err
+		}
+		return nil
+	})
+
+	if err := wg.Wait(); err != nil {
+		log.Fatal(err)
+	}
 }
