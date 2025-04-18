@@ -41,13 +41,7 @@ func main() {
 
 	wg, ctx := errgroup.WithContext(ctx)
 	wg.Go(func() error {
-		return w.Watch(ctx, vasttrafik.Buses)
-	})
-	wg.Go(func() error {
 		return w.Watch(ctx, vasttrafik.Trams)
-	})
-	wg.Go(func() error {
-		return w.Watch(ctx, vasttrafik.ExpressBuses)
 	})
 
 	http.Handle("/", static.Handler())

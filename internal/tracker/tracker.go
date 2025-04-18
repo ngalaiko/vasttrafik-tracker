@@ -25,7 +25,7 @@ func New(client *vasttrafik.Client, stream *sse.Stream) *Tracker {
 	}
 }
 
-func (s *Tracker) Watch(ctx context.Context, routes []string) error {
+func (s *Tracker) Watch(ctx context.Context, routes []vasttrafik.Line) error {
 	ticker := time.NewTicker(1 * time.Second)
 	defer ticker.Stop()
 

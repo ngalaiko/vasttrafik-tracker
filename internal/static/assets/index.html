@@ -119,6 +119,42 @@
     evtSource.onerror = function (e) {
       console.error("SSE error", e);
     };
+
+   function displayRoutes(routes) {
+     routes.forEach((route) => {
+       const line = route.lineInfo;
+       if (!route.coordinates || route.coordinates.length === 0) return;
+  
+       const latlngs = route.coordinates.map(coord => [coord.latitude, coord.longitude]);
+  
+       const polyline = L.polyline(latlngs, {
+         color: line.backgroundColor,
+         weight: line.transportMode === "tram" ? 4 : 3,
+         opacity: 0.8,
+         dashArray: line.transportMode === "bus" ? "6,6" : null,
+         lineCap: "round",
+         lineJoin: "round"
+       }).addTo(map);
+  
+       polyline.bindTooltip(`${line.name} (${line.transportMode})`, {
+         permanent: false,
+         direction: "top"
+       });
+     });
+   }
+  
+   async function loadRoutes() {
+     try {
+       const res = await fetch("/routes");
+       if (!res.ok) throw new Error("Failed to fetch routes");
+       const routes = await res.json();
+       displayRoutes(routes);
+     } catch (err) {
+       console.error("Error loading routes:", err);
+     }
+   }
+  
+   loadRoutes();
   </script>
 </body>
 </html>

@@ -36,18 +36,25 @@ func NewClient(ctx context.Context, cfg Config) *Client {
 }
 
 type Coordinates struct {
-	Lat  float64
-	Long float64
+	Lat  float64 `json:"latitude"`
+	Long float64 `json:"longitude"`
 }
+
+type TransportMode string
+
+const (
+	TransportModeBus  TransportMode = "bus"
+	TransportModeTram TransportMode = "tram"
+)
 
 type LineInfo struct {
 	// Name is the name of the line, e.g. "10" or "11"
 	Name string `json:"name"`
 	// TransportMode is the transport mode of the line, e.g. "bus" or "tram"
-	TransportMode   string `json:"transportMode"`
-	BackgoundColor  string `json:"backgroundColor"`
-	ForegroundColor string `json:"foregroundColor"`
-	BorderColor     string `json:"borderColor"`
+	TransportMode   TransportMode `json:"transportMode"`
+	BackgoundColor  string        `json:"backgroundColor"`
+	ForegroundColor string        `json:"foregroundColor"`
+	BorderColor     string        `json:"borderColor"`
 }
 
 type Vehicle struct {
@@ -63,27 +70,20 @@ type Vehicle struct {
 	Line LineInfo `json:"line"`
 }
 
-var (
-	Trams = []string{
-		"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11",
-	}
-	Buses = []string{
-		"16", "17", "18", "19", "21", "25",
-	}
-	ExpressBuses = []string{
-		"X1", "X2", "X3", "X4", "RÖD", "LILA", "SVART",
-	}
-)
+func (c *Client) ListVehicles(ctx context.Context, lowerLeft, upperRight Coordinates, lines []Line) ([]Vehicle, error) {
 
-func (c *Client) ListVehicles(ctx context.Context, lowerLeft, upperRight Coordinates, routes []string) ([]Vehicle, error) {
 	params := url.Values{}
 	params.Set("lowerLeftLat", fmt.Sprintf("%f", lowerLeft.Lat))
 	params.Set("lowerLeftLong", fmt.Sprintf("%f", lowerLeft.Long))
 	params.Set("upperRightLat", fmt.Sprintf("%f", upperRight.Lat))
 	params.Set("upperRightLong", fmt.Sprintf("%f", upperRight.Long))
 	params.Set("limit", "200")
-	for _, route := range routes {
-		params.Add("lineDesignations", route)
+	transportModes := map[TransportMode]struct{}{}
+	for _, line := range lines {
+		transportModes[line.Info.TransportMode] = struct{}{}
+	}
+	for transportMode := range transportModes {
+		params.Add("transportModes", string(transportMode))
 	}
 
 	resp, err := c.client.Get("https://ext-api.vasttrafik.se/pr/v4/positions?" + params.Encode())
