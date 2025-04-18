@@ -154,6 +154,7 @@ func reconcile(old []ChandeUpdate, new []vasttrafik.Vehicle) []ChandeUpdate {
 	return result
 }
 
+// score calculates a score for two vehicles based on their attributes.
 func score(a, b vasttrafik.Vehicle) float64 {
 	s := 0.0
 	if a.Line.Name == b.Line.Name {
@@ -172,6 +173,7 @@ func score(a, b vasttrafik.Vehicle) float64 {
 	return s
 }
 
+// haversine calculates the distance between two points on the Earth specified in decimal degrees.
 func haversine(lat1, lon1, lat2, lon2 float64) float64 {
 	const earthRadius = 6371000.0 // in meters
 
@@ -192,6 +194,7 @@ func haversine(lat1, lon1, lat2, lon2 float64) float64 {
 	return earthRadius * c
 }
 
+// boundingBoxAround returns coordinates for a bounding box around a given latitude and longitude with a specified radius in kilometers.
 func boundingBoxAround(lat, lon, radiusKm float64) (vasttrafik.Coordinates, vasttrafik.Coordinates) {
 	deltaLat := radiusKm / 111.0
 	deltaLon := radiusKm / (111.320 * math.Cos(lat*math.Pi/180.0))
