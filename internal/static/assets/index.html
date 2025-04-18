@@ -22,7 +22,7 @@
       maxZoom: 19
     }).addTo(map);
 
-    const buses = new Map();
+    const vehicles = new Map();
 
     function animateMarker(marker, fromLatLng, toLatLng, duration = 1000) {
       const start = performance.now();
@@ -81,8 +81,8 @@
 		</div>
 	  `;
 
-	  if (buses.has(id)) {
-		const marker = buses.get(id);
+	  if (vehicles.has(id)) {
+		const marker = vehicles.get(id);
 		animateMarker(marker, marker.getLatLng(), latlng);
 		marker.setTooltipContent(labelHTML);
 	  } else {
@@ -95,16 +95,16 @@
 
 		const marker = L.marker(latlng, { icon: vehicleIcon }).addTo(map);
 		marker.bindTooltip(labelHTML, { direction: 'top', permanent: false });
-		buses.set(id, marker);
+		vehicles.set(id, marker);
 	  }
 	}
 
 	function handleDelete(data) {
 	  const id = data.delete.id;
-	  const marker = buses.get(id);
+	  const marker = vehicles.get(id);
 	  if (marker) {
 		map.removeLayer(marker);
-		buses.delete(id);
+		vehicles.delete(id);
 	  }
 	} 
 

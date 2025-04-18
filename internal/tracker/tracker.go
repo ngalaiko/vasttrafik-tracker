@@ -33,12 +33,11 @@ func (s *Tracker) Watch(ctx context.Context, routes []string) error {
 	if err != nil {
 		return fmt.Errorf("failed to list vehicles: %v", err)
 	}
-	vehicles := make([]ChandeUpdate, len(vv))
+	vehicles := make([]TrackedVehicle, len(vv))
 	for i, v := range vv {
-		vehicles[i] = ChandeUpdate{
-			ID:       uuid.New().String(),
-			Vehicle:  v,
-			LastSeen: time.Now(),
+		vehicles[i] = TrackedVehicle{
+			ID:      uuid.New().String(),
+			Vehicle: v,
 		}
 	}
 
@@ -70,9 +69,8 @@ func (s *Tracker) Watch(ctx context.Context, routes []string) error {
 	}
 }
 
-type ChandeUpdate struct {
-	ID       string    `json:"id"`
-	LastSeen time.Time `json:"lastSeenAt"`
+type TrackedVehicle struct {
+	ID string `json:"id"`
 	vasttrafik.Vehicle
 }
 
@@ -82,17 +80,17 @@ type ChangeDelete struct {
 
 // Change represents a change in the vehicle list.
 type Change struct {
-	Update *ChandeUpdate `json:"update,omitempty"`
-	Delete *ChangeDelete `json:"delete,omitempty"`
+	Update *TrackedVehicle `json:"update,omitempty"`
+	Delete *ChangeDelete   `json:"delete,omitempty"`
 }
 
 // diff compares two slices of vehicles and returns a slice of events representing the changes.
-func diff(old, new []ChandeUpdate) []Change {
-	oldByIds := make(map[string]ChandeUpdate, len(old))
+func diff(old, new []TrackedVehicle) []Change {
+	oldByIds := make(map[string]TrackedVehicle, len(old))
 	for _, v := range old {
 		oldByIds[v.ID] = v
 	}
-	newByIds := make(map[string]ChandeUpdate, len(new))
+	newByIds := make(map[string]TrackedVehicle, len(new))
 	for _, v := range new {
 		newByIds[v.ID] = v
 	}
@@ -114,13 +112,12 @@ func diff(old, new []ChandeUpdate) []Change {
 }
 
 // reconcile reconciles two slices of vehicles, matching them based on their name and direction.
-func reconcile(old []ChandeUpdate, new []vasttrafik.Vehicle) []ChandeUpdate {
-	now := time.Now()
-	result := make([]ChandeUpdate, 0, len(new))
+func reconcile(old []TrackedVehicle, new []vasttrafik.Vehicle) []TrackedVehicle {
+	result := make([]TrackedVehicle, 0, len(new))
 	used := make(map[string]bool)
 
 	for _, nv := range new {
-		var bestMatch *ChandeUpdate
+		var bestMatch *TrackedVehicle
 		var bestScore float64
 
 		for i := range old {
@@ -136,9 +133,8 @@ func reconcile(old []ChandeUpdate, new []vasttrafik.Vehicle) []ChandeUpdate {
 			}
 		}
 
-		tv := ChandeUpdate{
-			Vehicle:  nv,
-			LastSeen: now,
+		tv := TrackedVehicle{
+			Vehicle: nv,
 		}
 
 		if bestMatch != nil {
