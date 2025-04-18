@@ -63,13 +63,28 @@ type Vehicle struct {
 	Line LineInfo `json:"line"`
 }
 
-func (c *Client) ListVehicles(ctx context.Context, lowerLeft, upperRight Coordinates) ([]Vehicle, error) {
+var (
+	Trams = []string{
+		"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11",
+	}
+	Buses = []string{
+		"16", "17", "18", "19", "21", "25",
+	}
+	ExpressBuses = []string{
+		"X1", "X2", "X3", "X4", "RÖD", "LILA", "SVART",
+	}
+)
+
+func (c *Client) ListVehicles(ctx context.Context, lowerLeft, upperRight Coordinates, routes []string) ([]Vehicle, error) {
 	params := url.Values{}
 	params.Set("lowerLeftLat", fmt.Sprintf("%f", lowerLeft.Lat))
 	params.Set("lowerLeftLong", fmt.Sprintf("%f", lowerLeft.Long))
 	params.Set("upperRightLat", fmt.Sprintf("%f", upperRight.Lat))
 	params.Set("upperRightLong", fmt.Sprintf("%f", upperRight.Long))
 	params.Set("limit", "200")
+	for _, route := range routes {
+		params.Add("lineDesignations", route)
+	}
 
 	resp, err := c.client.Get("https://ext-api.vasttrafik.se/pr/v4/positions?" + params.Encode())
 	if err != nil {

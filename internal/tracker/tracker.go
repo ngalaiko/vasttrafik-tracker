@@ -25,11 +25,11 @@ func New(client *vasttrafik.Client, stream *sse.Stream) *Tracker {
 	}
 }
 
-func (s *Tracker) Watch(ctx context.Context) error {
+func (s *Tracker) Watch(ctx context.Context, routes []string) error {
 	ticker := time.NewTicker(1 * time.Second)
 	defer ticker.Stop()
 
-	vv, err := s.client.ListVehicles(ctx, leftLower, rightUpper)
+	vv, err := s.client.ListVehicles(ctx, leftLower, rightUpper, routes)
 	if err != nil {
 		return fmt.Errorf("failed to list vehicles: %v", err)
 	}
@@ -47,7 +47,7 @@ func (s *Tracker) Watch(ctx context.Context) error {
 		case <-ctx.Done():
 			return nil
 		case <-ticker.C:
-			vv, err := s.client.ListVehicles(ctx, leftLower, rightUpper)
+			vv, err := s.client.ListVehicles(ctx, leftLower, rightUpper, routes)
 			if err != nil {
 				slog.ErrorContext(ctx, "failed to list vehicles", "error", err)
 				continue
