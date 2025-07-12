@@ -2,6 +2,29 @@
  * Västtrafik API Type Definitions
  */
 
+export type TransportMode = "tram" | "bus" | "ferry" | "train";
+
+export interface JourneysParameters {
+  /** The origin stop area GID */
+  originGid: string;
+  /** The destination stop area GID */
+  destinationGid: string;
+  /** The date and time for the journey in ISO 8601 format */
+  dateTime?: string;
+  /** The maximum number of results to return */
+  limit?: number;
+  transportModes?: Array<TransportMode>;
+}
+
+export interface JourneysResponse {
+  /** Array of journey results */
+  results: Journey[];
+}
+
+export interface Journey {
+  detailsReference: string;
+}
+
 export interface Line {
   /** The unique identifier for the line */
   gid: string;
@@ -18,7 +41,7 @@ export interface Line {
   /** The border color of the line */
   borderColor: string;
   /** The mode of transport for the line */
-  transportMode: "tram" | "bus" | "ferry" | "train";
+  transportMode: TransportMode;
 }
 
 export interface ServiceJourney {
@@ -98,14 +121,13 @@ export interface DeparturesResponse {
   results: Departure[];
 }
 
-export declare function stopAreas(): Promise<StopArea[]>;
-export declare function stopAreaArrivals(gid: string): Promise<Arrival[]>;
-export declare function stopAreaDepartures(gid: string): Promise<Departure[]>;
+export interface VasttraffikClient {
+  stopAreas(): Promise<StopArea[]>;
+  stopAreaArrivals(gid: string): Promise<Arrival[]>;
+  stopAreaDepartures(gid: string): Promise<Departure[]>;
+}
 
-declare const _default: {
-  stopAreas: typeof stopAreas;
-  stopAreaArrivals: typeof stopAreaArrivals;
-  stopAreaDepartures: typeof stopAreaDepartures;
-};
+export declare function createClient(
+  config: ClientCredentialsConfig,
+): VasttraffikClient;
 
-export default _default;

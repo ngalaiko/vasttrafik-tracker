@@ -1,0 +1,20 @@
+{
+  "name": "@vasttrafik-tracker/vasttrafik",
+  "version": "1.0.0",
+  "description": "Vasttrafik API client library",
+  "main": "src/index.js",
+  "types": "src/index.d.ts",
+  "type": "module",
+  "private": true,
+  "exports": {
+    ".": {
+      "types": "./src/index.d.ts",
+      "import": "./src/index.js"
+    }
+  },
+  "keywords": ["vasttrafik", "api", "transport", "sweden"],
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  }
+}

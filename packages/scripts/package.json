@@ -1,0 +1,16 @@
+{
+  "name": "@vasttrafik-tracker/generate",
+  "version": "1.0.0",
+  "description": "Data generation CLI for vasttrafik-tracker",
+  "type": "module",
+  "private": true,
+  "bin": {
+    "generate": "./src/generate.js"
+  },
+  "scripts": {
+	"generate": "bun ./src/generate.js"
+  },
+  "dependencies": {
+    "@vasttrafik-tracker/vasttrafik": "workspace:*"
+  }
+}
