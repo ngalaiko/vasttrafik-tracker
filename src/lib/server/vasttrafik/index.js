@@ -8,28 +8,59 @@ const host = "https://ext-api.vasttrafik.se";
 const tokenUrl = `${host}/token`;
 const plannerApi = `${host}/pr/v4/`;
 
-export default {
-  stopAreas,
-};
+/**
+ * Fetch all arrivals for a given stop area.
+ *
+ * @param {string} gid - The unique identifier for the stop area.
+ * @return {Promise<Array<import('./index').Arrival>>} A promise that resolves to an array of arrivals.
+ */
+async function stopAreaArrivals(gid) {
+  const response = await get(`stop-areas/${gid}/arrivals`);
+  if (!response.ok) {
+    throw new Error(
+      `Failed to fetch arrivals for stop area ${gid}: ${response.statusText}`,
+    );
+  }
+  /**
+   * @type {import('./index').ArrivalsResponse}
+   */
+  const data = await response.json();
+  return data.results;
+}
 
 /**
- * @typedef {Object} StopArea
- * @property {string} gid - The unique identifier for the stop area.
- * @property {string} name - The name of the stop area.
- * @property {number} lat - The latitude of the stop area.
- * @property {number} long - The longitude of the stop area.
+ * Fetch all departures for a given stop area.
+ *
+ * @param {string} gid - The unique identifier for the stop area.
+ * @return {Promise<Array<import('./index').Departure>>} A promise that resolves to an array of departures.
  */
+async function stopAreaDepartures(gid) {
+  const response = await get(`stop-areas/${gid}/departures`);
+  if (!response.ok) {
+    throw new Error(
+      `Failed to fetch departures for stop area ${gid}: ${response.statusText}`,
+    );
+  }
+  /**
+   * @type {import('./index').DeparturesResponse}
+   */
+  const data = await response.json();
+  return data.results;
+}
 
 /**
  * Fetches all stop areas.
  *
- * @return {Promise<Array<StopArea>>} A promise that resolves to an array of stop areas.
+ * @return {Promise<Array<import('./index').StopArea>>} A promise that resolves to an array of stop areas.
  */
 async function stopAreas() {
   const response = await get("stop-areas");
   if (!response.ok) {
     throw new Error(`Failed to fetch stop areas: ${response.statusText}`);
   }
+  /**
+   * @type {Array<import('./index').StopArea>}
+   */
   const data = await response.json();
   return data;
 }
@@ -59,12 +90,12 @@ async function get(input, init) {
 /**
  * Enriches the request with client credentials for authentication.
  *
- * @param {{clientId: string, clientSecret: string}} config - Configuration object containing client ID and secret.
+ * @param {import('./index').ClientCredentialsConfig} config - Configuration object containing client ID and secret.
  * @return {(init?: RequestInit) => Promise<RequestInit>} A function that returns a RequestInit object with the Authorization header set.
  */
 function withClientCredentials(config) {
   /**
-   * @type {{access_token: string, expires_at: number}|null}
+   * @type {import('./index').CachedToken|null}
    */
   var token = null;
 
@@ -93,11 +124,10 @@ function withClientCredentials(config) {
 /**
  * Exchanges client credentials for an access token.
  *
- * @param {{clientId: string, clientSecret: string}} config - Configuration object containing client ID and secret.
- * @return {Promise<{access_token: string, expires_in: number}>} A promise that resolves to the access token object.
+ * @param {import('./index').ClientCredentialsConfig} config - Configuration object containing client ID and secret.
+ * @return {Promise<import('./index').TokenResponse>} A promise that resolves to the access token object.
  */
 async function exchangeClientCredentials(config) {
-  tokenUrl;
   return fetch(tokenUrl, {
     method: "POST",
     headers: {
@@ -115,3 +145,9 @@ async function exchangeClientCredentials(config) {
     return response.json();
   });
 }
+
+export default {
+  stopAreas,
+  stopAreaArrivals,
+  stopAreaDepartures,
+};
