@@ -1,6 +1,6 @@
 import { parseArgs } from "util";
 import { createClient } from "@vasttrafik-tracker/vasttrafik";
-import trams from "./trams.json";
+import trams from "./trams/trams.json";
 
 const { values, positionals } = parseArgs({
   args: Bun.argv,
@@ -29,9 +29,9 @@ const client = createClient({
 
 /**
  * Fetches journey details for a tram between two stop areas.
- * @param {{line: string, origin: string, destination: string}} tram - The tram object containing origin and destination.
+ * @param {import('./trams').Tram} tram - The tram object containing origin and destination.
  * @param {import("@vasttrafik-tracker/vasttrafik").StopArea} stopAreas - The list of stop areas to search in.
- * @returns {Promise<object>} - The journey details for the tram.
+ * @returns {Promise<import("@vasttrafik-tracker/vasttrafik").JourneyDetails>} - The journey details for the tram.
  */
 async function fetchJourneyDetails(tram, stopAreas) {
   const origin = stopAreas.find((area) => area.name === tram.origin);
@@ -84,4 +84,3 @@ try {
   console.error("Error:", error.message);
   process.exit(1);
 }
-

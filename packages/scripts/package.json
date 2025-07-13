@@ -3,12 +3,17 @@
   "version": "1.0.0",
   "description": "Data generation CLI for vasttrafik-tracker",
   "type": "module",
-  "private": true,
-  "bin": {
-    "generate": "./src/generate.js"
+  "main": "src/index.js",
+  "types": "src/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./src/index.d.ts",
+      "import": "./src/index.js"
+    }
   },
+  "private": true,
   "scripts": {
-    "generate": "bun ./src/generate.js"
+    "dev": "bun ./src/generate.js"
   },
   "dependencies": {
     "@vasttrafik-tracker/vasttrafik": "workspace:*"
