@@ -1,7 +1,10 @@
 import api from "$lib/server/vasttrafik";
 import { json } from "@sveltejs/kit";
 
-/** @type {import('./$types').RequestHandler} */
+/**
+ * Handles GET requests for stop area arrivals.
+ * @type {import('./$types').RequestHandler}
+ */
 export async function GET({ params }) {
   try {
     const arrivals = await api.stopAreaArrivals(params.gid);
@@ -11,4 +14,3 @@ export async function GET({ params }) {
     return json({ error: "something went wrong" }, { status: 500 });
   }
 }
-

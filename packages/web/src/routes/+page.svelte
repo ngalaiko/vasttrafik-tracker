@@ -8,7 +8,11 @@
 	const { position, loading, error } = useGeolocation();
 	
 	const closestStopAreas = $derived(
-		stopAreas.map(/** @param {import('$lib/server/vasttrafik').StopArea} stopArea */ (stopArea) => {
+		stopAreas.map(/**
+																 * Maps a stop area to include distance from current position.
+																 * @param {import('$lib/server/vasttrafik').StopArea} stopArea The stop area to process
+																 * @returns {import('$lib/server/vasttrafik').StopArea & {distance: number}} Stop area with distance
+																 */ (stopArea) => {
 			if ($position) {
 				const distance = calculateDistanceMeters(
 					{ lat: $position.latitude, long: $position.longitude },
@@ -17,14 +21,18 @@
 				return { ...stopArea, distance };
 			}
 			return { ...stopArea, distance: Infinity };
-		}).sort(/** @param {import('$lib/server/vasttrafik').StopArea & {distance: number}} a */ /** @param {import('$lib/server/vasttrafik').StopArea & {distance: number}} b */ (a, b) => a.distance - b.distance).slice(0, 5)
+		}).sort(/**
+										 * Sorts stop areas by distance.
+										 * @param {import('$lib/server/vasttrafik').StopArea & {distance: number}} a First stop area
+										 * @param {import('$lib/server/vasttrafik').StopArea & {distance: number}} b Second stop area
+										 * @returns {number} Comparison result
+										 */ (a, b) => a.distance - b.distance).slice(0, 5)
 	);
 	
 	/**
 	 * Fetches arrivals for a given stop area ID (gid).
-	 * 
-	 * @param {string} gid - The unique identifier for the stop area.
-	 * @returns {Promise<Array<import('$lib/server/vasttrafik').Arrival>>} - A promise that resolves to the arrivals data.
+	 * @param {string} gid The unique identifier for the stop area
+	 * @returns {Promise<Array<import('$lib/server/vasttrafik').Arrival>>} A promise that resolves to the arrivals data
 	 */
 	async function fetchArrivals(gid) {
 		const response = await fetch(`/api/stops/${gid}/arrivals`);
@@ -33,9 +41,8 @@
 	
 	/**
 	 * Fetches departures for a given stop area ID (gid).
-	 * 
-	 * @param {string} gid - The unique identifier for the stop area.
-	 * @returns {Promise<Array<import('$lib/server/vasttrafik').Departure>>} - A promise that resolves to the departures data.
+	 * @param {string} gid The unique identifier for the stop area
+	 * @returns {Promise<Array<import('$lib/server/vasttrafik').Departure>>} A promise that resolves to the departures data
 	 */
 	async function fetchDepartures(gid) {
 		const response = await fetch(`/api/stops/${gid}/departures`);
@@ -47,7 +54,10 @@
 	
 	$effect(() => {
 		if ($position) {
-			closestStopAreas.forEach(/** @param {import('$lib/server/vasttrafik').StopArea & {distance: number}} stopArea */ (stopArea) => {
+			closestStopAreas.forEach(/**
+																												 * Processes each closest stop area to fetch its arrivals and departures.
+																												 * @param {import('$lib/server/vasttrafik').StopArea & {distance: number}} stopArea The stop area to process
+																												 */ (stopArea) => {
 				fetchArrivals(stopArea.gid).then(a => {
 					arrivals.update(map => {
 						map.set(stopArea.gid, a);
@@ -82,7 +92,7 @@
 
 {#if closestStopAreas.length > 0}
 	<ul>
-		{#each closestStopAreas as stopArea}
+		{#each closestStopAreas as stopArea (stopArea.gid)}
 			<li>
 				<strong>{stopArea.name}</strong>
 				<br>
@@ -99,7 +109,7 @@
 				<details>
 					<summary>Arrivals</summary>
 					<ul>
-						{#each $arrivals.get(stopArea.gid) || [] as arrival}
+						{#each $arrivals.get(stopArea.gid) || [] as arrival (arrival.serviceJourney.gid + arrival.plannedTime)}
 							<li>{arrival.serviceJourney.line.name} at {new Date(arrival.plannedTime).toLocaleTimeString()}</li>
 						{/each}
 					</ul>
@@ -108,7 +118,7 @@
 				<details>
 					<summary>Departures</summary>
 					<ul>
-						{#each $departures.get(stopArea.gid) || [] as departure}
+						{#each $departures.get(stopArea.gid) || [] as departure (departure.serviceJourney.gid + departure.plannedTime)}
 							<li>{departure.serviceJourney.line.name} at {new Date(departure.plannedTime).toLocaleTimeString()}</li>
 						{/each}
 					</ul>

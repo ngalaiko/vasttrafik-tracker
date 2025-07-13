@@ -4,10 +4,9 @@ const tokenUrl = `${host}/token`;
 const plannerApi = `${host}/pr/v4/`;
 
 /**
- * Creates a Vasttrafik API client with configurable credentials
- *
- * @param {import('./index').ClientCredentialsConfig} config - Configuration object containing client ID and secret
- * @return {import('./index').VasttraffikClient} The API client instance
+ * Creates a Vasttrafik API client with configurable credentials.
+ * @param {import('./index').ClientCredentialsConfig} config Configuration object containing client ID and secret
+ * @returns {import('./index').VasttraffikClient} The API client instance
  */
 export function createClient(config) {
   if (!config.clientId || !config.clientSecret) {
@@ -18,10 +17,9 @@ export function createClient(config) {
 
   /**
    * Calls the Västtrafik Planner API.
-   *
-   * @param {RequestInfo | URL} input - The input string to be processed.
-   * @param {RequestInit} [init] - Optional initialization parameters for the request.
-   * @return {Promise<Response>} A promise that resolves to the response of the request.
+   * @param {string | URL} input The input string to be processed
+   * @param {object} [init] Optional initialization parameters for the request
+   * @returns {Promise<Response>} A promise that resolves to the response of the request
    */
   async function get(input, init) {
     if (typeof input === "string") {
@@ -37,9 +35,8 @@ export function createClient(config) {
 
   /**
    * Fetches journeys.
-   *
-   * @param {{originGid: string, destinationGid: string}} params - The unique identifier for the stop area.
-   * @return {Promise<Array<import('./index').Journey>>}
+   * @param {{originGid: string, destinationGid: string}} params The unique identifier for the stop area
+   * @returns {Promise<Array<import('./index').Journey>>} A promise that resolves to an array of journeys
    */
   async function journeys(params) {
     const { originGid, destinationGid } = params;
@@ -64,9 +61,8 @@ export function createClient(config) {
 
   /**
    * Fetch all arrivals for a given stop area.
-   *
-   * @param {string} gid - The unique identifier for the stop area.
-   * @return {Promise<Array<import('./index').Arrival>>} A promise that resolves to an array of arrivals.
+   * @param {string} gid The unique identifier for the stop area
+   * @returns {Promise<Array<import('./index').Arrival>>} A promise that resolves to an array of arrivals
    */
   async function stopAreaArrivals(gid) {
     const response = await get(`stop-areas/${gid}/arrivals`);
@@ -84,9 +80,8 @@ export function createClient(config) {
 
   /**
    * Fetch all departures for a given stop area.
-   *
-   * @param {string} gid - The unique identifier for the stop area.
-   * @return {Promise<Array<import('./index').Departure>>} A promise that resolves to an array of departures.
+   * @param {string} gid The unique identifier for the stop area
+   * @returns {Promise<Array<import('./index').Departure>>} A promise that resolves to an array of departures
    */
   async function stopAreaDepartures(gid) {
     const response = await get(`stop-areas/${gid}/departures`);
@@ -104,8 +99,7 @@ export function createClient(config) {
 
   /**
    * Fetches all stop areas.
-   *
-   * @return {Promise<Array<import('./index').StopArea>>} A promise that resolves to an array of stop areas.
+   * @returns {Promise<Array<import('./index').StopArea>>} A promise that resolves to an array of stop areas
    */
   async function stopAreas() {
     const response = await get("stop-areas");
@@ -129,9 +123,8 @@ export function createClient(config) {
 
 /**
  * Enriches the request with client credentials for authentication.
- *
- * @param {import('./index').ClientCredentialsConfig} config - Configuration object containing client ID and secret.
- * @return {(init?: RequestInit) => Promise<RequestInit>} A function that returns a RequestInit object with the Authorization header set.
+ * @param {import('./index').ClientCredentialsConfig} config Configuration object containing client ID and secret
+ * @returns {(init?: object) => Promise<object>} A function that returns a RequestInit object with the Authorization header set
  */
 function withClientCredentials(config) {
   /**
@@ -163,9 +156,8 @@ function withClientCredentials(config) {
 
 /**
  * Exchanges client credentials for an access token.
- *
- * @param {import('./index').ClientCredentialsConfig} config - Configuration object containing client ID and secret.
- * @return {Promise<import('./index').TokenResponse>} A promise that resolves to the access token object.
+ * @param {import('./index').ClientCredentialsConfig} config Configuration object containing client ID and secret
+ * @returns {Promise<import('./index').TokenResponse>} A promise that resolves to the access token object
  */
 async function exchangeClientCredentials(config) {
   return fetch(tokenUrl, {
@@ -185,4 +177,3 @@ async function exchangeClientCredentials(config) {
     return response.json();
   });
 }
-

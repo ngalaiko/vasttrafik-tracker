@@ -8,7 +8,7 @@
     "generate": "./src/generate.js"
   },
   "scripts": {
-	"generate": "bun ./src/generate.js"
+    "generate": "bun ./src/generate.js"
   },
   "dependencies": {
     "@vasttrafik-tracker/vasttrafik": "workspace:*"

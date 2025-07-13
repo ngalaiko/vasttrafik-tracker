@@ -12,7 +12,12 @@
       "import": "./src/index.js"
     }
   },
-  "keywords": ["vasttrafik", "api", "transport", "sweden"],
+  "keywords": [
+    "vasttrafik",
+    "api",
+    "transport",
+    "sweden"
+  ],
   "license": "MIT",
   "engines": {
     "node": ">=18"

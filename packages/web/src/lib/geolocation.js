@@ -1,7 +1,7 @@
 import { writable } from "svelte/store";
 
 /**
- * @typedef {Object} GeolocationPosition
+ * @typedef {object} GeolocationPosition
  * @property {number} latitude - The latitude in decimal degrees
  * @property {number} longitude - The longitude in decimal degrees
  * @property {number} accuracy - The accuracy in meters
@@ -9,7 +9,7 @@ import { writable } from "svelte/store";
  */
 
 /**
- * @typedef {Object} GeolocationReturn
+ * @typedef {object} GeolocationReturn
  * @property {import('svelte/store').Writable<GeolocationPosition|null>} position - Position store
  * @property {import('svelte/store').Writable<GeolocationPositionError|Error|null>} error - Error store
  * @property {import('svelte/store').Writable<boolean>} loading - Loading state store
@@ -17,8 +17,7 @@ import { writable } from "svelte/store";
  */
 
 /**
- * Hook for getting current geolocation with reactive stores
- *
+ * Hook for getting current geolocation with reactive stores.
  * @returns {GeolocationReturn} Object containing position, error, loading stores and refresh function
  */
 export function useGeolocation() {

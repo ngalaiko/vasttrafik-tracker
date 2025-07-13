@@ -130,4 +130,3 @@ export interface VasttraffikClient {
 export declare function createClient(
   config: ClientCredentialsConfig,
 ): VasttraffikClient;
-
