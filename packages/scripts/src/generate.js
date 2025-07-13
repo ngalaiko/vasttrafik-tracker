@@ -48,16 +48,19 @@ async function fetchJourneyDetails(tram, stopAreas) {
     destinationGid: destination.gid,
     transportModes: ["tram"],
     onlyDirectConnections: true,
-    limit: 1,
   });
 
-  if (journeys.length === 0) {
+  const journey = journeys.find(({ tripLegs }) => {
+    return tripLegs[0].serviceJourney.line.shortName === tram.line;
+  });
+
+  if (journey === undefined) {
     throw new Error(
       `No journeys found for tram: ${tram.origin} -> ${tram.destination}`,
     );
   }
 
-  const details = await client.journeyDetails(journeys[0].detailsReference, {
+  const details = await client.journeyDetails(journey.detailsReference, {
     includes: ["servicejourneycoordinates"],
   });
 
