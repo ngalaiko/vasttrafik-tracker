@@ -11,9 +11,26 @@ export interface JourneysParameters {
   destinationGid: string;
   /** The date and time for the journey in ISO 8601 format */
   dateTime?: string;
+  /** Specifies if the datetime is related to the departure or arrival of the journey. */
+  dateTimeRelatesTo?: "departure" | "arrival";
   /** The maximum number of results to return */
   limit?: number;
+  /** Only include direct connections, e.g. journeys with one trip leg. */
+  onlyDirectConnections?: boolean;
+  /** The transport modes to include when searching for journeys, if none specified all transport modes are included. */
   transportModes?: Array<TransportMode>;
+}
+
+export interface JourneyDetailsParameters {
+  includes?: Array<
+    | "ticketsuggestions"
+    | "triplegcoordinates"
+    | "validzones"
+    | "servicejourneycalls"
+    | "servicejourneycoordinates"
+    | "links"
+    | "occupancy"
+  >;
 }
 
 export interface JourneysResponse {
@@ -21,8 +38,14 @@ export interface JourneysResponse {
   results: Journey[];
 }
 
+export interface TripLeg {
+  isCancelled: boolean;
+  serviceJourney: ServiceJourney;
+}
+
 export interface Journey {
   detailsReference: string;
+  tripLegs: TripLeg[];
 }
 
 export interface Line {
@@ -48,9 +71,15 @@ export interface ServiceJourney {
   /** The unique identifier for the service journey */
   gid: string;
   /** The origin of the service journey */
-  origin: string;
+  origin?: string;
+  /** The destination of the service journey */
+  direction?: string;
   /** The line associated with the service journey */
   line: Line;
+  serviceJourneyCoordinates?: Array<{
+    latitude: number;
+    longitude: number;
+  }>;
 }
 
 export interface Arrival {

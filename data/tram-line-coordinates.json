@@ -1,0 +1,6901 @@
+[
+  {
+    "line": {
+      "name": "1",
+      "detailName": "Spårvagn 1",
+      "backgroundColor": "#ffffff",
+      "foregroundColor": "#006c93",
+      "borderColor": "#006c93",
+      "transportMode": "tram",
+      "transportSubMode": "none"
+    },
+    "coordinates": [
+      {
+        "latitude": 57.722316,
+        "longitude": 12.048116,
+        "isOnTripLeg": true,
+        "isTripLegStart": true
+      },
+      {
+        "latitude": 57.722388,
+        "longitude": 12.048728,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.722523,
+        "longitude": 12.048835,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.722694,
+        "longitude": 12.048719,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.722901,
+        "longitude": 12.046957,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.723817,
+        "longitude": 12.045114,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.72468,
+        "longitude": 12.042004,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.725022,
+        "longitude": 12.04052,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.725166,
+        "longitude": 12.038911,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.725076,
+        "longitude": 12.037455,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.724752,
+        "longitude": 12.036089,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.724096,
+        "longitude": 12.034695,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.72282,
+        "longitude": 12.03305,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.722577,
+        "longitude": 12.032718,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.720042,
+        "longitude": 12.028475,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.718433,
+        "longitude": 12.026075,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.717903,
+        "longitude": 12.025059,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.717929,
+        "longitude": 12.02452,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.718397,
+        "longitude": 12.022686,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.718478,
+        "longitude": 12.021985,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.718451,
+        "longitude": 12.021248,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.7181,
+        "longitude": 12.019333,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.717084,
+        "longitude": 12.013786,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.717084,
+        "longitude": 12.013652,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.717031,
+        "longitude": 12.012132,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.716653,
+        "longitude": 12.008636,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.716743,
+        "longitude": 12.007215,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.716509,
+        "longitude": 12.005705,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.71624,
+        "longitude": 12.004752,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.716078,
+        "longitude": 12.00442,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.715287,
+        "longitude": 12.003629,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.715008,
+        "longitude": 12.002856,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.71463,
+        "longitude": 11.998658,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.713974,
+        "longitude": 11.994163,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.71401,
+        "longitude": 11.992626,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.713696,
+        "longitude": 11.992033,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.713021,
+        "longitude": 11.991215,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.712608,
+        "longitude": 11.990801,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.712131,
+        "longitude": 11.990585,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.708122,
+        "longitude": 11.986199,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.707718,
+        "longitude": 11.985659,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.707655,
+        "longitude": 11.985129,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.707583,
+        "longitude": 11.974944,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.707709,
+        "longitude": 11.973209,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.707673,
+        "longitude": 11.972382,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.707053,
+        "longitude": 11.968454,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.706936,
+        "longitude": 11.968049,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.706549,
+        "longitude": 11.968031,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.706423,
+        "longitude": 11.967771,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.705713,
+        "longitude": 11.963231,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.705704,
+        "longitude": 11.962575,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.706252,
+        "longitude": 11.958701,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.706163,
+        "longitude": 11.958305,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.705704,
+        "longitude": 11.957469,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.705408,
+        "longitude": 11.957208,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.704661,
+        "longitude": 11.957496,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.703349,
+        "longitude": 11.955536,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.702675,
+        "longitude": 11.955258,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.700077,
+        "longitude": 11.953532,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.69996,
+        "longitude": 11.952732,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.699798,
+        "longitude": 11.952273,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.697515,
+        "longitude": 11.951078,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.696382,
+        "longitude": 11.951392,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.693587,
+        "longitude": 11.952462,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.692787,
+        "longitude": 11.952561,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.692085,
+        "longitude": 11.952453,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.690674,
+        "longitude": 11.951797,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.689946,
+        "longitude": 11.952049,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.6892,
+        "longitude": 11.952264,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.68644,
+        "longitude": 11.951788,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.685272,
+        "longitude": 11.951213,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.684472,
+        "longitude": 11.950547,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.683348,
+        "longitude": 11.949199,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.682719,
+        "longitude": 11.948255,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.681406,
+        "longitude": 11.945729,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.680795,
+        "longitude": 11.94483,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.67879,
+        "longitude": 11.942916,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.677181,
+        "longitude": 11.940569,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.676381,
+        "longitude": 11.939895,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.675096,
+        "longitude": 11.939221,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.674745,
+        "longitude": 11.938439,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.674449,
+        "longitude": 11.935544,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.674278,
+        "longitude": 11.933144,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.674035,
+        "longitude": 11.931661,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.673586,
+        "longitude": 11.93034,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.67221,
+        "longitude": 11.927436,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.671177,
+        "longitude": 11.926043,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.670287,
+        "longitude": 11.925297,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.668354,
+        "longitude": 11.924721,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.667122,
+        "longitude": 11.924712,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.663536,
+        "longitude": 11.925216,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.66261,
+        "longitude": 11.925027,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.662035,
+        "longitude": 11.924703,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.661172,
+        "longitude": 11.92384,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.660255,
+        "longitude": 11.922591,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.659059,
+        "longitude": 11.920595,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.656767,
+        "longitude": 11.917557,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.654232,
+        "longitude": 11.914321,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.652731,
+        "longitude": 11.911363,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.651553,
+        "longitude": 11.90881,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.651095,
+        "longitude": 11.906114,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.650879,
+        "longitude": 11.905296,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.650582,
+        "longitude": 11.904639,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.65016,
+        "longitude": 11.904082,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.649513,
+        "longitude": 11.903633,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.649018,
+        "longitude": 11.903498,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.647895,
+        "longitude": 11.903237,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.647247,
+        "longitude": 11.902878,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.646609,
+        "longitude": 11.901925,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.645746,
+        "longitude": 11.899785,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.645288,
+        "longitude": 11.899156,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.645171,
+        "longitude": 11.89903,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.644811,
+        "longitude": 11.898823,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.644263,
+        "longitude": 11.898769,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.643715,
+        "longitude": 11.899021,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.642366,
+        "longitude": 11.900756,
+        "isOnTripLeg": true,
+        "isTripLegStop": true
+      },
+      {
+        "latitude": 57.641899,
+        "longitude": 11.901448
+      },
+      {
+        "latitude": 57.641872,
+        "longitude": 11.901826
+      },
+      {
+        "latitude": 57.641962,
+        "longitude": 11.901997
+      },
+      {
+        "latitude": 57.642087,
+        "longitude": 11.90206
+      },
+      {
+        "latitude": 57.64215,
+        "longitude": 11.902015
+      }
+    ]
+  },
+  {
+    "line": {
+      "name": "2",
+      "detailName": "Spårvagn 2",
+      "backgroundColor": "#ffdd00",
+      "foregroundColor": "#006c93",
+      "borderColor": "#ffdd00",
+      "transportMode": "tram",
+      "transportSubMode": "none"
+    },
+    "coordinates": [
+      {
+        "latitude": 57.654349,
+        "longitude": 12.017544
+      },
+      {
+        "latitude": 57.655922,
+        "longitude": 12.017409
+      },
+      {
+        "latitude": 57.656371,
+        "longitude": 12.017103,
+        "isOnTripLeg": true,
+        "isTripLegStart": true
+      },
+      {
+        "latitude": 57.658466,
+        "longitude": 12.015387,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.661576,
+        "longitude": 12.013679,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.666412,
+        "longitude": 12.011413,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.666511,
+        "longitude": 12.011395,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.670637,
+        "longitude": 12.010748,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.67212,
+        "longitude": 12.009957,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.674206,
+        "longitude": 12.008932,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.675348,
+        "longitude": 12.007997,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.675662,
+        "longitude": 12.007674,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.678323,
+        "longitude": 12.004195,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.678368,
+        "longitude": 12.004159,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.679015,
+        "longitude": 12.003548,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.680561,
+        "longitude": 12.002487,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.684382,
+        "longitude": 11.999889,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.685928,
+        "longitude": 11.998703,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.687519,
+        "longitude": 11.996626,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.68964,
+        "longitude": 11.994469,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.692023,
+        "longitude": 11.991772,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.692589,
+        "longitude": 11.990945,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.69471,
+        "longitude": 11.988707,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.695438,
+        "longitude": 11.98814,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.696679,
+        "longitude": 11.987826,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.697236,
+        "longitude": 11.987053,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.697704,
+        "longitude": 11.986711,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.70076,
+        "longitude": 11.985839,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.704032,
+        "longitude": 11.98503,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.704967,
+        "longitude": 11.984931,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.705866,
+        "longitude": 11.984913,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.707088,
+        "longitude": 11.984392,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.707628,
+        "longitude": 11.983556,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.707583,
+        "longitude": 11.974944,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.707709,
+        "longitude": 11.973209,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.707673,
+        "longitude": 11.972382,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.707053,
+        "longitude": 11.968454,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.706936,
+        "longitude": 11.968049,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.706549,
+        "longitude": 11.968031,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.706423,
+        "longitude": 11.967771,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.705812,
+        "longitude": 11.963788,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.705623,
+        "longitude": 11.963033,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.705452,
+        "longitude": 11.962997,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.704131,
+        "longitude": 11.963761,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.702828,
+        "longitude": 11.964445,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.702252,
+        "longitude": 11.965164,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.701983,
+        "longitude": 11.965469,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.700553,
+        "longitude": 11.9684,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.700113,
+        "longitude": 11.968867,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.699115,
+        "longitude": 11.969425,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.698881,
+        "longitude": 11.969524,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.698738,
+        "longitude": 11.969371,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.698198,
+        "longitude": 11.96609,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.697623,
+        "longitude": 11.962782,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.696526,
+        "longitude": 11.962575,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.696355,
+        "longitude": 11.962557,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.695591,
+        "longitude": 11.961847,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.694602,
+        "longitude": 11.961577,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.69365,
+        "longitude": 11.959141,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.693533,
+        "longitude": 11.958862,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.692077,
+        "longitude": 11.95719,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.69169,
+        "longitude": 11.956732,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.691627,
+        "longitude": 11.956417,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.691843,
+        "longitude": 11.955464,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.691942,
+        "longitude": 11.952903,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.691924,
+        "longitude": 11.952534,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.691816,
+        "longitude": 11.952363,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.690782,
+        "longitude": 11.951824,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.689946,
+        "longitude": 11.952049,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.6892,
+        "longitude": 11.952264,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.68644,
+        "longitude": 11.951788,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.685272,
+        "longitude": 11.951213,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.684472,
+        "longitude": 11.950547,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.683348,
+        "longitude": 11.949199,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.682719,
+        "longitude": 11.948255,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.681406,
+        "longitude": 11.945729,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.680795,
+        "longitude": 11.94483,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.67879,
+        "longitude": 11.942916,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.677181,
+        "longitude": 11.940569,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.676381,
+        "longitude": 11.939895,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.675096,
+        "longitude": 11.939221,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.674745,
+        "longitude": 11.938439,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.674449,
+        "longitude": 11.935544,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.674278,
+        "longitude": 11.933144,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.674035,
+        "longitude": 11.931661,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.673712,
+        "longitude": 11.930645,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.672741,
+        "longitude": 11.928479,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.672552,
+        "longitude": 11.927939,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.672507,
+        "longitude": 11.927463,
+        "isOnTripLeg": true,
+        "isTripLegStop": true
+      }
+    ]
+  },
+  {
+    "line": {
+      "name": "1",
+      "detailName": "Spårvagn 1",
+      "backgroundColor": "#ffffff",
+      "foregroundColor": "#006c93",
+      "borderColor": "#006c93",
+      "transportMode": "tram",
+      "transportSubMode": "none"
+    },
+    "coordinates": [
+      {
+        "latitude": 57.722316,
+        "longitude": 12.048116,
+        "isOnTripLeg": true,
+        "isTripLegStart": true
+      },
+      {
+        "latitude": 57.722388,
+        "longitude": 12.048728,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.722523,
+        "longitude": 12.048835,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.722694,
+        "longitude": 12.048719,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.722901,
+        "longitude": 12.046957,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.723817,
+        "longitude": 12.045114,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.72468,
+        "longitude": 12.042004,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.725022,
+        "longitude": 12.04052,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.725166,
+        "longitude": 12.038911,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.725076,
+        "longitude": 12.037455,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.724752,
+        "longitude": 12.036089,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.724096,
+        "longitude": 12.034695,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.72282,
+        "longitude": 12.03305,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.722577,
+        "longitude": 12.032718,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.720042,
+        "longitude": 12.028475,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.718433,
+        "longitude": 12.026075,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.717903,
+        "longitude": 12.025059,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.717929,
+        "longitude": 12.02452,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.718397,
+        "longitude": 12.022686,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.718478,
+        "longitude": 12.021985,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.718451,
+        "longitude": 12.021248,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.7181,
+        "longitude": 12.019333,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.717084,
+        "longitude": 12.013786,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.717084,
+        "longitude": 12.013652,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.717031,
+        "longitude": 12.012132,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.716653,
+        "longitude": 12.008636,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.716743,
+        "longitude": 12.007215,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.716509,
+        "longitude": 12.005705,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.71624,
+        "longitude": 12.004752,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.716078,
+        "longitude": 12.00442,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.715287,
+        "longitude": 12.003629,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.715008,
+        "longitude": 12.002856,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.71463,
+        "longitude": 11.998658,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.713974,
+        "longitude": 11.994163,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.71401,
+        "longitude": 11.992626,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.713696,
+        "longitude": 11.992033,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.713021,
+        "longitude": 11.991215,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.712608,
+        "longitude": 11.990801,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.712131,
+        "longitude": 11.990585,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.708122,
+        "longitude": 11.986199,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.707718,
+        "longitude": 11.985659,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.707655,
+        "longitude": 11.985129,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.707583,
+        "longitude": 11.974944,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.707709,
+        "longitude": 11.973209,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.707673,
+        "longitude": 11.972382,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.707053,
+        "longitude": 11.968454,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.706936,
+        "longitude": 11.968049,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.706549,
+        "longitude": 11.968031,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.706423,
+        "longitude": 11.967771,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.705713,
+        "longitude": 11.963231,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.705704,
+        "longitude": 11.962575,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.706252,
+        "longitude": 11.958701,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.706163,
+        "longitude": 11.958305,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.705704,
+        "longitude": 11.957469,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.705408,
+        "longitude": 11.957208,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.704661,
+        "longitude": 11.957496,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.703349,
+        "longitude": 11.955536,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.702675,
+        "longitude": 11.955258,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.700077,
+        "longitude": 11.953532,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.69996,
+        "longitude": 11.952732,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.699798,
+        "longitude": 11.952273,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.697515,
+        "longitude": 11.951078,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.696382,
+        "longitude": 11.951392,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.693587,
+        "longitude": 11.952462,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.692787,
+        "longitude": 11.952561,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.692085,
+        "longitude": 11.952453,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.690674,
+        "longitude": 11.951797,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.689946,
+        "longitude": 11.952049,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.6892,
+        "longitude": 11.952264,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.68644,
+        "longitude": 11.951788,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.685272,
+        "longitude": 11.951213,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.684472,
+        "longitude": 11.950547,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.683348,
+        "longitude": 11.949199,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.682719,
+        "longitude": 11.948255,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.681406,
+        "longitude": 11.945729,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.680795,
+        "longitude": 11.94483,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.67879,
+        "longitude": 11.942916,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.677181,
+        "longitude": 11.940569,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.676381,
+        "longitude": 11.939895,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.675096,
+        "longitude": 11.939221,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.674745,
+        "longitude": 11.938439,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.674449,
+        "longitude": 11.935544,
+        "isOnTripLeg": true,
+        "isTripLegStop": true
+      },
+      {
+        "latitude": 57.674278,
+        "longitude": 11.933144
+      },
+      {
+        "latitude": 57.674035,
+        "longitude": 11.931661
+      },
+      {
+        "latitude": 57.673586,
+        "longitude": 11.93034
+      },
+      {
+        "latitude": 57.67221,
+        "longitude": 11.927436
+      },
+      {
+        "latitude": 57.671177,
+        "longitude": 11.926043
+      },
+      {
+        "latitude": 57.670287,
+        "longitude": 11.925297
+      },
+      {
+        "latitude": 57.668354,
+        "longitude": 11.924721
+      },
+      {
+        "latitude": 57.667122,
+        "longitude": 11.924712
+      },
+      {
+        "latitude": 57.663536,
+        "longitude": 11.925216
+      },
+      {
+        "latitude": 57.66261,
+        "longitude": 11.925027
+      },
+      {
+        "latitude": 57.662035,
+        "longitude": 11.924703
+      },
+      {
+        "latitude": 57.661172,
+        "longitude": 11.92384
+      },
+      {
+        "latitude": 57.660255,
+        "longitude": 11.922591
+      },
+      {
+        "latitude": 57.659059,
+        "longitude": 11.920595
+      },
+      {
+        "latitude": 57.656767,
+        "longitude": 11.917557
+      },
+      {
+        "latitude": 57.654232,
+        "longitude": 11.914321
+      },
+      {
+        "latitude": 57.652731,
+        "longitude": 11.911363
+      },
+      {
+        "latitude": 57.651553,
+        "longitude": 11.90881
+      },
+      {
+        "latitude": 57.651095,
+        "longitude": 11.906114
+      },
+      {
+        "latitude": 57.650879,
+        "longitude": 11.905296
+      },
+      {
+        "latitude": 57.650582,
+        "longitude": 11.904639
+      },
+      {
+        "latitude": 57.65016,
+        "longitude": 11.904082
+      },
+      {
+        "latitude": 57.649513,
+        "longitude": 11.903633
+      },
+      {
+        "latitude": 57.649018,
+        "longitude": 11.903498
+      },
+      {
+        "latitude": 57.647895,
+        "longitude": 11.903237
+      },
+      {
+        "latitude": 57.647247,
+        "longitude": 11.902878
+      },
+      {
+        "latitude": 57.646609,
+        "longitude": 11.901925
+      },
+      {
+        "latitude": 57.645746,
+        "longitude": 11.899785
+      },
+      {
+        "latitude": 57.645288,
+        "longitude": 11.899156
+      },
+      {
+        "latitude": 57.645171,
+        "longitude": 11.89903
+      },
+      {
+        "latitude": 57.644811,
+        "longitude": 11.898823
+      },
+      {
+        "latitude": 57.644263,
+        "longitude": 11.898769
+      },
+      {
+        "latitude": 57.643715,
+        "longitude": 11.899021
+      },
+      {
+        "latitude": 57.642366,
+        "longitude": 11.900756
+      },
+      {
+        "latitude": 57.641899,
+        "longitude": 11.901448
+      },
+      {
+        "latitude": 57.641872,
+        "longitude": 11.901826
+      },
+      {
+        "latitude": 57.641962,
+        "longitude": 11.901997
+      },
+      {
+        "latitude": 57.642087,
+        "longitude": 11.90206
+      },
+      {
+        "latitude": 57.64215,
+        "longitude": 11.902015
+      }
+    ]
+  },
+  {
+    "line": {
+      "name": "4",
+      "detailName": "Spårvagn 4",
+      "backgroundColor": "#027446",
+      "foregroundColor": "#ffffff",
+      "borderColor": "#027446",
+      "transportMode": "tram",
+      "transportSubMode": "none"
+    },
+    "coordinates": [
+      {
+        "latitude": 57.795524,
+        "longitude": 12.049204,
+        "isOnTripLeg": true,
+        "isTripLegStart": true
+      },
+      {
+        "latitude": 57.794104,
+        "longitude": 12.048323,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.792971,
+        "longitude": 12.048044,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.790562,
+        "longitude": 12.048494,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.789502,
+        "longitude": 12.048413,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.784692,
+        "longitude": 12.04613,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.783542,
+        "longitude": 12.045464,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.782688,
+        "longitude": 12.044745,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.78178,
+        "longitude": 12.043307,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.780396,
+        "longitude": 12.040493,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.779919,
+        "longitude": 12.037725,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.779811,
+        "longitude": 12.035549,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.779739,
+        "longitude": 12.034138,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.779407,
+        "longitude": 12.031738,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.779056,
+        "longitude": 12.030659,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.777321,
+        "longitude": 12.027693,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.77653,
+        "longitude": 12.026866,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.774373,
+        "longitude": 12.025311,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.771262,
+        "longitude": 12.023315,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.769258,
+        "longitude": 12.02238,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.76693,
+        "longitude": 12.020978,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.765572,
+        "longitude": 12.019522,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.764592,
+        "longitude": 12.017823,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.762849,
+        "longitude": 12.013993,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.762067,
+        "longitude": 12.012663,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.760646,
+        "longitude": 12.010694,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.758624,
+        "longitude": 12.008779,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.756691,
+        "longitude": 12.007647,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.75519,
+        "longitude": 12.007197,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.753725,
+        "longitude": 12.007072,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.752457,
+        "longitude": 12.007224,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.74861,
+        "longitude": 12.008213,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.747684,
+        "longitude": 12.008276,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.744349,
+        "longitude": 12.007188,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.741877,
+        "longitude": 12.006164,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.739477,
+        "longitude": 12.004932,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.73865,
+        "longitude": 12.004698,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.737796,
+        "longitude": 12.004707,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.732843,
+        "longitude": 12.005453,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.728384,
+        "longitude": 12.004707,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.727629,
+        "longitude": 12.004456,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.725831,
+        "longitude": 12.003979,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.725175,
+        "longitude": 12.003979,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.723799,
+        "longitude": 12.005256,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.723386,
+        "longitude": 12.005462,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.723008,
+        "longitude": 12.005453,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.722289,
+        "longitude": 12.004914,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.721588,
+        "longitude": 12.003772,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.720141,
+        "longitude": 12.001831,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.713534,
+        "longitude": 11.990738,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.711277,
+        "longitude": 11.986639,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.710882,
+        "longitude": 11.98547,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.710486,
+        "longitude": 11.98387,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.709201,
+        "longitude": 11.977344,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.708913,
+        "longitude": 11.977146,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.707781,
+        "longitude": 11.977146,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.707628,
+        "longitude": 11.976922,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.707637,
+        "longitude": 11.973074,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.707556,
+        "longitude": 11.971996,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.707421,
+        "longitude": 11.971717,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.707053,
+        "longitude": 11.971465,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.706954,
+        "longitude": 11.971169,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.706585,
+        "longitude": 11.968768,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.706432,
+        "longitude": 11.96831,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.706181,
+        "longitude": 11.968292,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.704464,
+        "longitude": 11.969227,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.703843,
+        "longitude": 11.969919,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.700023,
+        "longitude": 11.975474,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.698854,
+        "longitude": 11.977164,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.698845,
+        "longitude": 11.977623,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.699502,
+        "longitude": 11.979241,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.699547,
+        "longitude": 11.979627,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.698603,
+        "longitude": 11.981605,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.697488,
+        "longitude": 11.983924,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.696805,
+        "longitude": 11.985749,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.696859,
+        "longitude": 11.98699,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.696625,
+        "longitude": 11.987511,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.695582,
+        "longitude": 11.987727,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.692571,
+        "longitude": 11.9909,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.691672,
+        "longitude": 11.992113,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.690135,
+        "longitude": 11.993857,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.687699,
+        "longitude": 11.99632,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.686818,
+        "longitude": 11.997399,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.686018,
+        "longitude": 11.998523,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.68538,
+        "longitude": 11.999116,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.683384,
+        "longitude": 12.000473,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.679492,
+        "longitude": 12.003143,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.678754,
+        "longitude": 12.003692,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.678008,
+        "longitude": 12.004456,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.677739,
+        "longitude": 12.004761,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.676255,
+        "longitude": 12.006865,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.675393,
+        "longitude": 12.007872,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.673891,
+        "longitude": 12.00904,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.671923,
+        "longitude": 12.009957,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.670601,
+        "longitude": 12.010685,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.666188,
+        "longitude": 12.01144,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.66519,
+        "longitude": 12.01189,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.661441,
+        "longitude": 12.013652,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.658016,
+        "longitude": 12.015611,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.656254,
+        "longitude": 12.017085,
+        "isOnTripLeg": true,
+        "isTripLegStop": true
+      },
+      {
+        "latitude": 57.655886,
+        "longitude": 12.017346
+      },
+      {
+        "latitude": 57.655023,
+        "longitude": 12.017472
+      },
+      {
+        "latitude": 57.65434,
+        "longitude": 12.01687
+      },
+      {
+        "latitude": 57.654169,
+        "longitude": 12.017238
+      },
+      {
+        "latitude": 57.654331,
+        "longitude": 12.017625
+      }
+    ]
+  },
+  {
+    "line": {
+      "name": "5",
+      "detailName": "Spårvagn 5",
+      "backgroundColor": "#c63539",
+      "foregroundColor": "#ffffff",
+      "borderColor": "#c63539",
+      "transportMode": "tram",
+      "transportSubMode": "none"
+    },
+    "coordinates": [
+      {
+        "latitude": 57.737157,
+        "longitude": 11.896477
+      },
+      {
+        "latitude": 57.737157,
+        "longitude": 11.896477
+      },
+      {
+        "latitude": 57.737301,
+        "longitude": 11.896145
+      },
+      {
+        "latitude": 57.737202,
+        "longitude": 11.895686
+      },
+      {
+        "latitude": 57.73696,
+        "longitude": 11.895704
+      },
+      {
+        "latitude": 57.736663,
+        "longitude": 11.896288,
+        "isOnTripLeg": true,
+        "isTripLegStart": true
+      },
+      {
+        "latitude": 57.736474,
+        "longitude": 11.896657,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.736267,
+        "longitude": 11.896729,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.732699,
+        "longitude": 11.895246,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.729714,
+        "longitude": 11.894176,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.72655,
+        "longitude": 11.893259,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.725184,
+        "longitude": 11.893007,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.723521,
+        "longitude": 11.893232,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.721939,
+        "longitude": 11.893502,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.720977,
+        "longitude": 11.893385,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.720276,
+        "longitude": 11.893034,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.717093,
+        "longitude": 11.891093,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.715673,
+        "longitude": 11.890913,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.714298,
+        "longitude": 11.891129,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.713974,
+        "longitude": 11.891308,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.713534,
+        "longitude": 11.89174,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.71294,
+        "longitude": 11.893025,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.712563,
+        "longitude": 11.89476,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.712572,
+        "longitude": 11.896369,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.713174,
+        "longitude": 11.899462,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.713687,
+        "longitude": 11.903264,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.713812,
+        "longitude": 11.903938,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.714325,
+        "longitude": 11.905745,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.715745,
+        "longitude": 11.908945,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.716536,
+        "longitude": 11.90997,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.716995,
+        "longitude": 11.910941,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.717291,
+        "longitude": 11.912038,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.718343,
+        "longitude": 11.919427,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.71944,
+        "longitude": 11.927346,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.720644,
+        "longitude": 11.935958,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.720779,
+        "longitude": 11.93798,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.720554,
+        "longitude": 11.945594,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.720698,
+        "longitude": 11.948758,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.720698,
+        "longitude": 11.949612,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.720554,
+        "longitude": 11.952579,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.720357,
+        "longitude": 11.959384,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.720249,
+        "longitude": 11.960453,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.720006,
+        "longitude": 11.961649,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.719413,
+        "longitude": 11.962934,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.718163,
+        "longitude": 11.963761,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.712482,
+        "longitude": 11.970773,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.711952,
+        "longitude": 11.970701,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.711583,
+        "longitude": 11.970279,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.710199,
+        "longitude": 11.966485,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.709875,
+        "longitude": 11.966395,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.708994,
+        "longitude": 11.966818,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.707035,
+        "longitude": 11.967834,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.706585,
+        "longitude": 11.96804,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.706423,
+        "longitude": 11.967771,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.705812,
+        "longitude": 11.963788,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.705623,
+        "longitude": 11.963033,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.705452,
+        "longitude": 11.962997,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.704131,
+        "longitude": 11.963761,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.702855,
+        "longitude": 11.964373,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.702729,
+        "longitude": 11.964256,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.702531,
+        "longitude": 11.963618,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.702378,
+        "longitude": 11.963204,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.702225,
+        "longitude": 11.963168,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.698135,
+        "longitude": 11.965505,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.698,
+        "longitude": 11.965874,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.698171,
+        "longitude": 11.966935,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.698594,
+        "longitude": 11.969613,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.698917,
+        "longitude": 11.970467,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.700535,
+        "longitude": 11.974405,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.700517,
+        "longitude": 11.974728,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.700023,
+        "longitude": 11.975474,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.698854,
+        "longitude": 11.977164,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.698845,
+        "longitude": 11.977623,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.699502,
+        "longitude": 11.979241,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.699547,
+        "longitude": 11.979627,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.698603,
+        "longitude": 11.981605,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.697488,
+        "longitude": 11.983924,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.696805,
+        "longitude": 11.985749,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.696859,
+        "longitude": 11.98699,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.697542,
+        "longitude": 11.994702,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.69774,
+        "longitude": 11.996905,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.697946,
+        "longitude": 11.998145,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.698755,
+        "longitude": 11.999521,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.699241,
+        "longitude": 12.000482,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.699699,
+        "longitude": 12.001741,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.699852,
+        "longitude": 12.002649,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.699888,
+        "longitude": 12.003853,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.699547,
+        "longitude": 12.007782,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.699591,
+        "longitude": 12.009184,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.699978,
+        "longitude": 12.012816,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.700967,
+        "longitude": 12.01607,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.701704,
+        "longitude": 12.019081,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.702144,
+        "longitude": 12.021463,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.702369,
+        "longitude": 12.022218,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.702495,
+        "longitude": 12.02256,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.702873,
+        "longitude": 12.023288,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.703628,
+        "longitude": 12.024151,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.704293,
+        "longitude": 12.024466,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.705039,
+        "longitude": 12.024457,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.705893,
+        "longitude": 12.024079,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.709093,
+        "longitude": 12.02336,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.710882,
+        "longitude": 12.023549,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.712752,
+        "longitude": 12.023899,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.713246,
+        "longitude": 12.024061,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.714828,
+        "longitude": 12.02469,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.716563,
+        "longitude": 12.025149,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.717714,
+        "longitude": 12.025077,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.718532,
+        "longitude": 12.026335,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.719925,
+        "longitude": 12.028403,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.722541,
+        "longitude": 12.032754,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.72299,
+        "longitude": 12.033338,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.724087,
+        "longitude": 12.034767,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.72468,
+        "longitude": 12.035963,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.725004,
+        "longitude": 12.037212,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.725139,
+        "longitude": 12.038875,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.725031,
+        "longitude": 12.040278,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.72468,
+        "longitude": 12.041851,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.723772,
+        "longitude": 12.045141,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.723386,
+        "longitude": 12.046022,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.72291,
+        "longitude": 12.046705,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.722559,
+        "longitude": 12.047658,
+        "isOnTripLeg": true,
+        "isTripLegStop": true
+      }
+    ]
+  },
+  {
+    "line": {
+      "name": "6",
+      "detailName": "Spårvagn 6",
+      "backgroundColor": "#f89828",
+      "foregroundColor": "#00435c",
+      "borderColor": "#f89828",
+      "transportMode": "tram",
+      "transportSubMode": "none"
+    },
+    "coordinates": [
+      {
+        "latitude": 57.737139,
+        "longitude": 11.896396
+      },
+      {
+        "latitude": 57.73722,
+        "longitude": 11.896324
+      },
+      {
+        "latitude": 57.737292,
+        "longitude": 11.896136
+      },
+      {
+        "latitude": 57.737202,
+        "longitude": 11.895686
+      },
+      {
+        "latitude": 57.73696,
+        "longitude": 11.895704
+      },
+      {
+        "latitude": 57.736663,
+        "longitude": 11.896288,
+        "isOnTripLeg": true,
+        "isTripLegStart": true
+      },
+      {
+        "latitude": 57.736474,
+        "longitude": 11.896657,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.736267,
+        "longitude": 11.896729,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.732699,
+        "longitude": 11.895246,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.729714,
+        "longitude": 11.894176,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.72655,
+        "longitude": 11.893259,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.725184,
+        "longitude": 11.893007,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.723521,
+        "longitude": 11.893232,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.721939,
+        "longitude": 11.893502,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.720977,
+        "longitude": 11.893385,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.720276,
+        "longitude": 11.893034,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.717093,
+        "longitude": 11.891093,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.715673,
+        "longitude": 11.890913,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.714298,
+        "longitude": 11.891129,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.713974,
+        "longitude": 11.891308,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.713534,
+        "longitude": 11.89174,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.71294,
+        "longitude": 11.893025,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.712563,
+        "longitude": 11.89476,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.712572,
+        "longitude": 11.896369,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.713174,
+        "longitude": 11.899462,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.713687,
+        "longitude": 11.903264,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.713812,
+        "longitude": 11.903938,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.714325,
+        "longitude": 11.905745,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.715745,
+        "longitude": 11.908945,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.716536,
+        "longitude": 11.90997,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.716995,
+        "longitude": 11.910941,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.717291,
+        "longitude": 11.912038,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.718343,
+        "longitude": 11.919427,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.71944,
+        "longitude": 11.927346,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.720644,
+        "longitude": 11.935958,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.720779,
+        "longitude": 11.93798,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.720554,
+        "longitude": 11.945594,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.720698,
+        "longitude": 11.948758,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.720698,
+        "longitude": 11.949612,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.720554,
+        "longitude": 11.952579,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.720357,
+        "longitude": 11.959384,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.720249,
+        "longitude": 11.960453,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.720006,
+        "longitude": 11.961649,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.719413,
+        "longitude": 11.962934,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.718163,
+        "longitude": 11.963761,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.712482,
+        "longitude": 11.970773,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.711952,
+        "longitude": 11.970701,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.711583,
+        "longitude": 11.970279,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.710199,
+        "longitude": 11.966485,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.709875,
+        "longitude": 11.966395,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.708994,
+        "longitude": 11.966818,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.707035,
+        "longitude": 11.967834,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.706585,
+        "longitude": 11.96804,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.706423,
+        "longitude": 11.967771,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.705812,
+        "longitude": 11.963788,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.705623,
+        "longitude": 11.963033,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.705452,
+        "longitude": 11.962997,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.704131,
+        "longitude": 11.963761,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.702855,
+        "longitude": 11.964373,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.702729,
+        "longitude": 11.964256,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.702531,
+        "longitude": 11.963618,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.702378,
+        "longitude": 11.963204,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.702225,
+        "longitude": 11.963168,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.699834,
+        "longitude": 11.964481,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.699708,
+        "longitude": 11.964283,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.699583,
+        "longitude": 11.963627,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.6996,
+        "longitude": 11.96253,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.699771,
+        "longitude": 11.956876,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.700041,
+        "longitude": 11.953783,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.700041,
+        "longitude": 11.953783,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.69996,
+        "longitude": 11.952732,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.699798,
+        "longitude": 11.952273,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.697515,
+        "longitude": 11.951078,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.696382,
+        "longitude": 11.951392,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.693587,
+        "longitude": 11.952462,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.692787,
+        "longitude": 11.952561,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.692085,
+        "longitude": 11.952453,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.690674,
+        "longitude": 11.951797,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.689946,
+        "longitude": 11.952049,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.6892,
+        "longitude": 11.952264,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.687114,
+        "longitude": 11.952067,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.686719,
+        "longitude": 11.952381,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.686234,
+        "longitude": 11.954107,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.685191,
+        "longitude": 11.954925,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.68395,
+        "longitude": 11.957145,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.6836,
+        "longitude": 11.960462,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.683618,
+        "longitude": 11.961253,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.683923,
+        "longitude": 11.962755,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.684229,
+        "longitude": 11.963384,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.684804,
+        "longitude": 11.96377,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.685496,
+        "longitude": 11.964418,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.688202,
+        "longitude": 11.966998,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.688598,
+        "longitude": 11.967546,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.68902,
+        "longitude": 11.968418,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.689982,
+        "longitude": 11.970387,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.690027,
+        "longitude": 11.971025,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.689784,
+        "longitude": 11.972355,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.690036,
+        "longitude": 11.973218,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.690126,
+        "longitude": 11.973434,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.690288,
+        "longitude": 11.974881,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.690351,
+        "longitude": 11.976688,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.690135,
+        "longitude": 11.985093,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.690467,
+        "longitude": 11.987026,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.69107,
+        "longitude": 11.988545,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.691888,
+        "longitude": 11.989614,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.692751,
+        "longitude": 11.990298,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.693119,
+        "longitude": 11.990352,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.695205,
+        "longitude": 11.988266,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.696679,
+        "longitude": 11.987826,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.697236,
+        "longitude": 11.987053,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.697704,
+        "longitude": 11.986711,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.70076,
+        "longitude": 11.985839,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.704032,
+        "longitude": 11.98503,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.704967,
+        "longitude": 11.984931,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.707008,
+        "longitude": 11.984931,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.708176,
+        "longitude": 11.986315,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.712078,
+        "longitude": 11.990594,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.712662,
+        "longitude": 11.990891,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.713336,
+        "longitude": 11.991745,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.713992,
+        "longitude": 11.99277,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.713938,
+        "longitude": 11.994199,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.714226,
+        "longitude": 11.996473,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.714532,
+        "longitude": 11.998109,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.714657,
+        "longitude": 11.999494,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.7149,
+        "longitude": 12.002433,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.715071,
+        "longitude": 12.003188,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.715574,
+        "longitude": 12.004087,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.7165,
+        "longitude": 12.004698,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.721049,
+        "longitude": 12.005957,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.721957,
+        "longitude": 12.006245,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.722694,
+        "longitude": 12.005768,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.723674,
+        "longitude": 12.005822,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.724707,
+        "longitude": 12.00451,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.725238,
+        "longitude": 12.004114,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.72566,
+        "longitude": 12.004024,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.727188,
+        "longitude": 12.004519,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.727404,
+        "longitude": 12.00486,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.727593,
+        "longitude": 12.005732,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.729076,
+        "longitude": 12.01322,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.730568,
+        "longitude": 12.020007,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.730856,
+        "longitude": 12.020834,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.73189,
+        "longitude": 12.022902,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.732528,
+        "longitude": 12.024681,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.733013,
+        "longitude": 12.025931,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.733355,
+        "longitude": 12.026308,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.733777,
+        "longitude": 12.02638,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.734856,
+        "longitude": 12.026156,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.736834,
+        "longitude": 12.02656,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.738182,
+        "longitude": 12.027019,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.739809,
+        "longitude": 12.028556,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.740924,
+        "longitude": 12.029419,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.741958,
+        "longitude": 12.029787,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.742803,
+        "longitude": 12.029868,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.744034,
+        "longitude": 12.030003,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.746677,
+        "longitude": 12.02967,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.747198,
+        "longitude": 12.029841,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.747909,
+        "longitude": 12.030327,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.748511,
+        "longitude": 12.030749,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.752385,
+        "longitude": 12.032628,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.75279,
+        "longitude": 12.033032,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.753446,
+        "longitude": 12.033751,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.754309,
+        "longitude": 12.03528,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.754713,
+        "longitude": 12.035783,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.755181,
+        "longitude": 12.03617,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.756682,
+        "longitude": 12.036817,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.7575,
+        "longitude": 12.037509,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.758291,
+        "longitude": 12.038336,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.760386,
+        "longitude": 12.041141,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.761105,
+        "longitude": 12.041671,
+        "isOnTripLeg": true,
+        "isTripLegStop": true
+      },
+      {
+        "latitude": 57.761437,
+        "longitude": 12.041662
+      },
+      {
+        "latitude": 57.761473,
+        "longitude": 12.041114
+      },
+      {
+        "latitude": 57.76141,
+        "longitude": 12.041006
+      }
+    ]
+  },
+  {
+    "line": {
+      "name": "7",
+      "detailName": "Spårvagn 7",
+      "backgroundColor": "#764712",
+      "foregroundColor": "#ffffff",
+      "borderColor": "#764712",
+      "transportMode": "tram",
+      "transportSubMode": "none"
+    },
+    "coordinates": [
+      {
+        "latitude": 57.751118,
+        "longitude": 12.071353,
+        "isOnTripLeg": true,
+        "isTripLegStart": true
+      },
+      {
+        "latitude": 57.750947,
+        "longitude": 12.071569,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.750749,
+        "longitude": 12.07156,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.750632,
+        "longitude": 12.071335,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.750623,
+        "longitude": 12.071021,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.750776,
+        "longitude": 12.070751,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.751783,
+        "longitude": 12.070374,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.753041,
+        "longitude": 12.068738,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.754003,
+        "longitude": 12.067857,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.755801,
+        "longitude": 12.066904,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.757635,
+        "longitude": 12.065942,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.7583,
+        "longitude": 12.064935,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.759154,
+        "longitude": 12.062193,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.759316,
+        "longitude": 12.059973,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.759603,
+        "longitude": 12.056287,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.7599,
+        "longitude": 12.054409,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.76052,
+        "longitude": 12.05164,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.761437,
+        "longitude": 12.047999,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.761761,
+        "longitude": 12.046238,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.761617,
+        "longitude": 12.044485,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.761114,
+        "longitude": 12.042642,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.760844,
+        "longitude": 12.041977,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.760323,
+        "longitude": 12.041249,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.75875,
+        "longitude": 12.039226,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.757752,
+        "longitude": 12.037689,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.757194,
+        "longitude": 12.037149,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.756907,
+        "longitude": 12.03688,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.754848,
+        "longitude": 12.035828,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.754399,
+        "longitude": 12.035307,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.753482,
+        "longitude": 12.033734,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.75288,
+        "longitude": 12.033041,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.752394,
+        "longitude": 12.032565,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.747998,
+        "longitude": 12.030318,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.74736,
+        "longitude": 12.029868,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.746632,
+        "longitude": 12.029607,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.744043,
+        "longitude": 12.029922,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.742542,
+        "longitude": 12.029742,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.741769,
+        "longitude": 12.02967,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.741023,
+        "longitude": 12.02941,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.739908,
+        "longitude": 12.028574,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.738065,
+        "longitude": 12.026866,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.736456,
+        "longitude": 12.026389,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.734856,
+        "longitude": 12.026084,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.73367,
+        "longitude": 12.026317,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.733328,
+        "longitude": 12.02621,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.732968,
+        "longitude": 12.025733,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.732267,
+        "longitude": 12.023809,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.731009,
+        "longitude": 12.021077,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.73064,
+        "longitude": 12.020133,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.729238,
+        "longitude": 12.013661,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.728339,
+        "longitude": 12.009454,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.727611,
+        "longitude": 12.005409,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.72744,
+        "longitude": 12.004833,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.727063,
+        "longitude": 12.00433,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.725426,
+        "longitude": 12.003925,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.724878,
+        "longitude": 12.004159,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.724114,
+        "longitude": 12.004995,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.723521,
+        "longitude": 12.005417,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.723008,
+        "longitude": 12.005453,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.722649,
+        "longitude": 12.005283,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.722289,
+        "longitude": 12.004914,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.721588,
+        "longitude": 12.003772,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.720141,
+        "longitude": 12.001831,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.713534,
+        "longitude": 11.990738,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.711277,
+        "longitude": 11.986639,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.710882,
+        "longitude": 11.98547,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.710486,
+        "longitude": 11.98387,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.709201,
+        "longitude": 11.977344,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.708913,
+        "longitude": 11.977146,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.707781,
+        "longitude": 11.977146,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.707628,
+        "longitude": 11.976922,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.707583,
+        "longitude": 11.974944,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.707709,
+        "longitude": 11.973209,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.707673,
+        "longitude": 11.972382,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.707053,
+        "longitude": 11.968454,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.706936,
+        "longitude": 11.968049,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.706549,
+        "longitude": 11.968031,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.706423,
+        "longitude": 11.967771,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.705812,
+        "longitude": 11.963788,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.705623,
+        "longitude": 11.963033,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.705452,
+        "longitude": 11.962997,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.704131,
+        "longitude": 11.963761,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.702828,
+        "longitude": 11.964445,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.702252,
+        "longitude": 11.965164,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.701983,
+        "longitude": 11.965469,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.700553,
+        "longitude": 11.9684,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.700113,
+        "longitude": 11.968867,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.699115,
+        "longitude": 11.969425,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.697155,
+        "longitude": 11.970476,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.69489,
+        "longitude": 11.97231,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.693775,
+        "longitude": 11.973056,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.692688,
+        "longitude": 11.973569,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.692166,
+        "longitude": 11.973784,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.690324,
+        "longitude": 11.973497,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.690144,
+        "longitude": 11.973308,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.689928,
+        "longitude": 11.972589,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.68982,
+        "longitude": 11.972184,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.690045,
+        "longitude": 11.971169,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.690036,
+        "longitude": 11.970485,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.688966,
+        "longitude": 11.968193,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.688139,
+        "longitude": 11.966863,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.685263,
+        "longitude": 11.964157,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.684804,
+        "longitude": 11.963726,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.684229,
+        "longitude": 11.963321,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.68395,
+        "longitude": 11.962719,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.68369,
+        "longitude": 11.961361,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.683636,
+        "longitude": 11.960444,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.684004,
+        "longitude": 11.957181,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.685101,
+        "longitude": 11.955123,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.686081,
+        "longitude": 11.954188,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.686269,
+        "longitude": 11.953613,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.686278,
+        "longitude": 11.952795,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.686027,
+        "longitude": 11.952093,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.684049,
+        "longitude": 11.950089,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.682908,
+        "longitude": 11.948561,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.681406,
+        "longitude": 11.945729,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.680795,
+        "longitude": 11.94483,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.67879,
+        "longitude": 11.942916,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.677181,
+        "longitude": 11.940569,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.676381,
+        "longitude": 11.939895,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.675096,
+        "longitude": 11.939221,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.674745,
+        "longitude": 11.938439,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.674449,
+        "longitude": 11.935544,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.674278,
+        "longitude": 11.933144,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.674035,
+        "longitude": 11.931661,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.673586,
+        "longitude": 11.93034,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.67221,
+        "longitude": 11.927436,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.671177,
+        "longitude": 11.926043,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.670287,
+        "longitude": 11.925297,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.668354,
+        "longitude": 11.924721,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.667122,
+        "longitude": 11.924712,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.663536,
+        "longitude": 11.925216,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.66261,
+        "longitude": 11.925027,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.662035,
+        "longitude": 11.924703,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.661172,
+        "longitude": 11.92384,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.660255,
+        "longitude": 11.922591,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.659059,
+        "longitude": 11.920595,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.656767,
+        "longitude": 11.917557,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.654232,
+        "longitude": 11.914321,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.652731,
+        "longitude": 11.911363,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.651553,
+        "longitude": 11.90881,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.651095,
+        "longitude": 11.906114,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.650879,
+        "longitude": 11.905296,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.650582,
+        "longitude": 11.904639,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.65016,
+        "longitude": 11.904082,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.649513,
+        "longitude": 11.903633,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.649018,
+        "longitude": 11.903498,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.647895,
+        "longitude": 11.903237,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.647247,
+        "longitude": 11.902878,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.646609,
+        "longitude": 11.901925,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.645746,
+        "longitude": 11.899785,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.645288,
+        "longitude": 11.899156,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.645171,
+        "longitude": 11.89903,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.644811,
+        "longitude": 11.898823,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.644263,
+        "longitude": 11.898769,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.643715,
+        "longitude": 11.899021,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.642366,
+        "longitude": 11.900756,
+        "isOnTripLeg": true,
+        "isTripLegStop": true
+      },
+      {
+        "latitude": 57.641899,
+        "longitude": 11.901466
+      },
+      {
+        "latitude": 57.641863,
+        "longitude": 11.901754
+      },
+      {
+        "latitude": 57.641971,
+        "longitude": 11.902015
+      },
+      {
+        "latitude": 57.642105,
+        "longitude": 11.90206
+      },
+      {
+        "latitude": 57.64215,
+        "longitude": 11.902033
+      }
+    ]
+  },
+  {
+    "line": {
+      "name": "8",
+      "detailName": "Spårvagn 8",
+      "backgroundColor": "#a5449a",
+      "foregroundColor": "#ffffff",
+      "borderColor": "#ffffff",
+      "transportMode": "tram",
+      "transportSubMode": "none"
+    },
+    "coordinates": [
+      {
+        "latitude": 57.795551,
+        "longitude": 12.048979,
+        "isOnTripLeg": true,
+        "isTripLegStart": true
+      },
+      {
+        "latitude": 57.793691,
+        "longitude": 12.04817,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.792971,
+        "longitude": 12.048044,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.790562,
+        "longitude": 12.048494,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.789502,
+        "longitude": 12.048413,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.784692,
+        "longitude": 12.04613,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.783542,
+        "longitude": 12.045464,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.782688,
+        "longitude": 12.044745,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.78178,
+        "longitude": 12.043307,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.780396,
+        "longitude": 12.040493,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.779919,
+        "longitude": 12.037725,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.779811,
+        "longitude": 12.035549,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.779739,
+        "longitude": 12.034138,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.779407,
+        "longitude": 12.031738,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.779056,
+        "longitude": 12.030659,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.777321,
+        "longitude": 12.027693,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.77653,
+        "longitude": 12.026866,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.774373,
+        "longitude": 12.025311,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.771262,
+        "longitude": 12.023315,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.769258,
+        "longitude": 12.02238,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.76693,
+        "longitude": 12.020978,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.765572,
+        "longitude": 12.019522,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.764592,
+        "longitude": 12.017823,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.762849,
+        "longitude": 12.013993,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.762067,
+        "longitude": 12.012663,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.760646,
+        "longitude": 12.010694,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.758624,
+        "longitude": 12.008779,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.756691,
+        "longitude": 12.007647,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.75519,
+        "longitude": 12.007197,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.753725,
+        "longitude": 12.007072,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.752457,
+        "longitude": 12.007224,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.74861,
+        "longitude": 12.008213,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.747684,
+        "longitude": 12.008276,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.744349,
+        "longitude": 12.007188,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.741877,
+        "longitude": 12.006164,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.739477,
+        "longitude": 12.004932,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.73865,
+        "longitude": 12.004698,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.737796,
+        "longitude": 12.004707,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.732843,
+        "longitude": 12.005453,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.728384,
+        "longitude": 12.004707,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.727629,
+        "longitude": 12.004456,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.725409,
+        "longitude": 12.003979,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.724698,
+        "longitude": 12.004447,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.723683,
+        "longitude": 12.005723,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.722622,
+        "longitude": 12.005723,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.721993,
+        "longitude": 12.0062,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.720851,
+        "longitude": 12.005822,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.717156,
+        "longitude": 12.004743,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.716257,
+        "longitude": 12.004501,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.715583,
+        "longitude": 12.004024,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.715107,
+        "longitude": 12.003224,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.714936,
+        "longitude": 12.002478,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.71463,
+        "longitude": 11.998658,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.713974,
+        "longitude": 11.994163,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.71401,
+        "longitude": 11.992626,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.713696,
+        "longitude": 11.992033,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.713021,
+        "longitude": 11.991215,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.712608,
+        "longitude": 11.990801,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.712131,
+        "longitude": 11.990585,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.708122,
+        "longitude": 11.986199,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.706981,
+        "longitude": 11.98485,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.703807,
+        "longitude": 11.98503,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.700194,
+        "longitude": 11.98592,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.697677,
+        "longitude": 11.986648,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.697021,
+        "longitude": 11.987187,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.696616,
+        "longitude": 11.987781,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.694971,
+        "longitude": 11.988347,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.693299,
+        "longitude": 11.990136,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.693056,
+        "longitude": 11.990235,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.692014,
+        "longitude": 11.989534,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.691142,
+        "longitude": 11.988365,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.690602,
+        "longitude": 11.986954,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.690297,
+        "longitude": 11.985318,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.690243,
+        "longitude": 11.984194,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.690458,
+        "longitude": 11.978486,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.690467,
+        "longitude": 11.975906,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.69027,
+        "longitude": 11.973973,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.689928,
+        "longitude": 11.972589,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.68982,
+        "longitude": 11.972184,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.690045,
+        "longitude": 11.971169,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.690036,
+        "longitude": 11.970485,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.688966,
+        "longitude": 11.968193,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.688139,
+        "longitude": 11.966863,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.685263,
+        "longitude": 11.964157,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.684804,
+        "longitude": 11.963726,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.684229,
+        "longitude": 11.963321,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.68395,
+        "longitude": 11.962719,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.68369,
+        "longitude": 11.961361,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.683636,
+        "longitude": 11.960444,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.684004,
+        "longitude": 11.957181,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.685101,
+        "longitude": 11.955123,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.686081,
+        "longitude": 11.954188,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.686269,
+        "longitude": 11.953613,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.686278,
+        "longitude": 11.952795,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.686027,
+        "longitude": 11.952093,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.684049,
+        "longitude": 11.950089,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.682908,
+        "longitude": 11.948561,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.681406,
+        "longitude": 11.945729,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.680795,
+        "longitude": 11.94483,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.67879,
+        "longitude": 11.942916,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.677181,
+        "longitude": 11.940569,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.676381,
+        "longitude": 11.939895,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.675096,
+        "longitude": 11.939221,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.674745,
+        "longitude": 11.938439,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.674449,
+        "longitude": 11.935544,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.674278,
+        "longitude": 11.933144,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.674035,
+        "longitude": 11.931661,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.673586,
+        "longitude": 11.93034,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.67221,
+        "longitude": 11.927436,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.671177,
+        "longitude": 11.926043,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.670287,
+        "longitude": 11.925297,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.668354,
+        "longitude": 11.924721,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.667122,
+        "longitude": 11.924712,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.663536,
+        "longitude": 11.925216,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.66261,
+        "longitude": 11.925027,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.662035,
+        "longitude": 11.924703,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.661172,
+        "longitude": 11.92384,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.660255,
+        "longitude": 11.922591,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.659059,
+        "longitude": 11.920595,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.656767,
+        "longitude": 11.917557,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.654232,
+        "longitude": 11.914321,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.652731,
+        "longitude": 11.911363,
+        "isOnTripLeg": true,
+        "isTripLegStop": true
+      }
+    ]
+  },
+  {
+    "line": {
+      "name": "9",
+      "detailName": "Spårvagn 9",
+      "backgroundColor": "#d0edfb",
+      "foregroundColor": "#006c93",
+      "borderColor": "#d0edfb",
+      "transportMode": "tram",
+      "transportSubMode": "none"
+    },
+    "coordinates": [
+      {
+        "latitude": 57.795533,
+        "longitude": 12.049096,
+        "isOnTripLeg": true,
+        "isTripLegStart": true
+      },
+      {
+        "latitude": 57.794104,
+        "longitude": 12.048323,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.792971,
+        "longitude": 12.048044,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.790562,
+        "longitude": 12.048494,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.789502,
+        "longitude": 12.048413,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.784692,
+        "longitude": 12.04613,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.783542,
+        "longitude": 12.045464,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.782688,
+        "longitude": 12.044745,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.78178,
+        "longitude": 12.043307,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.780396,
+        "longitude": 12.040493,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.779919,
+        "longitude": 12.037725,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.779811,
+        "longitude": 12.035549,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.779739,
+        "longitude": 12.034138,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.779407,
+        "longitude": 12.031738,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.779056,
+        "longitude": 12.030659,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.777321,
+        "longitude": 12.027693,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.77653,
+        "longitude": 12.026866,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.774373,
+        "longitude": 12.025311,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.771262,
+        "longitude": 12.023315,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.769258,
+        "longitude": 12.02238,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.76693,
+        "longitude": 12.020978,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.765572,
+        "longitude": 12.019522,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.764592,
+        "longitude": 12.017823,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.762849,
+        "longitude": 12.013993,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.762067,
+        "longitude": 12.012663,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.760646,
+        "longitude": 12.010694,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.758624,
+        "longitude": 12.008779,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.756691,
+        "longitude": 12.007647,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.75519,
+        "longitude": 12.007197,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.753725,
+        "longitude": 12.007072,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.752457,
+        "longitude": 12.007224,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.74861,
+        "longitude": 12.008213,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.747684,
+        "longitude": 12.008276,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.744349,
+        "longitude": 12.007188,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.741877,
+        "longitude": 12.006164,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.739477,
+        "longitude": 12.004932,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.73865,
+        "longitude": 12.004698,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.737796,
+        "longitude": 12.004707,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.732843,
+        "longitude": 12.005453,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.728384,
+        "longitude": 12.004707,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.727629,
+        "longitude": 12.004456,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.725831,
+        "longitude": 12.003979,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.725175,
+        "longitude": 12.003979,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.723799,
+        "longitude": 12.005256,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.723386,
+        "longitude": 12.005462,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.723008,
+        "longitude": 12.005453,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.722289,
+        "longitude": 12.004914,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.721588,
+        "longitude": 12.003772,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.720141,
+        "longitude": 12.001831,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.713534,
+        "longitude": 11.990738,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.711277,
+        "longitude": 11.986639,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.710882,
+        "longitude": 11.98547,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.710486,
+        "longitude": 11.98387,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.709201,
+        "longitude": 11.977344,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.708913,
+        "longitude": 11.977146,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.707781,
+        "longitude": 11.977146,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.707628,
+        "longitude": 11.976922,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.707583,
+        "longitude": 11.974944,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.707709,
+        "longitude": 11.973209,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.707673,
+        "longitude": 11.972382,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.707053,
+        "longitude": 11.968454,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.706936,
+        "longitude": 11.968049,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.706549,
+        "longitude": 11.968031,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.706423,
+        "longitude": 11.967771,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.705812,
+        "longitude": 11.963788,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.705623,
+        "longitude": 11.963033,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.705452,
+        "longitude": 11.962997,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.704131,
+        "longitude": 11.963761,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.702855,
+        "longitude": 11.964373,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.702729,
+        "longitude": 11.964256,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.702531,
+        "longitude": 11.963618,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.702378,
+        "longitude": 11.963204,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.702225,
+        "longitude": 11.963168,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.699834,
+        "longitude": 11.964481,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.699708,
+        "longitude": 11.964283,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.699583,
+        "longitude": 11.963627,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.6996,
+        "longitude": 11.96253,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.699789,
+        "longitude": 11.956525,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.700221,
+        "longitude": 11.952525,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.700257,
+        "longitude": 11.951815,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.699376,
+        "longitude": 11.942862,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.699187,
+        "longitude": 11.940228,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.699511,
+        "longitude": 11.936605,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.699151,
+        "longitude": 11.934322,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.698944,
+        "longitude": 11.933567,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.697209,
+        "longitude": 11.927715,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.695429,
+        "longitude": 11.921656,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.694252,
+        "longitude": 11.919319,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.693065,
+        "longitude": 11.917764,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.691447,
+        "longitude": 11.915013,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.689569,
+        "longitude": 11.91193,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.689326,
+        "longitude": 11.911966,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.688984,
+        "longitude": 11.91264,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.687807,
+        "longitude": 11.915103,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.686036,
+        "longitude": 11.918842,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.685847,
+        "longitude": 11.919049,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.685703,
+        "longitude": 11.918977,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.684085,
+        "longitude": 11.916289,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.683636,
+        "longitude": 11.915543,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.683429,
+        "longitude": 11.914824,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.682809,
+        "longitude": 11.909691,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.682728,
+        "longitude": 11.908855,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.682098,
+        "longitude": 11.906078,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.682161,
+        "longitude": 11.904271,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.682098,
+        "longitude": 11.903875,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.681892,
+        "longitude": 11.90339,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.68111,
+        "longitude": 11.902617,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.680543,
+        "longitude": 11.901709,
+        "isOnTripLeg": true,
+        "isTripLegStop": true
+      }
+    ]
+  },
+  {
+    "line": {
+      "name": "10",
+      "detailName": "Spårvagn 10",
+      "backgroundColor": "#d8e8b0",
+      "foregroundColor": "#006c93",
+      "borderColor": "#d8e8b0",
+      "transportMode": "tram",
+      "transportSubMode": "none"
+    },
+    "coordinates": [
+      {
+        "latitude": 57.727152,
+        "longitude": 11.892917
+      },
+      {
+        "latitude": 57.726919,
+        "longitude": 11.89272
+      },
+      {
+        "latitude": 57.726541,
+        "longitude": 11.89316,
+        "isOnTripLeg": true,
+        "isTripLegStart": true
+      },
+      {
+        "latitude": 57.726388,
+        "longitude": 11.89325,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.725094,
+        "longitude": 11.893007,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.723521,
+        "longitude": 11.893232,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.721939,
+        "longitude": 11.893502,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.720977,
+        "longitude": 11.893385,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.720276,
+        "longitude": 11.893034,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.717093,
+        "longitude": 11.891093,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.715673,
+        "longitude": 11.890913,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.714298,
+        "longitude": 11.891129,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.713974,
+        "longitude": 11.891308,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.713534,
+        "longitude": 11.89174,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.71294,
+        "longitude": 11.893025,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.712563,
+        "longitude": 11.89476,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.712572,
+        "longitude": 11.896369,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.713174,
+        "longitude": 11.899462,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.713687,
+        "longitude": 11.903264,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.713812,
+        "longitude": 11.903938,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.714325,
+        "longitude": 11.905745,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.715745,
+        "longitude": 11.908945,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.716536,
+        "longitude": 11.90997,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.716995,
+        "longitude": 11.910941,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.717291,
+        "longitude": 11.912038,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.718343,
+        "longitude": 11.919427,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.71944,
+        "longitude": 11.927346,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.720644,
+        "longitude": 11.935958,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.720779,
+        "longitude": 11.93798,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.720554,
+        "longitude": 11.945594,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.720698,
+        "longitude": 11.948758,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.720698,
+        "longitude": 11.949612,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.720554,
+        "longitude": 11.952579,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.720357,
+        "longitude": 11.959384,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.720249,
+        "longitude": 11.960453,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.720006,
+        "longitude": 11.961649,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.719413,
+        "longitude": 11.962934,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.718163,
+        "longitude": 11.963761,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.712689,
+        "longitude": 11.97062,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.712203,
+        "longitude": 11.970818,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.711179,
+        "longitude": 11.970108,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.710918,
+        "longitude": 11.970081,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.709291,
+        "longitude": 11.970908,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.707736,
+        "longitude": 11.971825,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.707601,
+        "longitude": 11.972175,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.707556,
+        "longitude": 11.973605,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.707619,
+        "longitude": 11.983268,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.707619,
+        "longitude": 11.983322,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.707556,
+        "longitude": 11.983664,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.707017,
+        "longitude": 11.984365,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.706423,
+        "longitude": 11.984509,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.705902,
+        "longitude": 11.984841,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.703807,
+        "longitude": 11.98503,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.700194,
+        "longitude": 11.98592,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.697677,
+        "longitude": 11.986648,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.697021,
+        "longitude": 11.987187,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.696616,
+        "longitude": 11.987781,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.694971,
+        "longitude": 11.988347,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.693299,
+        "longitude": 11.990136,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.693056,
+        "longitude": 11.990235,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.692014,
+        "longitude": 11.989534,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.691142,
+        "longitude": 11.988365,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.690602,
+        "longitude": 11.986954,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.690297,
+        "longitude": 11.985318,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.690243,
+        "longitude": 11.984194,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.690458,
+        "longitude": 11.978486,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.690467,
+        "longitude": 11.975906,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.69027,
+        "longitude": 11.973973,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.689928,
+        "longitude": 11.972589,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.68982,
+        "longitude": 11.972184,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.690063,
+        "longitude": 11.970953,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.689973,
+        "longitude": 11.970252,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.689182,
+        "longitude": 11.968679,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.688724,
+        "longitude": 11.968445,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.688562,
+        "longitude": 11.968508,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.687995,
+        "longitude": 11.969631,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.687429,
+        "longitude": 11.970369,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.68511,
+        "longitude": 11.971681,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.684714,
+        "longitude": 11.972148,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.684463,
+        "longitude": 11.972715,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.683941,
+        "longitude": 11.973946,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.683465,
+        "longitude": 11.974522,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.681361,
+        "longitude": 11.975672,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.681083,
+        "longitude": 11.975591,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.68084,
+        "longitude": 11.975232,
+        "isOnTripLeg": true,
+        "isTripLegStop": true
+      }
+    ]
+  },
+  {
+    "line": {
+      "name": "11",
+      "detailName": "Spårvagn 11",
+      "backgroundColor": "#000000",
+      "foregroundColor": "#ffffff",
+      "borderColor": "#000000",
+      "transportMode": "tram",
+      "transportSubMode": "none"
+    },
+    "coordinates": [
+      {
+        "latitude": 57.751082,
+        "longitude": 12.071272,
+        "isOnTripLeg": true,
+        "isTripLegStart": true
+      },
+      {
+        "latitude": 57.750776,
+        "longitude": 12.071497,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.750668,
+        "longitude": 12.071389,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.750614,
+        "longitude": 12.071075,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.750776,
+        "longitude": 12.070751,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.751783,
+        "longitude": 12.070374,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.753041,
+        "longitude": 12.068738,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.754003,
+        "longitude": 12.067857,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.755801,
+        "longitude": 12.066904,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.757635,
+        "longitude": 12.065942,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.7583,
+        "longitude": 12.064935,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.759154,
+        "longitude": 12.062193,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.759316,
+        "longitude": 12.059973,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.759603,
+        "longitude": 12.056287,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.7599,
+        "longitude": 12.054409,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.76052,
+        "longitude": 12.05164,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.761437,
+        "longitude": 12.047999,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.761761,
+        "longitude": 12.046238,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.761617,
+        "longitude": 12.044485,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.761114,
+        "longitude": 12.042642,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.760844,
+        "longitude": 12.041977,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.760323,
+        "longitude": 12.041249,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.75875,
+        "longitude": 12.039226,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.757752,
+        "longitude": 12.037689,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.757194,
+        "longitude": 12.037149,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.756907,
+        "longitude": 12.03688,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.754848,
+        "longitude": 12.035828,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.754399,
+        "longitude": 12.035307,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.753482,
+        "longitude": 12.033734,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.75288,
+        "longitude": 12.033041,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.752394,
+        "longitude": 12.032565,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.747998,
+        "longitude": 12.030318,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.74736,
+        "longitude": 12.029868,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.746632,
+        "longitude": 12.029607,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.744043,
+        "longitude": 12.029922,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.742542,
+        "longitude": 12.029742,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.741769,
+        "longitude": 12.02967,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.741023,
+        "longitude": 12.02941,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.739908,
+        "longitude": 12.028574,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.738065,
+        "longitude": 12.026866,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.736456,
+        "longitude": 12.026389,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.734856,
+        "longitude": 12.026084,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.73367,
+        "longitude": 12.026317,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.733328,
+        "longitude": 12.02621,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.732968,
+        "longitude": 12.025733,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.732267,
+        "longitude": 12.023809,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.731009,
+        "longitude": 12.021077,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.73064,
+        "longitude": 12.020133,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.729238,
+        "longitude": 12.013661,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.728339,
+        "longitude": 12.009454,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.727611,
+        "longitude": 12.005409,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.72744,
+        "longitude": 12.004833,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.727063,
+        "longitude": 12.00433,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.725426,
+        "longitude": 12.003925,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.724878,
+        "longitude": 12.004159,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.724114,
+        "longitude": 12.004995,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.723521,
+        "longitude": 12.005417,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.723008,
+        "longitude": 12.005453,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.722649,
+        "longitude": 12.005283,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.722289,
+        "longitude": 12.004914,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.721588,
+        "longitude": 12.003772,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.720141,
+        "longitude": 12.001831,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.713534,
+        "longitude": 11.990738,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.711277,
+        "longitude": 11.986639,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.710882,
+        "longitude": 11.98547,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.710486,
+        "longitude": 11.98387,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.709201,
+        "longitude": 11.977344,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.708913,
+        "longitude": 11.977146,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.707781,
+        "longitude": 11.977146,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.707628,
+        "longitude": 11.976922,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.707583,
+        "longitude": 11.974944,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.707709,
+        "longitude": 11.973209,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.707673,
+        "longitude": 11.972382,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.707053,
+        "longitude": 11.968454,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.706936,
+        "longitude": 11.968049,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.706549,
+        "longitude": 11.968031,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.706423,
+        "longitude": 11.967771,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.705713,
+        "longitude": 11.963231,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.705704,
+        "longitude": 11.962575,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.706252,
+        "longitude": 11.958701,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.706163,
+        "longitude": 11.958305,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.705704,
+        "longitude": 11.957469,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.705408,
+        "longitude": 11.957208,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.704661,
+        "longitude": 11.957496,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.703349,
+        "longitude": 11.955536,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.702675,
+        "longitude": 11.955258,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.70014,
+        "longitude": 11.953595,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.700221,
+        "longitude": 11.952525,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.700257,
+        "longitude": 11.951815,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.699376,
+        "longitude": 11.942862,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.699187,
+        "longitude": 11.940228,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.699493,
+        "longitude": 11.936929,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.699484,
+        "longitude": 11.936272,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.699178,
+        "longitude": 11.934636,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.699007,
+        "longitude": 11.934529,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.698162,
+        "longitude": 11.934816,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.694162,
+        "longitude": 11.936246,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.693901,
+        "longitude": 11.936272,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.693452,
+        "longitude": 11.935877,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.691771,
+        "longitude": 11.936084,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.691097,
+        "longitude": 11.935571,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.688894,
+        "longitude": 11.933711,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.687609,
+        "longitude": 11.931868,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.687429,
+        "longitude": 11.931248,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.687043,
+        "longitude": 11.928191,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.686926,
+        "longitude": 11.927966,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.686458,
+        "longitude": 11.927724,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.685892,
+        "longitude": 11.927382,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.685335,
+        "longitude": 11.926124,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.685146,
+        "longitude": 11.92562,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.685218,
+        "longitude": 11.925225,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.686962,
+        "longitude": 11.92162,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.68689,
+        "longitude": 11.920955,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.686485,
+        "longitude": 11.920254,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.684085,
+        "longitude": 11.916289,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.683636,
+        "longitude": 11.915543,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.683429,
+        "longitude": 11.914824,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.682809,
+        "longitude": 11.909691,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.682728,
+        "longitude": 11.908855,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.682098,
+        "longitude": 11.906078,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.682161,
+        "longitude": 11.904271,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.682098,
+        "longitude": 11.903875,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.681892,
+        "longitude": 11.90339,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.68111,
+        "longitude": 11.902617,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.680543,
+        "longitude": 11.901709,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.680067,
+        "longitude": 11.900648,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.678449,
+        "longitude": 11.896468,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.677883,
+        "longitude": 11.894652,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.675635,
+        "longitude": 11.88765,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.674862,
+        "longitude": 11.88418,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.674494,
+        "longitude": 11.882517,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.673945,
+        "longitude": 11.881223,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.672597,
+        "longitude": 11.879578,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.67159,
+        "longitude": 11.8784,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.671132,
+        "longitude": 11.877636,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.670691,
+        "longitude": 11.87635,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.66946,
+        "longitude": 11.871721,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.667356,
+        "longitude": 11.863909,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.667257,
+        "longitude": 11.863109,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.667275,
+        "longitude": 11.862471,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.667437,
+        "longitude": 11.861698,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.667878,
+        "longitude": 11.860754,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.668588,
+        "longitude": 11.859352,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.66937,
+        "longitude": 11.856197,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.66928,
+        "longitude": 11.854767,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.669037,
+        "longitude": 11.85403,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.668714,
+        "longitude": 11.853644,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.66812,
+        "longitude": 11.853509,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.666107,
+        "longitude": 11.853347,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.66519,
+        "longitude": 11.852808,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.662493,
+        "longitude": 11.85012,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.661963,
+        "longitude": 11.849113,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.661208,
+        "longitude": 11.846713,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.660965,
+        "longitude": 11.846497,
+        "isOnTripLeg": true
+      },
+      {
+        "latitude": 57.660551,
+        "longitude": 11.846434,
+        "isOnTripLeg": true,
+        "isTripLegStop": true
+      }
+    ]
+  }
+]

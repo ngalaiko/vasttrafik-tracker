@@ -30,12 +30,19 @@ export function createClient(config) {
       throw new Error("Input must be a string or URL");
     }
     init = await authManager(init);
-    return fetch(input, init);
+    const response = await fetch(input, init);
+    if (!response.ok) {
+      const body = await response.text();
+      throw new Error(
+        `Request to ${input} failed with status ${response.status}: ${body}`,
+      );
+    }
+    return response;
   }
 
   /**
    * Fetches journeys.
-   * @param {{originGid: string, destinationGid: string}} params The unique identifier for the stop area
+   * @param {import('./index').JourneysParameters} params The unique identifier for the stop area
    * @returns {Promise<Array<import('./index').Journey>>} A promise that resolves to an array of journeys
    */
   async function journeys(params) {
@@ -44,19 +51,35 @@ export function createClient(config) {
       throw new Error("Both originGid and destinationGid are required");
     }
 
-    const response = await get(
-      `journeys?originGid=${originGid}&destinationGid=${destinationGid}`,
-    );
-    if (!response.ok) {
-      throw new Error(
-        `Failed to fetch journeys from ${originGid} to ${destinationGid}: ${response.statusText}`,
-      );
-    }
+    const urlParams = new URLSearchParams(params);
+    const response = await get(`journeys?${urlParams.toString()}`);
     /**
      * @type {import('./index').JourneysResponse}
      */
     const data = await response.json();
     return data.results;
+  }
+
+  /**
+   * Fetches details for a specific journey.
+   * @param {string} detailsReference The reference ID of the journey
+   * @param {import('./index').JourneyDetailsParameters} [params] Optional parameters for the request
+   * @returns {Promise<import('./index').JourneyDetails>} A promise that resolves to the details of the journey
+   */
+  async function journeyDetails(detailsReference, params) {
+    if (!detailsReference) {
+      throw new Error("Journey reference is required");
+    }
+
+    const urlParams = new URLSearchParams(params || {});
+    const response = await get(
+      `journeys/${detailsReference}/details?${urlParams.toString()}`,
+    );
+    /**
+     * @type {import('./index').JourneyDetails}
+     */
+    const data = await response.json();
+    return data;
   }
 
   /**
@@ -66,11 +89,6 @@ export function createClient(config) {
    */
   async function stopAreaArrivals(gid) {
     const response = await get(`stop-areas/${gid}/arrivals`);
-    if (!response.ok) {
-      throw new Error(
-        `Failed to fetch arrivals for stop area ${gid}: ${response.statusText}`,
-      );
-    }
     /**
      * @type {import('./index').ArrivalsResponse}
      */
@@ -85,11 +103,6 @@ export function createClient(config) {
    */
   async function stopAreaDepartures(gid) {
     const response = await get(`stop-areas/${gid}/departures`);
-    if (!response.ok) {
-      throw new Error(
-        `Failed to fetch departures for stop area ${gid}: ${response.statusText}`,
-      );
-    }
     /**
      * @type {import('./index').DeparturesResponse}
      */
@@ -103,9 +116,6 @@ export function createClient(config) {
    */
   async function stopAreas() {
     const response = await get("stop-areas");
-    if (!response.ok) {
-      throw new Error(`Failed to fetch stop areas: ${response.statusText}`);
-    }
     /**
      * @type {Array<import('./index').StopArea>}
      */
@@ -118,6 +128,7 @@ export function createClient(config) {
     stopAreaArrivals,
     stopAreaDepartures,
     journeys,
+    journeyDetails,
   };
 }
 
