@@ -1,7 +1,6 @@
 <script>
 	import { useGeolocation } from '$lib/geolocation';
 	import { calculateDistanceBetweenTwoPoints, calculateDistanceToLineSegment } from '$lib/utils';
-    import { LatLng } from 'leaflet';
 	import { onMount } from 'svelte';
 	
 	const { data } = $props();
@@ -58,7 +57,7 @@
 		
 		// Add lines to map
 		for (const line of lines) {
-			const coordinates = line.coordinates.map(coord => new LatLng(coord[0], coord[1]));
+			const coordinates = line.coordinates.map(coord => new L.LatLng(coord[0], coord[1]));
 			L.polyline(coordinates, {
 				color: line.backgroundColor,
 				weight: 3,
