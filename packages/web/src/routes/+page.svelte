@@ -21,6 +21,8 @@
 	/** @type {import('leaflet').Marker | null} */
 	let gpsMarker = null;
 	
+	let isInfoPanelCollapsed = $state(false);
+	
 
 	/**
 	 * Creates a Leaflet icon with a colored circle and a label.
@@ -190,63 +192,69 @@
 		<div bind:this={mapContainer} class="map"></div>
 	</div>
 	
-	<div class="info-panel">
-		{#if $loading}
-			<p>Getting your location...</p>
-		{:else if $error}
-			<p>Unable to get your location: {$error.message}</p>
-		{:else if !$position && !manualPosition}
-			<p>Location not available</p>
-		{:else}
-			<div class="position-controls">
-				{#if manualPosition}
-					<p class="position-indicator">📍 Using manual position</p>
-					<button onclick={() => manualPosition = null} class="reset-button">
-						Use GPS location
-					</button>
-				{:else if $position}
-					<p class="position-indicator">🛰️ Using GPS location</p>
+	<div class="info-panel" class:collapsed={isInfoPanelCollapsed}>
+		<button class="toggle-button" onclick={() => isInfoPanelCollapsed = !isInfoPanelCollapsed}>
+			{isInfoPanelCollapsed ? '📋' : '✕'}
+		</button>
+		
+		<div class="info-content">
+			{#if $loading}
+				<p>Getting your location...</p>
+			{:else if $error}
+				<p>Unable to get your location: {$error.message}</p>
+			{:else if !$position && !manualPosition}
+				<p>Location not available</p>
+			{:else}
+				<div class="position-controls">
+					{#if manualPosition}
+						<p class="position-indicator">📍 Using manual position</p>
+						<button onclick={() => manualPosition = null} class="reset-button">
+							Use GPS location
+						</button>
+					{:else if $position}
+						<p class="position-indicator">🛰️ Using GPS location</p>
+					{/if}
+				</div>
+				
+				<h2>Closest Lines</h2>
+				{#if closestLines.length > 0}
+					<ul>
+						{#each closestLines as line (line.gid)}
+							<li>
+								<strong>{line.name}</strong>
+								<br>
+								Distance: {line.distance < 1000 
+									? `${Math.round(line.distance)}m` 
+									: `${(line.distance / 1000).toFixed(1)}km`}
+							</li>
+						{/each}
+					</ul>
+				{:else}
+					<p>No lines found</p>
 				{/if}
-			</div>
-			
-			<h2>Closest Lines</h2>
-			{#if closestLines.length > 0}
-				<ul>
-					{#each closestLines as line (line.gid)}
-						<li>
-							<strong>{line.name}</strong>
-							<br>
-							Distance: {line.distance < 1000 
-								? `${Math.round(line.distance)}m` 
-								: `${(line.distance / 1000).toFixed(1)}km`}
-						</li>
-					{/each}
-				</ul>
-			{:else}
-				<p>No lines found</p>
+				
+				<h2>Closest Stops</h2>
+				{#if closestStopPoints.length > 0}
+					<ul>
+						{#each closestStopPoints as stopArea, index (`${stopArea.gid}-${index}`)}
+							<li>
+								<strong>{stopArea.name}</strong>
+								<br>
+								Distance: {#if (manualPosition || $position) && stopArea.distance !== Infinity}
+									{stopArea.distance < 1000 
+										? `${Math.round(stopArea.distance)}m` 
+										: `${(stopArea.distance / 1000).toFixed(1)}km`}
+								{:else}
+									Not available
+								{/if}
+							</li>
+						{/each}
+					</ul>
+				{:else}
+					<p>No stop areas found</p>
+				{/if}
 			{/if}
-			
-			<h2>Closest Stops</h2>
-			{#if closestStopPoints.length > 0}
-				<ul>
-					{#each closestStopPoints as stopArea, index (`${stopArea.gid}-${index}`)}
-						<li>
-							<strong>{stopArea.name}</strong>
-							<br>
-							Distance: {#if (manualPosition || $position) && stopArea.distance !== Infinity}
-								{stopArea.distance < 1000 
-									? `${Math.round(stopArea.distance)}m` 
-									: `${(stopArea.distance / 1000).toFixed(1)}km`}
-							{:else}
-								Not available
-							{/if}
-						</li>
-					{/each}
-				</ul>
-			{:else}
-				<p>No stop areas found</p>
-			{/if}
-		{/if}
+		</div>
 	</div>
 </div>
 
@@ -272,6 +280,43 @@
 		padding: 1rem;
 		background: #f5f5f5;
 		overflow-y: auto;
+		position: relative;
+	}
+
+	.info-panel.collapsed {
+		width: 60px;
+		padding: 0.5rem;
+	}
+
+	.info-panel.collapsed .info-content {
+		display: none;
+	}
+
+	.toggle-button {
+		position: absolute;
+		top: 0.5rem;
+		right: 0.5rem;
+		background: #007fff;
+		color: white;
+		border: none;
+		padding: 0.5rem;
+		border-radius: 50%;
+		cursor: pointer;
+		font-size: 1rem;
+		width: 40px;
+		height: 40px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		z-index: 10;
+	}
+
+	.toggle-button:hover {
+		background: #0056cc;
+	}
+
+	.info-content {
+		margin-top: 3rem;
 	}
 	
 	.info-panel h2 {
@@ -311,14 +356,114 @@
 		background: #007fff;
 		color: white;
 		border: none;
-		padding: 0.5rem 1rem;
+		padding: 0.75rem 1.25rem;
 		border-radius: 4px;
 		cursor: pointer;
-		font-size: 0.85rem;
+		font-size: 0.9rem;
 		transition: background 0.2s;
+		min-height: 44px;
 	}
 	
 	.reset-button:hover {
 		background: #0056cc;
+	}
+
+	/* Mobile responsive styles */
+	@media (max-width: 768px) {
+		.container {
+			flex-direction: column;
+			height: 100vh;
+			gap: 0;
+		}
+
+		.map-container {
+			flex: 1;
+			min-height: 60vh;
+		}
+
+		.info-panel {
+			width: 100%;
+			max-height: 40vh;
+			border-top: 1px solid #ddd;
+		}
+
+		.info-panel.collapsed {
+			max-height: 60px;
+			width: 100%;
+		}
+
+		.toggle-button {
+			top: 0.25rem;
+			right: 0.25rem;
+			width: 50px;
+			height: 50px;
+			font-size: 1.2rem;
+		}
+
+		.info-content {
+			margin-top: 3.5rem;
+		}
+
+		.reset-button {
+			width: 100%;
+			padding: 1rem;
+			font-size: 1rem;
+			min-height: 48px;
+		}
+
+		.position-controls {
+			padding: 1rem;
+		}
+
+		.info-panel h2 {
+			font-size: 1.1rem;
+		}
+
+		.info-panel li {
+			padding: 0.75rem 0;
+		}
+	}
+
+	@media (max-width: 480px) {
+		.container {
+			gap: 0;
+		}
+
+		.map-container {
+			min-height: 55vh;
+		}
+
+		.info-panel {
+			max-height: 45vh;
+			padding: 0.75rem;
+		}
+
+		.info-panel.collapsed {
+			max-height: 55px;
+		}
+
+		.toggle-button {
+			width: 45px;
+			height: 45px;
+			font-size: 1.1rem;
+		}
+
+		.info-content {
+			margin-top: 3rem;
+		}
+
+		.reset-button {
+			padding: 0.875rem;
+			font-size: 0.95rem;
+		}
+
+		.position-controls {
+			padding: 0.875rem;
+		}
+
+		.info-panel h2 {
+			font-size: 1rem;
+			margin-bottom: 0.75rem;
+		}
 	}
 </style>
