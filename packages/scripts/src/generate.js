@@ -1,6 +1,11 @@
 import { parseArgs } from "util";
 import { createClient } from "@vasttrafik-tracker/vasttrafik";
 
+/**
+ * Generates tram route data for key hubs in Gothenburg.
+ * This script fetches tram lines, their routes, and stop details
+ * from Västtrafik's API, focusing on main hubs.
+ */
 async function main() {
   const { values } = parseArgs({
     args: Bun.argv,
@@ -46,7 +51,7 @@ async function main() {
   }
 
   // Gather unique tram lines with their departure detail refs and originating hub
-  /** @type Record<string, { detailsRef: string; hubGid: string }> */
+  /** @type {Record<string, { detailsRef: string; hubGid: string }>} */
   const tramRefs = {};
 
   for (const gid of hubGids) {

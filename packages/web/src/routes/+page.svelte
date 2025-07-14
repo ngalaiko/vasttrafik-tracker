@@ -27,10 +27,9 @@
 	/**
 	 * Creates a Leaflet icon with a colored circle and a label.
 	 * @param {string} color - The color of the circle.
-	 * @param {string} label - The label for the icon (not used in SVG).
-	 * @returns {import('leaflet').Icon}
+	 * @returns {import('leaflet').Icon} - The Leaflet icon object.
 	 */
-	function createIcon (color, label) {
+	function createIcon (color) {
 		const svgIcon = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 			<circle cx="12" cy="12" r="8" fill="${color}" stroke="#fff" stroke-width="2"/>
 			<circle cx="12" cy="12" r="3" fill="#fff"/>
@@ -114,7 +113,7 @@
 			
 			// Add new GPS marker
 			gpsMarker = L.marker([$position.latitude, $position.longitude], {
-				icon: createIcon('#007fff', 'GPS Location')
+				icon: createIcon('#007fff')
 			}).addTo(map).bindPopup('<strong>Your Location</strong>');
 		} else if (gpsMarker && map) {
 			// Remove marker if no GPS position
@@ -134,7 +133,7 @@
 			
 			// Add new manual marker
 			manualMarker = L.marker([manualPosition.latitude, manualPosition.longitude], {
-				icon: createIcon('#ff6600', 'Manual Position')
+				icon: createIcon('#ff6600')
 			}).addTo(map).bindPopup('<strong>Manual Position</strong>');
 		} else if (manualMarker && map) {
 			// Remove marker if no manual position
