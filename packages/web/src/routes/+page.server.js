@@ -1,4 +1,3 @@
-import api from "$lib/server/vasttrafik";
 import lines from "./lines.json";
 
 /**
@@ -6,9 +5,7 @@ import lines from "./lines.json";
  * @type {import('./$types').PageServerLoad}
  */
 export async function load() {
-  const stopAreas = await api.stopAreas();
   return {
-    stopAreas,
     lines,
   };
 }

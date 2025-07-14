@@ -1,161 +1,256 @@
 /**
- * Västtrafik API Type Definitions
+ * Västtrafik Planner API v4 (Travel Planner)
+ * OpenAPI 3.0.1
+ * Base URL: https://ext-api.vasttrafik.se/pr/v4
  */
 
-export type TransportMode = "tram" | "bus" | "ferry" | "train";
-
-export interface JourneysParameters {
-  /** The origin stop area GID */
-  originGid: string;
-  /** The destination stop area GID */
-  destinationGid: string;
-  /** The date and time for the journey in ISO 8601 format */
-  dateTime?: string;
-  /** Specifies if the datetime is related to the departure or arrival of the journey. */
-  dateTimeRelatesTo?: "departure" | "arrival";
-  /** The maximum number of results to return */
-  limit?: number;
-  /** Only include direct connections, e.g. journeys with one trip leg. */
-  onlyDirectConnections?: boolean;
-  /** The transport modes to include when searching for journeys, if none specified all transport modes are included. */
-  transportModes?: Array<TransportMode>;
-}
-
-export interface JourneyDetailsParameters {
-  includes?: Array<
-    | "ticketsuggestions"
-    | "triplegcoordinates"
-    | "validzones"
-    | "servicejourneycalls"
-    | "servicejourneycoordinates"
-    | "links"
-    | "occupancy"
-  >;
-}
-
-export interface JourneysResponse {
-  /** Array of journey results */
-  results: Journey[];
-}
-
-export interface TripLeg {
-  isCancelled: boolean;
-  serviceJourney: ServiceJourney;
-}
-
-export interface Journey {
-  detailsReference: string;
-  tripLegs: TripLeg[];
-}
-
-export interface Line {
-  /** The unique identifier for the line */
-  gid: string;
-  /** The name of the line */
-  name: string;
-  /** The short name of the line */
-  shortName: string;
-  /** The designation of the line */
-  designation: string;
-  /** The background color of the line */
-  backgroundColor: string;
-  /** The foreground color of the line */
-  foregroundColor: string;
-  /** The border color of the line */
-  borderColor: string;
-  /** The mode of transport for the line */
-  transportMode: TransportMode;
-}
-
-export interface ServiceJourney {
-  /** The unique identifier for the service journey */
-  gid: string;
-  /** The origin of the service journey */
-  origin?: string;
-  /** The destination of the service journey */
-  direction?: string;
-  /** The line associated with the service journey */
-  line: Line;
-  serviceJourneyCoordinates?: Array<{
-    latitude: number;
-    longitude: number;
-  }>;
-}
-
-export interface Arrival {
-  /** The reference to the details of the arrival */
-  detailsReference: string;
-  /** The service journey associated with the arrival */
-  serviceJourney: ServiceJourney;
-  /** The planned time of the arrival */
-  plannedTime: string;
-  /** The estimated time of the arrival */
-  estimatedTime: string | null;
-  /** Indicates if the arrival is cancelled */
-  isCancelled: boolean;
-}
-
-export interface Departure {
-  /** The reference to the details of the departure */
-  detailsReference: string;
-  /** The service journey associated with the departure */
-  serviceJourney: ServiceJourney;
-  /** The planned time of the departure */
-  plannedTime: string;
-  /** The estimated time of the departure */
-  estimatedTime: string | null;
-  /** Indicates if the departure is cancelled */
-  isCancelled: boolean;
-}
-
-export interface StopArea {
-  /** The unique identifier for the stop area */
-  gid: string;
-  /** The name of the stop area */
-  name: string;
-  /** The latitude of the stop area */
-  lat: number;
-  /** The longitude of the stop area */
-  long: number;
-}
-
+////////////////////////////////////
+// OAuth2 Token Response
+////////////////////////////////////
+/**
+ * OAuth2 token response
+ */
 export interface TokenResponse {
-  /** The access token */
+  /** Access token string */
   access_token: string;
-  /** Token expiration time in seconds */
+  /** Lifetime in seconds */
   expires_in: number;
 }
 
-export interface ClientCredentialsConfig {
-  /** Client ID for authentication */
-  clientId: string;
-  /** Client secret for authentication */
-  clientSecret: string;
+////////////////////////////////////
+// Pagination
+////////////////////////////////////
+/**
+ * Pagination properties returned in responses
+ */
+export interface PaginationProperties {
+  /** Requested number of results */
+  limit: number;
+  /** Requested offset */
+  offset: number;
+  /** Actual number of returned results */
+  size: number;
 }
 
-export interface CachedToken {
-  /** The access token */
-  access_token: string;
-  /** Token expiration timestamp */
-  expires_at: number;
+/**
+ * Pagination navigation links
+ */
+export interface PaginationLinks {
+  /** Link to previous page, or null */
+  previous: string | null;
+  /** Link to next page, or null */
+  next: string | null;
+  /** Link to current page */
+  current: string | null;
 }
 
-export interface ArrivalsResponse {
-  /** Array of arrival results */
-  results: Arrival[];
+/**
+ * Generic API response wrapping a list of T
+ */
+export interface ApiResponse<T> {
+  /** Array of items or null */
+  results: T[] | null;
+  /** Pagination info */
+  pagination: PaginationProperties;
+  /** Pagination links */
+  links: PaginationLinks;
 }
 
-export interface DeparturesResponse {
-  /** Array of departure results */
-  results: Departure[];
+////////////////////////////////////
+// Common Types
+////////////////////////////////////
+/** Transport modes */
+export type TransportMode =
+  | "tram"
+  | "bus"
+  | "ferry"
+  | "train"
+  | "taxi"
+  | "walk"
+  | "bike"
+  | "car"
+  | "none"
+  | "unknown"
+  | "teletaxi";
+
+/** Sub-modes of transport (trains etc) */
+export type JourneyTransportSubMode =
+  | "vasttagen"
+  | "longdistancetrain"
+  | "regionaltrain"
+  | "flygbussarna"
+  | "none"
+  | "unknown";
+
+/** Specifies if datetime relates to departure or arrival */
+export type DateTimeRelatesTo = "departure" | "arrival";
+
+/** Base error object */
+export interface ApiError {
+  /** Numeric error code */
+  errorCode: number;
+  /** Detailed error message */
+  errorMessage?: string;
 }
 
-export interface VasttraffikClient {
-  stopAreas(): Promise<StopArea[]>;
-  stopAreaArrivals(gid: string): Promise<Arrival[]>;
-  stopAreaDepartures(gid: string): Promise<Departure[]>;
+////////////////////////////////////
+// Models (abbreviated, see full spec for all schemas)
+////////////////////////////////////
+export interface StopAreaApiModel {
+  gid?: string;
+  name?: string;
+  lat: number;
+  long: number;
 }
+export interface StopPointApiModel {
+  gid: string;
+  name: string;
+  platform?: string;
+  latitude?: number;
+  longitude?: number;
+  stopArea?: StopAreaApiModel;
+}
+export interface ServiceJourneyApiModel {
+  gid: string;
+  origin?: string;
+  direction?: string;
+  line: LineApiModel;
+}
+export interface LineApiModel {
+  gid?: string;
+  name?: string;
+  shortName?: string;
+  designation?: string;
+  backgroundColor?: string;
+  foregroundColor?: string;
+  borderColor?: string;
+  transportMode: TransportMode;
+  transportSubMode?: JourneyTransportSubMode;
+  isWheelchairAccessible?: boolean;
+}
+export interface OccupancyInformationApiModel {
+  level: string;
+  source: string;
+}
+export interface ArrivalApiModel {
+  detailsReference?: string;
+  serviceJourney: ServiceJourneyApiModel;
+  stopPoint: StopPointApiModel;
+  plannedTime: string;
+  estimatedTime?: string;
+  estimatedOtherwisePlannedTime?: string;
+  isCancelled: boolean;
+  isPartCancelled: boolean;
+}
+export interface DepartureApiModel {
+  detailsReference?: string;
+  serviceJourney: ServiceJourneyApiModel;
+  stopPoint: StopPointApiModel;
+  plannedTime: string;
+  estimatedTime?: string;
+  estimatedOtherwisePlannedTime?: string;
+  isCancelled: boolean;
+  isPartCancelled: boolean;
+  occupancy?: OccupancyInformationApiModel;
+}
+export interface JourneyApiModel {
+  reconstructionReference?: string;
+  detailsReference?: string;
+  departureAccessLink?: ConnectionLinkApiModel;
+  tripLegs?: TripLegApiModel[];
+  connectionLinks?: ConnectionLinkApiModel[];
+  arrivalAccessLink?: ConnectionLinkApiModel;
+  destinationLink?: ConnectionLinkApiModel;
+  isDeparted?: boolean;
+  occupancy?: OccupancyInformationApiModel;
+}
+export interface JourneyDetailsApiModel {
+  departureAccessLink?: ConnectionLinkApiModel;
+  tripLegs?: TripLegDetailsApiModel[];
+  connectionLinks?: ConnectionLinkApiModel[];
+  arrivalAccessLink?: ConnectionLinkApiModel;
+  destinationLink?: ConnectionLinkApiModel;
+  ticketSuggestionsResult?: TicketSuggestionsResultApiModel;
+  tariffZones?: TariffZoneApiModel[];
+  occupancy?: OccupancyInformationApiModel;
+}
+// ... other model interfaces omitted for brevity
+export interface JourneysParameters {
+  originGid?: string;
+  originName?: string;
+  originLatitude?: number;
+  originLongitude?: number;
+  destinationGid?: string;
+  destinationName?: string;
+  destinationLatitude?: number;
+  destinationLongitude?: number;
+  dateTime?: string;
+  dateTimeRelatesTo?: DateTimeRelatesTo;
+  paginationReference?: string;
+  limit?: number;
+  transportModes?: TransportMode[];
+  transportSubModes?: JourneyTransportSubMode[];
+  onlyDirectConnections?: boolean;
+  includeNearbyStopAreas?: boolean;
+  viaGid?: string;
+  originWalk?: string;
+  destWalk?: string;
+  originBike?: string;
+  destBike?: string;
+  totalBike?: string;
+  originCar?: string;
+  destCar?: string;
+  originPark?: string;
+  destPark?: string;
+  interchangeDurationInMinutes?: number;
+  useRealTimeMode?: boolean;
+  includeOccupancy?: boolean;
+  bodSearch?: boolean;
+}
+export type JourneyDetailsInclude =
+  | "ticketsuggestions"
+  | "triplegcoordinates"
+  | "validzones"
+  | "servicejourneycalls"
+  | "servicejourneycoordinates"
+  | "links"
+  | "occupancy";
 
-export declare function createClient(
-  config: ClientCredentialsConfig,
-): VasttraffikClient;
+////////////////////////////////////
+// Client Interface
+////////////////////////////////////
+/**
+ * Västtrafik Planner API v4 client interface
+ */
+export interface VasttrafikClient {
+  /** GET /stop-areas */
+  stopAreas(): Promise<StopAreaApiModel[]>;
+  /** GET /stop-areas/{gid}/arrivals */
+  stopAreaArrivals(
+    gid: string,
+    params?: { includes?: string[] },
+  ): Promise<ApiResponse<ArrivalApiModel>>;
+  /** GET /stop-areas/{gid}/departures */
+  stopAreaDepartures(
+    gid: string,
+    params?: { includes?: string[] },
+  ): Promise<ApiResponse<DepartureApiModel>>;
+  /** GET /stop-areas/{gid}/departures/{detailsReference}/details */
+  stopAreaDepartureDetails(
+    gid: string,
+    detailsReference: string,
+    params?: { includes?: string[] },
+  ): Promise<DepartureApiModel>;
+  /** GET /journeys */
+  journeys(params: JourneysParameters): Promise<ApiResponse<JourneyApiModel>>;
+  /** GET /journeys/{detailsReference}/details */
+  journeyDetails(
+    detailsReference: string,
+    params?: {
+      includes?: JourneyDetailsInclude[];
+      channelIds?: number[];
+      productTypes?: number[];
+      travellerCategories?: string[];
+    },
+  ): Promise<JourneyDetailsApiModel>;
+}

@@ -1,89 +1,121 @@
 import { parseArgs } from "util";
 import { createClient } from "@vasttrafik-tracker/vasttrafik";
-import trams from "./trams/trams.json";
 
-const { values, positionals } = parseArgs({
-  args: Bun.argv,
-  options: {
-    "client-id": {
-      type: "string",
-      required: true,
+async function main() {
+  const { values } = parseArgs({
+    args: Bun.argv,
+    options: {
+      "client-id": { type: "string", required: true },
+      "client-secret": { type: "string", required: true },
     },
-    "client-secret": {
-      type: "string",
-      required: true,
-    },
-  },
-  strict: true,
-  allowPositionals: true,
-});
+    strict: true,
+    allowPositionals: true,
+  });
 
-const outputFile =
-  positionals.length > 2 ? Bun.file(positionals[2]) : Bun.stdout;
+  const client = createClient({
+    clientId: values["client-id"],
+    clientSecret: values["client-secret"],
+  });
 
-// Create client
-const client = createClient({
-  clientId: values["client-id"],
-  clientSecret: values["client-secret"],
-});
+  // main hubs
+  const hubNames = [
+    "Brunnsparken",
+    "Gamlestads Torg",
+    "Hjalmar Brantingsplatsen",
+    "Korsvägen",
+    "Marklandsgatan",
+    "Järntorget",
+  ];
 
-/**
- * Fetches journey details for a tram between two stop areas.
- * @param {import('./trams').Tram} tram - The tram object containing origin and destination.
- * @param {import("@vasttrafik-tracker/vasttrafik").StopArea} stopAreas - The list of stop areas to search in.
- * @returns {Promise<import("@vasttrafik-tracker/vasttrafik").JourneyDetails>} - The journey details for the tram.
- */
-async function fetchJourneyDetails(tram, stopAreas) {
-  const origin = stopAreas.find((area) => area.name === tram.origin);
-  const destination = stopAreas.find((area) => area.name === tram.destination);
+  // Fetch all stop areas
+  const allAreas = await client.stopAreas();
 
-  if (!origin || !destination) {
+  // Map hub names to GIDs
+  const hubGids = hubNames
+    .map((name) => {
+      const area = allAreas.find((a) => a.name === name);
+      if (!area) console.warn(`⚠️ Hub not found: "${name}"`);
+      return area?.gid;
+    })
+    .filter(Boolean);
+
+  if (hubGids.length === 0) {
     throw new Error(
-      `Stop area not found for tram: ${tram.origin} -> ${tram.destination}`,
+      `None of the hubs were found in stopAreas(): ${hubNames.join(", ")}`,
     );
   }
 
-  const journeys = await client.journeys({
-    originGid: origin.gid,
-    destinationGid: destination.gid,
-    transportModes: ["tram"],
-    onlyDirectConnections: true,
-  });
+  // Gather unique tram lines with their departure detail refs and originating hub
+  /** @type Record<string, { detailsRef: string; hubGid: string }> */
+  const tramRefs = {};
 
-  const journey = journeys.find(({ tripLegs }) => {
-    return tripLegs[0].serviceJourney.line.shortName === tram.line;
-  });
+  for (const gid of hubGids) {
+    // stopAreaDepartures now returns { results, pagination, links }
+    const resp = await client.stopAreaDepartures(gid, {
+      includes: ["servicejourneycoordinates", "servicejourneycalls"],
+    });
+    const departures = resp.results || [];
 
-  if (journey === undefined) {
-    throw new Error(
-      `No journeys found for tram: ${tram.origin} -> ${tram.destination}`,
-    );
+    departures.forEach((dep) => {
+      const { line } = dep.serviceJourney;
+      const id = line.shortName || line.name || line.designation;
+      if (line.transportMode === "tram" && id && !tramRefs[id]) {
+        tramRefs[id] = { detailsRef: dep.detailsReference, hubGid: gid, line };
+      }
+    });
   }
 
-  const details = await client.journeyDetails(journey.detailsReference, {
-    includes: ["servicejourneycoordinates"],
-  });
+  // For each tram line, fetch route geometry and stop list
+  const routes = await Promise.all(
+    Object.entries(tramRefs).map(
+      async ([lineName, { detailsRef, hubGid, line }]) => {
+        // departureDetails returns the details object directly
+        const details = await client.stopAreaDepartureDetails(
+          hubGid,
+          detailsRef,
+          { includes: ["servicejourneycoordinates", "servicejourneycalls"] },
+        );
 
-  return details;
-}
+        // Extract first service journey
+        const sj = details.serviceJourneys?.[0];
+        if (!sj) {
+          return { line: lineName, coordinates: [], stops: [] };
+        }
 
-try {
-  const stopAreas = await client.stopAreas();
+        // Extract coordinates
+        const coordinates =
+          sj.serviceJourneyCoordinates?.map((c) => [c.latitude, c.longitude]) ??
+          [];
 
-  const journeys = await Promise.all(
-    trams.map((tram) => fetchJourneyDetails(tram, stopAreas)),
+        // Extract stops with defensive location parsing
+        const stopPoints =
+          sj.callsOnServiceJourney?.map((call) => {
+            // stop point and area
+            const sp = call.stopPoint || call;
+
+            // stop point coords
+            const spLat =
+              sp.location?.latitude ?? sp.latitude ?? sp.lat ?? null;
+            const spLon =
+              sp.location?.longitude ?? sp.longitude ?? sp.long ?? null;
+
+            return {
+              gid: sp.gid,
+              name: sp.name,
+              location: { lat: spLat, lon: spLon },
+            };
+          }) ?? [];
+
+        return { ...line, coordinates, stopPoints };
+      },
+    ),
   );
 
-  const lineCoordinates = journeys.map((journey) => {
-    const serviceJourney = journey.tripLegs[0].serviceJourneys[0];
-    return {
-      line: serviceJourney.line,
-      coordinates: serviceJourney.serviceJourneyCoordinates,
-    };
-  });
-
-  await Bun.write(outputFile, JSON.stringify(lineCoordinates, null, 2));
-} catch (error) {
-  console.error("Error:", error.message);
-  process.exit(1);
+  // Output JSON
+  await Bun.write(Bun.stdout, JSON.stringify(routes, null, 2));
 }
+
+main().catch((err) => {
+  console.error(err);
+  process.exit(1);
+});
