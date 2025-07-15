@@ -8,7 +8,7 @@
 	const { position, loading, error } = useGeolocation();
 	
 	/** @type {{latitude: number, longitude: number} | null} */
-	let manualPosition = $state(null);
+	let manualPosition = $state({latitude: 57.706924, longitude: 11.966192}); // Default to Gothenburg
 	
 	/** @type {HTMLDivElement} */
 	let mapContainer;
@@ -22,7 +22,6 @@
 	let gpsMarker = null;
 	
 	let isInfoPanelCollapsed = $state(false);
-	
 
 	/**
 	 * Creates a Leaflet icon with a colored circle and a label.
@@ -43,13 +42,15 @@
 		});
 	};
 
+	const currentPosition = $derived(manualPosition || $position);
+
 	onMount(async () => {
 		// Import Leaflet dynamically
 		const leaflet = await import('leaflet');
 		L = leaflet.default;
 		
 		// Initialize map
-		map = L.map(mapContainer).setView([57.706924, 11.966192], 13); // Default to Gothenburg
+		map = L.map(mapContainer).setView([currentPosition.latitude, currentPosition.longitude], 13); // Default to Gothenburg
 		
 		// Add tile layer
 		L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -141,44 +142,34 @@
 			manualMarker = null;
 		}
 	});
+
 	
 	const closestLines = $derived(
 		lines.map((line) => {
-			const currentPos = manualPosition || $position;
-			if (currentPos) {
-				let minDistance = Infinity;
-				for (let i = 0; i < line.coordinates.length - 1; i++) {
-					const segmentStart = line.coordinates[i];
-					const segmentEnd = line.coordinates[i + 1];
-					const distance = calculateDistanceToLineSegment(
-						{ lat: currentPos.latitude, long: currentPos.longitude },
-						{ lat: segmentStart[0], long: segmentStart[1] },
-						{ lat: segmentEnd[0], long: segmentEnd[1] }
-					);
-					if (distance < minDistance) {
-						minDistance = distance;
-					}
-				}
-				return  { ...line, distance: minDistance };
-			}
-			return { ...line, distance: Infinity };
-		}).sort((a, b) => a.distance - b.distance).slice(0, 5)
-	);
-
-	const closestStopPoints = $derived(
-		lines
-			.flatMap((line) => line.stopPoints)
-			.map((stopPoint) => {
-			const currentPos = manualPosition || $position;
-			if (currentPos) {
-				const distance = calculateDistanceBetweenTwoPoints(
-					{ lat: currentPos.latitude, long: currentPos.longitude },
-					{ lat: stopPoint.location.lat, long: stopPoint.location.lon}
+			let minDistance = Infinity;
+			for (let i = 0; i < line.coordinates.length - 1; i++) {
+				const segmentStart = line.coordinates[i];
+				const segmentEnd = line.coordinates[i + 1];
+				const distance = calculateDistanceToLineSegment(
+					{ lat: currentPosition.latitude, long: currentPosition.longitude },
+					{ lat: segmentStart[0], long: segmentStart[1] },
+					{ lat: segmentEnd[0], long: segmentEnd[1] }
 				);
-				return { ...stopPoint, distance };
+				if (distance < minDistance) {
+					minDistance = distance;
+				}
 			}
-			return { ...stopPoint, distance: Infinity };
-		}).sort((a, b) => a.distance - b.distance).slice(0, 5)
+			return  { ...line, distance: minDistance };
+		}).sort((a, b) => a.distance - b.distance).slice(0, 5).map(line => {
+			const closestStopPoints = line.stopPoints.map(stopPoint => ({
+				...stopPoint,
+				distance: calculateDistanceBetweenTwoPoints(
+					{ lat: currentPosition.latitude, long: currentPosition.longitude },
+					{ lat: stopPoint.location.lat, long: stopPoint.location.lon }
+				)
+			})).sort((a, b) => a.distance - b.distance).slice(0, 5);
+			return {...line, closestStopPoints}
+		})
 	);
 </script>
 
@@ -225,32 +216,33 @@
 								Distance: {line.distance < 1000 
 									? `${Math.round(line.distance)}m` 
 									: `${(line.distance / 1000).toFixed(1)}km`}
+								<br>
+								<div>
+								{#if line.closestStopPoints.length > 0}
+									<ul>
+										{#each line.closestStopPoints as stopPoint, index (`${stopPoint.gid}-${index}`)}
+											<li>
+												<strong>{stopPoint.name}</strong>
+												<br>
+												Distance: {#if (manualPosition || $position) && stopPoint.distance !== Infinity}
+													{stopPoint.distance < 1000 
+														? `${Math.round(stopPoint.distance)}m` 
+														: `${(stopPoint.distance / 1000).toFixed(1)}km`}
+												{:else}
+													Not available
+												{/if}
+											</li>
+										{/each}
+									</ul>
+								{:else}
+									<p>No stop points found</p>
+								{/if}
+								</div>
 							</li>
 						{/each}
 					</ul>
 				{:else}
 					<p>No lines found</p>
-				{/if}
-				
-				<h2>Closest Stops</h2>
-				{#if closestStopPoints.length > 0}
-					<ul>
-						{#each closestStopPoints as stopArea, index (`${stopArea.gid}-${index}`)}
-							<li>
-								<strong>{stopArea.name}</strong>
-								<br>
-								Distance: {#if (manualPosition || $position) && stopArea.distance !== Infinity}
-									{stopArea.distance < 1000 
-										? `${Math.round(stopArea.distance)}m` 
-										: `${(stopArea.distance / 1000).toFixed(1)}km`}
-								{:else}
-									Not available
-								{/if}
-							</li>
-						{/each}
-					</ul>
-				{:else}
-					<p>No stop areas found</p>
 				{/if}
 			{/if}
 		</div>

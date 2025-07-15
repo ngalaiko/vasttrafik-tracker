@@ -203,5 +203,33 @@ export function createClient(config) {
       const res = await get(`journeys/${detailsReference}/details?${qs}`);
       return /** @type {Promise<JourneyDetailsApiModel>} */ (res.json());
     },
+
+    /**
+     * Fetch departures for a specific stop point.
+     * @param {string} gid - Stop point GID.
+     * @param {{ includes?: string[] }} [params] - Query includes.
+     * @returns {Promise<ApiResponse<DepartureApiModel>>} - Departures response.
+     */
+    async stopPointDepartures(gid, params = {}) {
+      if (!gid) throw new Error("gid is required");
+      const qs = buildQueryParams(params);
+      const res = await get(`stop-points/${gid}/departures?${qs}`);
+      return /** @type {Promise<ApiResponse<DepartureApiModel>>} */ (
+        res.json()
+      );
+    },
+
+    /**
+     * Fetch arrivals for a specific stop point.
+     * @param {string} gid - Stop point GID.
+     * @param {{ includes?: string[] }} [params] - Query includes.
+     * @returns {Promise<ApiResponse<ArrivalApiModel>>} - Arrivals response.
+     */
+    async stopPointArrivals(gid, params = {}) {
+      if (!gid) throw new Error("gid is required");
+      const qs = buildQueryParams(params);
+      const res = await get(`stop-points/${gid}/arrivals?${qs}`);
+      return /** @type {Promise<ApiResponse<ArrivalApiModel>>} */ (res.json());
+    },
   });
 }
