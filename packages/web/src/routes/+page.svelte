@@ -7,8 +7,11 @@
 	const { lines } = data;
 	const { position, loading, error } = useGeolocation();
 	
+	const DEFAULT_POSITION = { latitude: 57.706924, longitude: 11.966192 }; // Gothenburg
 	/** @type {{latitude: number, longitude: number} | null} */
-	let manualPosition = $state({latitude: 57.706924, longitude: 11.966192}); // Default to Gothenburg
+	let manualPosition = $state(null); // Default to Gothenburg
+	const currentPosition = $derived(manualPosition || $position || DEFAULT_POSITION);
+
 	
 	/** @type {HTMLDivElement} */
 	let mapContainer;
@@ -17,21 +20,17 @@
 	/** @type {typeof import('leaflet')} */
 	let L;
 	/** @type {import('leaflet').Marker | null} */
-	let manualMarker = null;
-	/** @type {import('leaflet').Marker | null} */
-	let gpsMarker = null;
-	
-	let isInfoPanelCollapsed = $state(false);
+	let positionMarker = null;
 
 	/**
-	 * Creates a Leaflet icon with a colored circle and a label.
+	 * Creates a Leaflet icon with a colored circle.
 	 * @param {string} color - The color of the circle.
 	 * @returns {import('leaflet').Icon} - The Leaflet icon object.
 	 */
 	function createIcon (color) {
-		const svgIcon = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-			<circle cx="12" cy="12" r="8" fill="${color}" stroke="#fff" stroke-width="2"/>
-			<circle cx="12" cy="12" r="3" fill="#fff"/>
+		const svgIcon = `<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+			<circle cx="10" cy="10" r="8" fill="${color}" stroke="#000" stroke-width="2"/>
+			<circle cx="10" cy="10" r="3" fill="#000"/>
 		</svg>`;
 		const iconUrl = `data:image/svg+xml;base64,${btoa(svgIcon)}`;
 		
@@ -42,46 +41,38 @@
 		});
 	};
 
-	const currentPosition = $derived(manualPosition || $position);
-
 	onMount(async () => {
-		// Import Leaflet dynamically
 		const leaflet = await import('leaflet');
 		L = leaflet.default;
 		
-		// Initialize map
-		map = L.map(mapContainer).setView([currentPosition.latitude, currentPosition.longitude], 13); // Default to Gothenburg
+		map = L.map(mapContainer).setView([currentPosition.latitude, currentPosition.longitude], 13);
 		
-		// Add tile layer
 		L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 			attribution: '© OpenStreetMap contributors'
 		}).addTo(map);
 		
-		// Add lines to map
 		for (const line of lines) {
 			const coordinates = line.coordinates.map(coord => new L.LatLng(coord[0], coord[1]));
 			L.polyline(coordinates, {
 				color: line.backgroundColor,
 				weight: 3,
-				opacity: 0.7
-			}).addTo(map).bindPopup(`<strong>${line.name}</strong>`);
+				opacity: 1
+			}).addTo(map).bindPopup(`${line.name}`);
 		}
 		
-		// Add stop points to map
 		for (const line of lines) {
 			for (const stop of line.stopPoints) {
 				L.circleMarker([stop.location.lat, stop.location.lon], {
-					radius: 5,
-					fillColor: line.foregroundColor,
-					color: line.backgroundColor,
+					radius: 4,
+					fillColor: line.backgroundColor,
+					color: '#000',
 					weight: 1,
 					opacity: 1,
-					fillOpacity: 0.8
-				}).addTo(map).bindPopup(`<strong>${stop.name}</strong>`);
+					fillOpacity: 1
+				}).addTo(map).bindPopup(`${stop.name}`);
 			}
 		}
 		
-		// Add event listeners to capture manual position on any map movement
 		const updateManualPosition = () => {
 			if (!map) return;
 			const center = map.getCenter();
@@ -93,56 +84,28 @@
 		
 		map.on('drag', updateManualPosition);
 		map.on('dragend', updateManualPosition);
-		map.on('zoomend', updateManualPosition);
 	});
 	
-	// Update map center when position changes (only if no manual position is set)
 	$effect(() => {
 		if (map && $position && !manualPosition) {
 			map.setView([$position.latitude, $position.longitude], 15);
 		}
 	});
 	
-	// Add/update GPS marker
 	$effect(() => {
-		if (map && $position) {
-			// Remove existing GPS marker
-			if (gpsMarker) {
-				map.removeLayer(gpsMarker);
-				gpsMarker = null;
+		if (map && currentPosition) {
+			if (positionMarker) {
+				map.removeLayer(positionMarker);
 			}
 			
-			// Add new GPS marker
-			gpsMarker = L.marker([$position.latitude, $position.longitude], {
-				icon: createIcon('#007fff')
-			}).addTo(map).bindPopup('<strong>Your Location</strong>');
-		} else if (gpsMarker && map) {
-			// Remove marker if no GPS position
-			map.removeLayer(gpsMarker);
-			gpsMarker = null;
-		}
-	});
-	
-	// Add/update manual position marker
-	$effect(() => {
-		if (map && manualPosition) {
-			// Remove existing manual marker
-			if (manualMarker) {
-				map.removeLayer(manualMarker);
-				manualMarker = null;
-			}
+			const isGPS = !manualPosition && $position;
+			const color = isGPS ? '#00ff00' : '#ff0000';
 			
-			// Add new manual marker
-			manualMarker = L.marker([manualPosition.latitude, manualPosition.longitude], {
-				icon: createIcon('#ff6600')
-			}).addTo(map).bindPopup('<strong>Manual Position</strong>');
-		} else if (manualMarker && map) {
-			// Remove marker if no manual position
-			map.removeLayer(manualMarker);
-			manualMarker = null;
+			positionMarker = L.marker([currentPosition.latitude, currentPosition.longitude], {
+				icon: createIcon(color)
+			}).addTo(map).bindPopup(isGPS ? 'GPS' : 'Manual');
 		}
 	});
-
 	
 	const closestLines = $derived(
 		lines.map((line) => {
@@ -167,10 +130,22 @@
 					{ lat: currentPosition.latitude, long: currentPosition.longitude },
 					{ lat: stopPoint.location.lat, long: stopPoint.location.lon }
 				)
-			})).sort((a, b) => a.distance - b.distance).slice(0, 5);
+			})).sort((a, b) => a.distance - b.distance).slice(0, 3);
 			return {...line, closestStopPoints}
 		})
 	);
+
+	/**
+	 * Formats the distance for display.
+	 * @param {number} distance - The distance in meters.
+	 * @returns {string} - The formatted distance string.
+	 */
+	function formatDistance(distance) {
+		if (distance < 1000) {
+			return `${Math.round(distance)}m`;
+		}
+		return `${(distance / 1000).toFixed(1)}km`;
+	}
 </script>
 
 <svelte:head>
@@ -182,69 +157,39 @@
 		<div bind:this={mapContainer} class="map"></div>
 	</div>
 	
-	<div class="info-panel" class:collapsed={isInfoPanelCollapsed}>
-		<button class="toggle-button" onclick={() => isInfoPanelCollapsed = !isInfoPanelCollapsed}>
-			{isInfoPanelCollapsed ? '📋' : '✕'}
-		</button>
-		
-		<div class="info-content">
+	<div class="stats">
+		<div class="status">
 			{#if $loading}
-				<p>Getting your location...</p>
+				LOCATING...
 			{:else if $error}
-				<p>Unable to get your location: {$error.message}</p>
-			{:else if !$position && !manualPosition}
-				<p>Location not available</p>
+				ERROR: {$error.message}
+			{:else if manualPosition && $position}
+				<span class="position-type">MANUAL</span>
+				<button onclick={() => manualPosition = null}>USE GPS</button>
+			{:else if $position}
+				<span class="position-type">GPS</span>
 			{:else}
-				<div class="position-controls">
-					{#if manualPosition}
-						<p class="position-indicator">📍 Using manual position</p>
-						<button onclick={() => manualPosition = null} class="reset-button">
-							Use GPS location
-						</button>
-					{:else if $position}
-						<p class="position-indicator">🛰️ Using GPS location</p>
-					{/if}
-				</div>
-				
-				<h2>Closest Lines</h2>
-				{#if closestLines.length > 0}
-					<ul>
-						{#each closestLines as line (line.gid)}
-							<li>
-								<strong>{line.name}</strong>
-								<br>
-								Distance: {line.distance < 1000 
-									? `${Math.round(line.distance)}m` 
-									: `${(line.distance / 1000).toFixed(1)}km`}
-								<br>
-								<div>
-								{#if line.closestStopPoints.length > 0}
-									<ul>
-										{#each line.closestStopPoints as stopPoint, index (`${stopPoint.gid}-${index}`)}
-											<li>
-												<strong>{stopPoint.name}</strong>
-												<br>
-												Distance: {#if (manualPosition || $position) && stopPoint.distance !== Infinity}
-													{stopPoint.distance < 1000 
-														? `${Math.round(stopPoint.distance)}m` 
-														: `${(stopPoint.distance / 1000).toFixed(1)}km`}
-												{:else}
-													Not available
-												{/if}
-											</li>
-										{/each}
-									</ul>
-								{:else}
-									<p>No stop points found</p>
-								{/if}
-								</div>
-							</li>
-						{/each}
-					</ul>
-				{:else}
-					<p>No lines found</p>
-				{/if}
+				<span class="position-type">MANUAL</span>
 			{/if}
+		</div>
+		
+		<div class="lines">
+			{#each closestLines as line (line.gid)}
+				<div class="line">
+					<div class="line-header">
+						<span class="line-name">{line.name}</span>
+						<span class="distance">{formatDistance(line.distance)}</span>
+					</div>
+					<div class="stops">
+						{#each line.closestStopPoints as stop (stop.gid)}
+							<div class="stop">
+								<span>{stop.name}</span>
+								<span>{formatDistance(stop.distance)}</span>
+							</div>
+						{/each}
+					</div>
+				</div>
+			{/each}
 		</div>
 	</div>
 </div>
@@ -253,12 +198,12 @@
 	.container {
 		display: flex;
 		height: 100vh;
-		gap: 1rem;
+		font-family: monospace;
+		font-size: 12px;
 	}
 	
 	.map-container {
 		flex: 1;
-		min-height: 400px;
 	}
 	
 	.map {
@@ -266,195 +211,86 @@
 		height: 100%;
 	}
 	
-	.info-panel {
+	.stats {
 		width: 300px;
-		padding: 1rem;
-		background: #f5f5f5;
+		background: #fff;
+		border-left: 2px solid #000;
+		padding: 10px;
 		overflow-y: auto;
-		position: relative;
 	}
-
-	.info-panel.collapsed {
-		width: 60px;
-		padding: 0.5rem;
+	
+	.status {
+		border-bottom: 1px solid #000;
+		padding-bottom: 10px;
+		margin-bottom: 10px;
 	}
-
-	.info-panel.collapsed .info-content {
-		display: none;
+	
+	.position-type {
+		font-weight: bold;
 	}
-
-	.toggle-button {
-		position: absolute;
-		top: 0.5rem;
-		right: 0.5rem;
-		background: #007fff;
-		color: white;
+	
+	button {
+		background: #000;
+		color: #fff;
 		border: none;
-		padding: 0.5rem;
-		border-radius: 50%;
+		padding: 5px 10px;
+		margin-left: 10px;
+		font-family: monospace;
+		font-size: 12px;
 		cursor: pointer;
-		font-size: 1rem;
-		width: 40px;
-		height: 40px;
+	}
+	
+	button:hover {
+		background: #333;
+	}
+	
+	.lines {
 		display: flex;
-		align-items: center;
-		justify-content: center;
-		z-index: 10;
-	}
-
-	.toggle-button:hover {
-		background: #0056cc;
-	}
-
-	.info-content {
-		margin-top: 3rem;
+		flex-direction: column;
+		gap: 15px;
 	}
 	
-	.info-panel h2 {
-		margin-top: 0;
-		font-size: 1.2rem;
+	.line {
+		border: 1px solid #000;
+		padding: 10px;
 	}
 	
-	.info-panel ul {
-		list-style: none;
-		padding: 0;
+	.line-header {
+		display: flex;
+		justify-content: space-between;
+		font-weight: bold;
+		margin-bottom: 5px;
+		border-bottom: 1px solid #000;
+		padding-bottom: 5px;
 	}
 	
-	.info-panel li {
-		padding: 0.5rem 0;
-		border-bottom: 1px solid #ddd;
+	.stops {
+		display: flex;
+		flex-direction: column;
+		gap: 3px;
 	}
 	
-	.info-panel li:last-child {
-		border-bottom: none;
+	.stop {
+		display: flex;
+		justify-content: space-between;
+		padding: 2px 0;
 	}
 	
-	.position-controls {
-		margin-bottom: 1rem;
-		padding: 0.75rem;
-		background: #e8f4f8;
-		border-radius: 4px;
-		border-left: 4px solid #007fff;
-	}
-	
-	.position-indicator {
-		margin: 0 0 0.5rem 0;
-		font-size: 0.9rem;
-		font-weight: 500;
-	}
-	
-	.reset-button {
-		background: #007fff;
-		color: white;
-		border: none;
-		padding: 0.75rem 1.25rem;
-		border-radius: 4px;
-		cursor: pointer;
-		font-size: 0.9rem;
-		transition: background 0.2s;
-		min-height: 44px;
-	}
-	
-	.reset-button:hover {
-		background: #0056cc;
-	}
-
-	/* Mobile responsive styles */
+	/* Mobile */
 	@media (max-width: 768px) {
 		.container {
 			flex-direction: column;
-			height: 100vh;
-			gap: 0;
 		}
-
+		
+		.stats {
+			width: 100%;
+			height: 40vh;
+			border-left: none;
+			border-top: 2px solid #000;
+		}
+		
 		.map-container {
-			flex: 1;
-			min-height: 60vh;
-		}
-
-		.info-panel {
-			width: 100%;
-			max-height: 40vh;
-			border-top: 1px solid #ddd;
-		}
-
-		.info-panel.collapsed {
-			max-height: 60px;
-			width: 100%;
-		}
-
-		.toggle-button {
-			top: 0.25rem;
-			right: 0.25rem;
-			width: 50px;
-			height: 50px;
-			font-size: 1.2rem;
-		}
-
-		.info-content {
-			margin-top: 3.5rem;
-		}
-
-		.reset-button {
-			width: 100%;
-			padding: 1rem;
-			font-size: 1rem;
-			min-height: 48px;
-		}
-
-		.position-controls {
-			padding: 1rem;
-		}
-
-		.info-panel h2 {
-			font-size: 1.1rem;
-		}
-
-		.info-panel li {
-			padding: 0.75rem 0;
-		}
-	}
-
-	@media (max-width: 480px) {
-		.container {
-			gap: 0;
-		}
-
-		.map-container {
-			min-height: 55vh;
-		}
-
-		.info-panel {
-			max-height: 45vh;
-			padding: 0.75rem;
-		}
-
-		.info-panel.collapsed {
-			max-height: 55px;
-		}
-
-		.toggle-button {
-			width: 45px;
-			height: 45px;
-			font-size: 1.1rem;
-		}
-
-		.info-content {
-			margin-top: 3rem;
-		}
-
-		.reset-button {
-			padding: 0.875rem;
-			font-size: 0.95rem;
-		}
-
-		.position-controls {
-			padding: 0.875rem;
-		}
-
-		.info-panel h2 {
-			font-size: 1rem;
-			margin-bottom: 0.75rem;
+			height: 60vh;
 		}
 	}
 </style>
