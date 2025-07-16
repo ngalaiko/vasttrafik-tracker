@@ -1,4 +1,4 @@
-export function haversineDistance(p1: [number, number], p2: [number, number]): number {
+export function distance(p1: [number, number], p2: [number, number]): number {
   const R = 6371e3; // Radius of the Earth in meters
   const dLat = ((p2[0] - p1[0]) * Math.PI) / 180;
   const dLon = ((p2[1] - p1[1]) * Math.PI) / 180;
@@ -11,7 +11,11 @@ export function haversineDistance(p1: [number, number], p2: [number, number]): n
   return R * c;
 }
 
-function closestPointOnSegment(segStart: [number, number], segEnd: [number, number], target: [number, number]): [number, number] {
+function closestPointOnSegment(
+  segStart: [number, number],
+  segEnd: [number, number],
+  target: [number, number]
+): [number, number] {
   const [x1, y1] = segStart;
   const [x2, y2] = segEnd;
   const [px, py] = target;
@@ -24,10 +28,7 @@ function closestPointOnSegment(segStart: [number, number], segEnd: [number, numb
   }
 
   // Parameter t represents position along segment (0 = start, 1 = end)
-  const t = Math.max(
-    0,
-    Math.min(1, ((px - x1) * dx + (py - y1) * dy) / (dx * dx + dy * dy)),
-  );
+  const t = Math.max(0, Math.min(1, ((px - x1) * dx + (py - y1) * dy) / (dx * dx + dy * dy)));
 
   return [x1 + t * dx, y1 + t * dy];
 }
@@ -39,8 +40,11 @@ export interface ClosestPoint {
   segmentIndex?: number;
 }
 
-export function closestPointsOnPolyline(polyline: Array<[number, number]>, target: [number, number], n: number): ClosestPoint[] {
-  if (polyline.length === 0) return [];
+export function closestPointOnPolyline(
+  polyline: Array<[number, number]>,
+  target: [number, number]
+): ClosestPoint | null {
+  if (polyline.length === 0) return null;
 
   const candidates: ClosestPoint[] = [];
 
@@ -48,7 +52,7 @@ export function closestPointsOnPolyline(polyline: Array<[number, number]>, targe
   polyline.forEach((vertex, i) => {
     candidates.push({
       point: vertex,
-      distance: haversineDistance(vertex, target),
+      distance: distance(vertex, target),
       vertexIndex: i,
     });
   });
@@ -67,7 +71,7 @@ export function closestPointsOnPolyline(polyline: Array<[number, number]>, targe
     if (!isVertex) {
       candidates.push({
         point: closestOnSeg,
-        distance: haversineDistance(closestOnSeg, target),
+        distance: distance(closestOnSeg, target),
         segmentIndex: i,
       });
     }
@@ -75,5 +79,5 @@ export function closestPointsOnPolyline(polyline: Array<[number, number]>, targe
 
   // Sort by distance and return top N
   candidates.sort((a, b) => a.distance - b.distance);
-  return candidates.slice(0, n);
+  return candidates.at(0) || null;
 }

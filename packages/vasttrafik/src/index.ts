@@ -22,27 +22,27 @@ export interface ApiResponse<T> {
 }
 
 export type TransportMode =
-  | "tram"
-  | "bus"
-  | "ferry"
-  | "train"
-  | "taxi"
-  | "walk"
-  | "bike"
-  | "car"
-  | "none"
-  | "unknown"
-  | "teletaxi";
+  | 'tram'
+  | 'bus'
+  | 'ferry'
+  | 'train'
+  | 'taxi'
+  | 'walk'
+  | 'bike'
+  | 'car'
+  | 'none'
+  | 'unknown'
+  | 'teletaxi';
 
 export type JourneyTransportSubMode =
-  | "vasttagen"
-  | "longdistancetrain"
-  | "regionaltrain"
-  | "flygbussarna"
-  | "none"
-  | "unknown";
+  | 'vasttagen'
+  | 'longdistancetrain'
+  | 'regionaltrain'
+  | 'flygbussarna'
+  | 'none'
+  | 'unknown';
 
-export type DateTimeRelatesTo = "departure" | "arrival";
+export type DateTimeRelatesTo = 'departure' | 'arrival';
 
 export interface ApiError {
   errorCode: number;
@@ -201,28 +201,28 @@ export interface JourneysParameters {
 }
 
 export type JourneyDetailsInclude =
-  | "ticketsuggestions"
-  | "triplegcoordinates"
-  | "validzones"
-  | "servicejourneycalls"
-  | "servicejourneycoordinates"
-  | "links"
-  | "occupancy";
+  | 'ticketsuggestions'
+  | 'triplegcoordinates'
+  | 'validzones'
+  | 'servicejourneycalls'
+  | 'servicejourneycoordinates'
+  | 'links'
+  | 'occupancy';
 
 export interface VasttrafikClient {
   stopAreas(): Promise<StopAreaApiModel[]>;
   stopAreaArrivals(
     gid: string,
-    params?: { includes?: string[] },
+    params?: { includes?: string[] }
   ): Promise<ApiResponse<ArrivalApiModel>>;
   stopAreaDepartures(
     gid: string,
-    params?: { includes?: string[] },
+    params?: { includes?: string[] }
   ): Promise<ApiResponse<DepartureApiModel>>;
   stopAreaDepartureDetails(
     gid: string,
     detailsReference: string,
-    params?: { includes?: string[] },
+    params?: { includes?: string[] }
   ): Promise<DepartureDetailsApiModel>;
   journeys(params: JourneysParameters): Promise<ApiResponse<JourneyApiModel>>;
   journeyDetails(
@@ -232,17 +232,31 @@ export interface VasttrafikClient {
       channelIds?: number[];
       productTypes?: number[];
       travellerCategories?: string[];
-    },
+    }
   ): Promise<JourneyDetailsApiModel>;
-  stopPointDepartures(gid: string, params?: { includes?: string[] }): Promise<ApiResponse<DepartureApiModel>>;
-  stopPointArrivals(gid: string, params?: { includes?: string[] }): Promise<ApiResponse<ArrivalApiModel>>;
+  stopPointDepartures(
+    gid: string,
+    params?: { includes?: string[] }
+  ): Promise<ApiResponse<DepartureApiModel>>;
+  stopPointArrivals(
+    gid: string,
+    params?: { includes?: string[] }
+  ): Promise<ApiResponse<ArrivalApiModel>>;
 }
 
-const host = "https://ext-api.vasttrafik.se";
+const host = 'https://ext-api.vasttrafik.se';
 const tokenUrl = `${host}/token`;
 const plannerApi = `${host}/pr/v4/`;
 
-type QueryParamValue = string | number | boolean | string[] | number[] | boolean[] | undefined | null;
+type QueryParamValue =
+  | string
+  | number
+  | boolean
+  | string[]
+  | number[]
+  | boolean[]
+  | undefined
+  | null;
 
 function buildQueryParams(params: Record<string, QueryParamValue> | object): URLSearchParams {
   const qs = new URLSearchParams();
@@ -250,8 +264,8 @@ function buildQueryParams(params: Record<string, QueryParamValue> | object): URL
     if (value === undefined || value === null) return;
     if (Array.isArray(value)) {
       value.forEach((v) => qs.append(key, String(v)));
-    } else if (typeof value === "boolean") {
-      qs.append(key, value ? "1" : "0");
+    } else if (typeof value === 'boolean') {
+      qs.append(key, value ? '1' : '0');
     } else {
       qs.append(key, String(value));
     }
@@ -259,14 +273,17 @@ function buildQueryParams(params: Record<string, QueryParamValue> | object): URL
   return qs;
 }
 
-async function exchangeClientCredentials(config: { clientId: string; clientSecret: string }): Promise<TokenResponse> {
+async function exchangeClientCredentials(config: {
+  clientId: string;
+  clientSecret: string;
+}): Promise<TokenResponse> {
   const res = await fetch(tokenUrl, {
-    method: "POST",
-    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
     body: new URLSearchParams({
       client_id: config.clientId,
       client_secret: config.clientSecret,
-      grant_type: "client_credentials",
+      grant_type: 'client_credentials',
     }),
   });
   if (!res.ok) throw new Error(`Token exchange failed (${res.status})`);
@@ -299,7 +316,7 @@ function withClientCredentials(config: { clientId: string; clientSecret: string 
 
 export function createClient(config: { clientId: string; clientSecret: string }): VasttrafikClient {
   if (!config.clientId || !config.clientSecret) {
-    throw new Error("Client ID and secret are required");
+    throw new Error('Client ID and secret are required');
   }
   const auth = withClientCredentials(config);
 
@@ -316,61 +333,77 @@ export function createClient(config: { clientId: string; clientSecret: string })
 
   return {
     async stopAreas(): Promise<StopAreaApiModel[]> {
-      const res = await get("stop-areas");
+      const res = await get('stop-areas');
       return res.json() as Promise<StopAreaApiModel[]>;
     },
 
-    async stopAreaArrivals(gid: string, params: { includes?: string[] } = {}): Promise<ApiResponse<ArrivalApiModel>> {
+    async stopAreaArrivals(
+      gid: string,
+      params: { includes?: string[] } = {}
+    ): Promise<ApiResponse<ArrivalApiModel>> {
       const qs = buildQueryParams(params);
       const res = await get(`stop-areas/${gid}/arrivals?${qs}`);
       return res.json() as Promise<ApiResponse<ArrivalApiModel>>;
     },
 
-    async stopAreaDepartures(gid: string, params: { includes?: string[] } = {}): Promise<ApiResponse<DepartureApiModel>> {
+    async stopAreaDepartures(
+      gid: string,
+      params: { includes?: string[] } = {}
+    ): Promise<ApiResponse<DepartureApiModel>> {
       const qs = buildQueryParams(params);
       const res = await get(`stop-areas/${gid}/departures?${qs}`);
       return res.json() as Promise<ApiResponse<DepartureApiModel>>;
     },
 
-    async stopAreaDepartureDetails(gid: string, detailsReference: string, params: { includes?: string[] } = {}): Promise<DepartureDetailsApiModel> {
-      if (!gid || !detailsReference)
-        throw new Error("Both gid and detailsReference are required");
+    async stopAreaDepartureDetails(
+      gid: string,
+      detailsReference: string,
+      params: { includes?: string[] } = {}
+    ): Promise<DepartureDetailsApiModel> {
+      if (!gid || !detailsReference) throw new Error('Both gid and detailsReference are required');
       const qs = buildQueryParams(params);
-      const res = await get(
-        `stop-areas/${gid}/departures/${detailsReference}/details?${qs}`,
-      );
+      const res = await get(`stop-areas/${gid}/departures/${detailsReference}/details?${qs}`);
       return res.json() as Promise<DepartureDetailsApiModel>;
     },
 
     async journeys(params: JourneysParameters): Promise<ApiResponse<JourneyApiModel>> {
       if (!params.originGid || !params.destinationGid)
-        throw new Error("originGid and destinationGid are required");
+        throw new Error('originGid and destinationGid are required');
       const qs = buildQueryParams(params);
       const res = await get(`journeys?${qs}`);
       return res.json() as Promise<ApiResponse<JourneyApiModel>>;
     },
 
-    async journeyDetails(detailsReference: string, params: {
-      includes?: JourneyDetailsInclude[];
-      channelIds?: number[];
-      productTypes?: number[];
-      travellerCategories?: string[];
-    } = {}): Promise<JourneyDetailsApiModel> {
-      if (!detailsReference) throw new Error("detailsReference is required");
+    async journeyDetails(
+      detailsReference: string,
+      params: {
+        includes?: JourneyDetailsInclude[];
+        channelIds?: number[];
+        productTypes?: number[];
+        travellerCategories?: string[];
+      } = {}
+    ): Promise<JourneyDetailsApiModel> {
+      if (!detailsReference) throw new Error('detailsReference is required');
       const qs = buildQueryParams(params);
       const res = await get(`journeys/${detailsReference}/details?${qs}`);
       return res.json() as Promise<JourneyDetailsApiModel>;
     },
 
-    async stopPointDepartures(gid: string, params: { includes?: string[] } = {}): Promise<ApiResponse<DepartureApiModel>> {
-      if (!gid) throw new Error("gid is required");
+    async stopPointDepartures(
+      gid: string,
+      params: { includes?: string[] } = {}
+    ): Promise<ApiResponse<DepartureApiModel>> {
+      if (!gid) throw new Error('gid is required');
       const qs = buildQueryParams(params);
       const res = await get(`stop-points/${gid}/departures?${qs}`);
       return res.json() as Promise<ApiResponse<DepartureApiModel>>;
     },
 
-    async stopPointArrivals(gid: string, params: { includes?: string[] } = {}): Promise<ApiResponse<ArrivalApiModel>> {
-      if (!gid) throw new Error("gid is required");
+    async stopPointArrivals(
+      gid: string,
+      params: { includes?: string[] } = {}
+    ): Promise<ApiResponse<ArrivalApiModel>> {
+      if (!gid) throw new Error('gid is required');
       const qs = buildQueryParams(params);
       const res = await get(`stop-points/${gid}/arrivals?${qs}`);
       return res.json() as Promise<ApiResponse<ArrivalApiModel>>;

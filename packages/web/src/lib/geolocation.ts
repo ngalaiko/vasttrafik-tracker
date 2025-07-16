@@ -1,4 +1,4 @@
-import { writable, type Writable } from "svelte/store";
+import { writable, type Writable } from 'svelte/store';
 
 export interface CustomGeolocationPosition {
   latitude: number;
@@ -21,7 +21,7 @@ export function useGeolocation(): GeolocationReturn {
 
   function getCurrentPosition(): void {
     if (!navigator.geolocation) {
-      error.set(new Error("Geolocation is not supported"));
+      error.set(new Error('Geolocation is not supported'));
       return;
     }
 
@@ -46,7 +46,7 @@ export function useGeolocation(): GeolocationReturn {
         enableHighAccuracy: true,
         timeout: 10000,
         maximumAge: 300000, // 5 minutes
-      },
+      }
     );
   }
 
