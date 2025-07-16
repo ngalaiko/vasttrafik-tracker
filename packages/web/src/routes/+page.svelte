@@ -1,6 +1,6 @@
 <script>
 	import { useGeolocation } from '$lib/geolocation';
-	import { calculateDistanceBetweenTwoPoints, calculateDistanceToLineSegment } from '$lib/utils';
+	import { closestPointsOnPolyline } from '$lib/utils';
 	import { onMount } from 'svelte';
 	
 	const { data } = $props();
@@ -21,6 +21,17 @@
 	let L;
 	/** @type {import('leaflet').Marker | null} */
 	let positionMarker = null;
+
+	const closestLines = $derived(
+		lines.map((line) => {
+			const closestPoints = closestPointsOnPolyline( line.coordinates, [currentPosition.latitude,  currentPosition.longitude], 1)
+			return {
+				...line,
+				closestPoints,
+				distance: Math.min(...closestPoints.map(p => p.distance)),
+			}
+		}).sort((a, b) => a.distance - b.distance).slice(0, 5)
+	)
 
 	/**
 	 * Creates a Leaflet icon with a colored circle.
@@ -106,34 +117,34 @@
 			}).addTo(map).bindPopup(isGPS ? 'GPS' : 'Manual');
 		}
 	});
-	
-	const closestLines = $derived(
-		lines.map((line) => {
-			let minDistance = Infinity;
-			for (let i = 0; i < line.coordinates.length - 1; i++) {
-				const segmentStart = line.coordinates[i];
-				const segmentEnd = line.coordinates[i + 1];
-				const distance = calculateDistanceToLineSegment(
-					{ lat: currentPosition.latitude, long: currentPosition.longitude },
-					{ lat: segmentStart[0], long: segmentStart[1] },
-					{ lat: segmentEnd[0], long: segmentEnd[1] }
-				);
-				if (distance < minDistance) {
-					minDistance = distance;
-				}
+
+
+	// Add this $effect block after your existing position marker effect
+	$effect(() => {
+		if (map && closestLines) {
+			// Remove existing closest point markers
+			if (map.closestPointMarkers) {
+				map.closestPointMarkers.forEach(marker => map.removeLayer(marker));
 			}
-			return  { ...line, distance: minDistance };
-		}).sort((a, b) => a.distance - b.distance).slice(0, 5).map(line => {
-			const closestStopPoints = line.stopPoints.map(stopPoint => ({
-				...stopPoint,
-				distance: calculateDistanceBetweenTwoPoints(
-					{ lat: currentPosition.latitude, long: currentPosition.longitude },
-					{ lat: stopPoint.location.lat, long: stopPoint.location.lon }
-				)
-			})).sort((a, b) => a.distance - b.distance).slice(0, 3);
-			return {...line, closestStopPoints}
-		})
-	);
+			map.closestPointMarkers = [];
+
+			closestLines.forEach(line => {
+				line.closestPoints.map(point => point.point).forEach(point => {
+					console.log(point)
+					const marker = L.circleMarker(point, {
+						radius: 4,
+						fillColor: '#ff0000', // Red for closest points
+						color: '#000',
+						weight: 1,
+						opacity: 1,
+						fillOpacity: 0.8
+					}).addTo(map).bindPopup(`${line.name} - ${formatDistance(point.distance)}`);
+
+					map.closestPointMarkers.push(marker);
+				});
+			});
+		}
+	});
 
 	/**
 	 * Formats the distance for display.
@@ -179,14 +190,6 @@
 					<div class="line-header">
 						<span class="line-name">{line.name}</span>
 						<span class="distance">{formatDistance(line.distance)}</span>
-					</div>
-					<div class="stops">
-						{#each line.closestStopPoints as stop (stop.gid)}
-							<div class="stop">
-								<span>{stop.name}</span>
-								<span>{formatDistance(stop.distance)}</span>
-							</div>
-						{/each}
 					</div>
 				</div>
 			{/each}
@@ -264,17 +267,7 @@
 		padding-bottom: 5px;
 	}
 	
-	.stops {
-		display: flex;
-		flex-direction: column;
-		gap: 3px;
-	}
-	
-	.stop {
-		display: flex;
-		justify-content: space-between;
-		padding: 2px 0;
-	}
+
 	
 	/* Mobile */
 	@media (max-width: 768px) {
