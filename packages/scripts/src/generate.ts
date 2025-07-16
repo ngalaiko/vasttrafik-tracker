@@ -1,5 +1,9 @@
 import { parseArgs } from 'node:util';
-import { createClient, type LineApiModel } from '@vasttrafik-tracker/vasttrafik';
+import {
+  createClient,
+  type LineApiModel,
+  type StopPointApiModel,
+} from '@vasttrafik-tracker/vasttrafik';
 
 interface TramRef {
   detailsRef: string;
@@ -7,15 +11,9 @@ interface TramRef {
   line: LineApiModel;
 }
 
-interface StopPoint {
-  gid: string;
-  name: string;
-  location: { lat: number | null; lon: number | null };
-}
-
 interface Route extends LineApiModel {
   coordinates: [number, number][];
-  stopPoints: StopPoint[];
+  stopPoints: StopPointApiModel[];
 }
 
 async function main(): Promise<void> {
@@ -101,15 +99,8 @@ async function main(): Promise<void> {
         ]) || [];
 
       // Extract stop points from callsOnServiceJourney
-      const stopPoints: StopPoint[] =
-        serviceJourney.callsOnServiceJourney?.map((call) => ({
-          gid: call.stopPoint.gid,
-          name: call.stopPoint.name,
-          location: {
-            lat: call.latitude || call.stopPoint.latitude || null,
-            lon: call.longitude || call.stopPoint.longitude || null,
-          },
-        })) || [];
+      const stopPoints: StopPointApiModel[] =
+        serviceJourney.callsOnServiceJourney?.map((call) => call.stopPoint) || [];
 
       return { ...line, coordinates, stopPoints };
     })

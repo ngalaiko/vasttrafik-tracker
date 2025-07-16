@@ -34,14 +34,6 @@ export type TransportMode =
   | 'unknown'
   | 'teletaxi';
 
-export type JourneyTransportSubMode =
-  | 'vasttagen'
-  | 'longdistancetrain'
-  | 'regionaltrain'
-  | 'flygbussarna'
-  | 'none'
-  | 'unknown';
-
 export type DateTimeRelatesTo = 'departure' | 'arrival';
 
 export interface ApiError {
@@ -50,32 +42,30 @@ export interface ApiError {
 }
 
 export interface StopAreaApiModel {
-  gid?: string;
-  name?: string;
-  lat: number;
-  long: number;
+  gid: string;
+  name: string;
+  latitude: number;
+  longitude: number;
 }
 
 export interface StopPointApiModel {
   gid: string;
   name: string;
-  platform?: string;
-  latitude?: number;
-  longitude?: number;
-  stopArea?: StopAreaApiModel;
+  platform: string;
+  latitude: number;
+  longitude: number;
+  stopArea: StopAreaApiModel;
 }
 
 export interface LineApiModel {
-  gid?: string;
-  name?: string;
-  shortName?: string;
-  designation?: string;
-  backgroundColor?: string;
-  foregroundColor?: string;
-  borderColor?: string;
+  gid: string;
+  name: string;
+  shortName: string;
+  designation: string;
+  backgroundColor: string;
+  foregroundColor: string;
+  borderColor: string;
   transportMode: TransportMode;
-  transportSubMode?: JourneyTransportSubMode;
-  isWheelchairAccessible?: boolean;
 }
 
 export interface ServiceJourneyApiModel {
@@ -85,163 +75,47 @@ export interface ServiceJourneyApiModel {
   line: LineApiModel;
 }
 
-export interface OccupancyInformationApiModel {
-  level: string;
-  source: string;
-}
-
 export interface ArrivalApiModel {
-  detailsReference?: string;
+  detailsReference: string;
   serviceJourney: ServiceJourneyApiModel;
   stopPoint: StopPointApiModel;
-  plannedTime: string;
-  estimatedTime?: string;
-  estimatedOtherwisePlannedTime?: string;
+  estimatedOtherwisePlannedTime: string;
   isCancelled: boolean;
   isPartCancelled: boolean;
 }
 
 export interface DepartureApiModel {
-  detailsReference?: string;
+  detailsReference: string;
   serviceJourney: ServiceJourneyApiModel;
   stopPoint: StopPointApiModel;
-  plannedTime: string;
-  estimatedTime?: string;
-  estimatedOtherwisePlannedTime?: string;
+  estimatedOtherwisePlannedTime: string;
   isCancelled: boolean;
   isPartCancelled: boolean;
-  occupancy?: OccupancyInformationApiModel;
+}
+
+export interface CallApiModel {
+  stopPoint: StopPointApiModel;
+  estimatedOtherwisePlannedDepartureTime?: string;
+  estimatedOtherwisePlannedArrivalTime?: string;
 }
 
 export interface ServiceJourneyDetailsApiModel {
-  gid?: string;
-  direction?: string;
-  line?: LineApiModel;
+  gid: string;
+  line: LineApiModel;
   serviceJourneyCoordinates?: Array<{ latitude: number; longitude: number }>;
-  callsOnServiceJourney?: Array<{
-    stopPoint: StopPointApiModel;
-    plannedArrivalTime?: string;
-    plannedDepartureTime?: string;
-    estimatedArrivalTime?: string;
-    estimatedDepartureTime?: string;
-    latitude?: number;
-    longitude?: number;
-  }>;
+  callsOnServiceJourney?: CallApiModel[];
 }
 
 export interface DepartureDetailsApiModel {
-  serviceJourneys?: ServiceJourneyDetailsApiModel[];
-  occupancy?: OccupancyInformationApiModel;
+  serviceJourneys: ServiceJourneyDetailsApiModel[];
 }
 
-export type ConnectionLinkApiModel = Record<string, unknown>;
-
-export type TripLegApiModel = Record<string, unknown>;
-
-export type TripLegDetailsApiModel = Record<string, unknown>;
-
-export type TicketSuggestionsResultApiModel = Record<string, unknown>;
-
-export type TariffZoneApiModel = Record<string, unknown>;
-
-export interface JourneyApiModel {
-  reconstructionReference?: string;
-  detailsReference?: string;
-  departureAccessLink?: ConnectionLinkApiModel;
-  tripLegs?: TripLegApiModel[];
-  connectionLinks?: ConnectionLinkApiModel[];
-  arrivalAccessLink?: ConnectionLinkApiModel;
-  destinationLink?: ConnectionLinkApiModel;
-  isDeparted?: boolean;
-  occupancy?: OccupancyInformationApiModel;
+export interface TripLegDetailsApiModel {
+  callsOnTripLeg: CallApiModel[];
 }
 
 export interface JourneyDetailsApiModel {
-  departureAccessLink?: ConnectionLinkApiModel;
-  tripLegs?: TripLegDetailsApiModel[];
-  connectionLinks?: ConnectionLinkApiModel[];
-  arrivalAccessLink?: ConnectionLinkApiModel;
-  destinationLink?: ConnectionLinkApiModel;
-  ticketSuggestionsResult?: TicketSuggestionsResultApiModel;
-  tariffZones?: TariffZoneApiModel[];
-  occupancy?: OccupancyInformationApiModel;
-}
-
-export interface JourneysParameters {
-  originGid?: string;
-  originName?: string;
-  originLatitude?: number;
-  originLongitude?: number;
-  destinationGid?: string;
-  destinationName?: string;
-  destinationLatitude?: number;
-  destinationLongitude?: number;
-  dateTime?: string;
-  dateTimeRelatesTo?: DateTimeRelatesTo;
-  paginationReference?: string;
-  limit?: number;
-  transportModes?: TransportMode[];
-  transportSubModes?: JourneyTransportSubMode[];
-  onlyDirectConnections?: boolean;
-  includeNearbyStopAreas?: boolean;
-  viaGid?: string;
-  originWalk?: string;
-  destWalk?: string;
-  originBike?: string;
-  destBike?: string;
-  totalBike?: string;
-  originCar?: string;
-  destCar?: string;
-  originPark?: string;
-  destPark?: string;
-  interchangeDurationInMinutes?: number;
-  useRealTimeMode?: boolean;
-  includeOccupancy?: boolean;
-  bodSearch?: boolean;
-}
-
-export type JourneyDetailsInclude =
-  | 'ticketsuggestions'
-  | 'triplegcoordinates'
-  | 'validzones'
-  | 'servicejourneycalls'
-  | 'servicejourneycoordinates'
-  | 'links'
-  | 'occupancy';
-
-export interface VasttrafikClient {
-  stopAreas(): Promise<StopAreaApiModel[]>;
-  stopAreaArrivals(
-    gid: string,
-    params?: { includes?: string[] }
-  ): Promise<ApiResponse<ArrivalApiModel>>;
-  stopAreaDepartures(
-    gid: string,
-    params?: { includes?: string[] }
-  ): Promise<ApiResponse<DepartureApiModel>>;
-  stopAreaDepartureDetails(
-    gid: string,
-    detailsReference: string,
-    params?: { includes?: string[] }
-  ): Promise<DepartureDetailsApiModel>;
-  journeys(params: JourneysParameters): Promise<ApiResponse<JourneyApiModel>>;
-  journeyDetails(
-    detailsReference: string,
-    params?: {
-      includes?: JourneyDetailsInclude[];
-      channelIds?: number[];
-      productTypes?: number[];
-      travellerCategories?: string[];
-    }
-  ): Promise<JourneyDetailsApiModel>;
-  stopPointDepartures(
-    gid: string,
-    params?: { includes?: string[] }
-  ): Promise<ApiResponse<DepartureApiModel>>;
-  stopPointArrivals(
-    gid: string,
-    params?: { includes?: string[] }
-  ): Promise<ApiResponse<ArrivalApiModel>>;
+  tripLegs: TripLegDetailsApiModel[];
 }
 
 const host = 'https://ext-api.vasttrafik.se';
@@ -314,7 +188,7 @@ function withClientCredentials(config: { clientId: string; clientSecret: string 
   };
 }
 
-export function createClient(config: { clientId: string; clientSecret: string }): VasttrafikClient {
+export function createClient(config: { clientId: string; clientSecret: string }) {
   if (!config.clientId || !config.clientSecret) {
     throw new Error('Client ID and secret are required');
   }
@@ -334,16 +208,7 @@ export function createClient(config: { clientId: string; clientSecret: string })
   return {
     async stopAreas(): Promise<StopAreaApiModel[]> {
       const res = await get('stop-areas');
-      return res.json() as Promise<StopAreaApiModel[]>;
-    },
-
-    async stopAreaArrivals(
-      gid: string,
-      params: { includes?: string[] } = {}
-    ): Promise<ApiResponse<ArrivalApiModel>> {
-      const qs = buildQueryParams(params);
-      const res = await get(`stop-areas/${gid}/arrivals?${qs}`);
-      return res.json() as Promise<ApiResponse<ArrivalApiModel>>;
+      return res.json();
     },
 
     async stopAreaDepartures(
@@ -352,7 +217,7 @@ export function createClient(config: { clientId: string; clientSecret: string })
     ): Promise<ApiResponse<DepartureApiModel>> {
       const qs = buildQueryParams(params);
       const res = await get(`stop-areas/${gid}/departures?${qs}`);
-      return res.json() as Promise<ApiResponse<DepartureApiModel>>;
+      return res.json();
     },
 
     async stopAreaDepartureDetails(
@@ -363,40 +228,19 @@ export function createClient(config: { clientId: string; clientSecret: string })
       if (!gid || !detailsReference) throw new Error('Both gid and detailsReference are required');
       const qs = buildQueryParams(params);
       const res = await get(`stop-areas/${gid}/departures/${detailsReference}/details?${qs}`);
-      return res.json() as Promise<DepartureDetailsApiModel>;
-    },
-
-    async journeys(params: JourneysParameters): Promise<ApiResponse<JourneyApiModel>> {
-      if (!params.originGid || !params.destinationGid)
-        throw new Error('originGid and destinationGid are required');
-      const qs = buildQueryParams(params);
-      const res = await get(`journeys?${qs}`);
-      return res.json() as Promise<ApiResponse<JourneyApiModel>>;
+      return res.json();
     },
 
     async journeyDetails(
       detailsReference: string,
       params: {
-        includes?: JourneyDetailsInclude[];
-        channelIds?: number[];
-        productTypes?: number[];
-        travellerCategories?: string[];
+        includes?: string[];
       } = {}
     ): Promise<JourneyDetailsApiModel> {
       if (!detailsReference) throw new Error('detailsReference is required');
       const qs = buildQueryParams(params);
       const res = await get(`journeys/${detailsReference}/details?${qs}`);
-      return res.json() as Promise<JourneyDetailsApiModel>;
-    },
-
-    async stopPointDepartures(
-      gid: string,
-      params: { includes?: string[] } = {}
-    ): Promise<ApiResponse<DepartureApiModel>> {
-      if (!gid) throw new Error('gid is required');
-      const qs = buildQueryParams(params);
-      const res = await get(`stop-points/${gid}/departures?${qs}`);
-      return res.json() as Promise<ApiResponse<DepartureApiModel>>;
+      return res.json();
     },
 
     async stopPointArrivals(
@@ -406,7 +250,7 @@ export function createClient(config: { clientId: string; clientSecret: string })
       if (!gid) throw new Error('gid is required');
       const qs = buildQueryParams(params);
       const res = await get(`stop-points/${gid}/arrivals?${qs}`);
-      return res.json() as Promise<ApiResponse<ArrivalApiModel>>;
+      return res.json();
     },
-  } as VasttrafikClient;
+  };
 }

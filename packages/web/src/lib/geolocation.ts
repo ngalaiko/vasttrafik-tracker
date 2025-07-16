@@ -1,21 +1,15 @@
 import { writable, type Writable } from 'svelte/store';
-
-export interface CustomGeolocationPosition {
-  latitude: number;
-  longitude: number;
-  accuracy: number;
-  timestamp: number;
-}
+import type { Point } from './utils';
 
 export interface GeolocationReturn {
-  position: Writable<CustomGeolocationPosition | null>;
+  position: Writable<Point | null>;
   error: Writable<GeolocationPositionError | Error | null>;
   loading: Writable<boolean>;
   refresh: () => void;
 }
 
 export function useGeolocation(): GeolocationReturn {
-  const position = writable<CustomGeolocationPosition | null>(null);
+  const position = writable<Point | null>(null);
   const error = writable<GeolocationPositionError | Error | null>(null);
   const loading = writable(false);
 
@@ -30,12 +24,7 @@ export function useGeolocation(): GeolocationReturn {
 
     navigator.geolocation.getCurrentPosition(
       (pos) => {
-        position.set({
-          latitude: pos.coords.latitude,
-          longitude: pos.coords.longitude,
-          accuracy: pos.coords.accuracy,
-          timestamp: pos.timestamp,
-        });
+        position.set([pos.coords.latitude, pos.coords.longitude]);
         loading.set(false);
       },
       (err) => {
