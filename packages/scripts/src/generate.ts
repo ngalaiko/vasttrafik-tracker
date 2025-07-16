@@ -1,12 +1,24 @@
-import { parseArgs } from "util";
-import { createClient } from "@vasttrafik-tracker/vasttrafik";
+import { parseArgs } from "node:util";
+import { createClient, type LineApiModel } from "@vasttrafik-tracker/vasttrafik";
 
-/**
- * Generates tram route data for key hubs in Gothenburg.
- * This script fetches tram lines, their routes, and stop details
- * from Västtrafik's API, focusing on main hubs.
- */
-async function main() {
+interface TramRef {
+  detailsRef: string;
+  hubGid: string;
+  line: LineApiModel;
+}
+
+interface StopPoint {
+  gid: string;
+  name: string;
+  location: { lat: number | null; lon: number | null };
+}
+
+interface Route extends LineApiModel {
+  coordinates: [number, number][];
+  stopPoints: StopPoint[];
+}
+
+async function main(): Promise<void> {
   const { values } = parseArgs({
     args: Bun.argv,
     options: {
@@ -18,8 +30,8 @@ async function main() {
   });
 
   const client = createClient({
-    clientId: values["client-id"],
-    clientSecret: values["client-secret"],
+    clientId: values["client-id"]!,
+    clientSecret: values["client-secret"]!,
   });
 
   // main hubs
@@ -42,7 +54,7 @@ async function main() {
       if (!area) console.warn(`⚠️ Hub not found: "${name}"`);
       return area?.gid;
     })
-    .filter(Boolean);
+    .filter((gid): gid is string => Boolean(gid));
 
   if (hubGids.length === 0) {
     throw new Error(
@@ -51,8 +63,7 @@ async function main() {
   }
 
   // Gather unique tram lines with their departure detail refs and originating hub
-  /** @type {Record<string, { detailsRef: string; hubGid: string }>} */
-  const tramRefs = {};
+  const tramRefs: Record<string, TramRef> = {};
 
   for (const gid of hubGids) {
     // stopAreaDepartures now returns { results, pagination, links }
@@ -64,52 +75,43 @@ async function main() {
     departures.forEach((dep) => {
       const { line } = dep.serviceJourney;
       const id = line.shortName || line.name || line.designation;
-      if (line.transportMode === "tram" && id && !tramRefs[id]) {
+      if (line.transportMode === "tram" && id && !tramRefs[id] && dep.detailsReference) {
         tramRefs[id] = { detailsRef: dep.detailsReference, hubGid: gid, line };
       }
     });
   }
 
   // For each tram line, fetch route geometry and stop list
-  const routes = await Promise.all(
+  const routes: Route[] = await Promise.all(
     Object.entries(tramRefs).map(
-      async ([lineName, { detailsRef, hubGid, line }]) => {
-        // departureDetails returns the details object directly
+      async ([, { detailsRef, hubGid, line }]): Promise<Route> => {
+        // stopAreaDepartureDetails now returns DepartureDetailsApiModel with serviceJourneys
         const details = await client.stopAreaDepartureDetails(
           hubGid,
-          detailsRef,
+          detailsRef!,
           { includes: ["servicejourneycoordinates", "servicejourneycalls"] },
         );
 
-        // Extract first service journey
-        const sj = details.serviceJourneys?.[0];
-        if (!sj) {
-          return { line: lineName, coordinates: [], stops: [] };
+        // Extract coordinates and stop points from the first service journey
+        const serviceJourney = details.serviceJourneys?.[0];
+        if (!serviceJourney) {
+          return { ...line, coordinates: [], stopPoints: [] };
         }
 
-        // Extract coordinates
-        const coordinates =
-          sj.serviceJourneyCoordinates?.map((c) => [c.latitude, c.longitude]) ??
-          [];
+        // Extract coordinates from serviceJourneyCoordinates
+        const coordinates: [number, number][] = 
+          serviceJourney.serviceJourneyCoordinates?.map(coord => [coord.latitude, coord.longitude]) || [];
 
-        // Extract stops with defensive location parsing
-        const stopPoints =
-          sj.callsOnServiceJourney?.map((call) => {
-            // stop point and area
-            const sp = call.stopPoint || call;
-
-            // stop point coords
-            const spLat =
-              sp.location?.latitude ?? sp.latitude ?? sp.lat ?? null;
-            const spLon =
-              sp.location?.longitude ?? sp.longitude ?? sp.long ?? null;
-
-            return {
-              gid: sp.gid,
-              name: sp.name,
-              location: { lat: spLat, lon: spLon },
-            };
-          }) ?? [];
+        // Extract stop points from callsOnServiceJourney
+        const stopPoints: StopPoint[] = 
+          serviceJourney.callsOnServiceJourney?.map(call => ({
+            gid: call.stopPoint.gid,
+            name: call.stopPoint.name,
+            location: {
+              lat: call.latitude || call.stopPoint.latitude || null,
+              lon: call.longitude || call.stopPoint.longitude || null,
+            },
+          })) || [];
 
         return { ...line, coordinates, stopPoints };
       },

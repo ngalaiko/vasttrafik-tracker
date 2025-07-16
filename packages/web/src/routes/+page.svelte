@@ -8,18 +8,13 @@
 	const { position, loading, error } = useGeolocation();
 	
 	const DEFAULT_POSITION = { latitude: 57.706924, longitude: 11.966192 }; // Gothenburg
-	/** @type {{latitude: number, longitude: number} | null} */
-	let manualPosition = $state(null); // Default to Gothenburg
+	let manualPosition = $state(null);
 	const currentPosition = $derived(manualPosition || $position || DEFAULT_POSITION);
 
 	
-	/** @type {HTMLDivElement} */
 	let mapContainer;
-	/** @type {import('leaflet').Map | null} */
 	let map = $state(null);
-	/** @type {typeof import('leaflet')} */
 	let L;
-	/** @type {import('leaflet').Marker | null} */
 	let positionMarker = null;
 
 	const closestLines = $derived(
@@ -33,11 +28,6 @@
 		}).sort((a, b) => a.distance - b.distance).slice(0, 5)
 	)
 
-	/**
-	 * Creates a Leaflet icon with a colored circle.
-	 * @param {string} color - The color of the circle.
-	 * @returns {import('leaflet').Icon} - The Leaflet icon object.
-	 */
 	function createIcon (color) {
 		const svgIcon = `<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
 			<circle cx="10" cy="10" r="8" fill="${color}" stroke="#000" stroke-width="2"/>
@@ -130,7 +120,6 @@
 
 			closestLines.forEach(line => {
 				line.closestPoints.map(point => point.point).forEach(point => {
-					console.log(point)
 					const marker = L.circleMarker(point, {
 						radius: 4,
 						fillColor: '#ff0000', // Red for closest points
@@ -146,11 +135,6 @@
 		}
 	});
 
-	/**
-	 * Formats the distance for display.
-	 * @param {number} distance - The distance in meters.
-	 * @returns {string} - The formatted distance string.
-	 */
 	function formatDistance(distance) {
 		if (distance < 1000) {
 			return `${Math.round(distance)}m`;

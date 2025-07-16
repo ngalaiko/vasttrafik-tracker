@@ -1,10 +1,4 @@
-/**
- * Haversine distance between two points on the Earth.
- * @param {[number, number]} p1 First point as [lat, long]
- * @param {[number, number]} p2 Second point as [lat, long]
- * @returns {number} Distance in meters
- */
-export function haversineDistance(p1, p2) {
+export function haversineDistance(p1: [number, number], p2: [number, number]): number {
   const R = 6371e3; // Radius of the Earth in meters
   const dLat = ((p2[0] - p1[0]) * Math.PI) / 180;
   const dLon = ((p2[1] - p1[1]) * Math.PI) / 180;
@@ -17,14 +11,7 @@ export function haversineDistance(p1, p2) {
   return R * c;
 }
 
-/**
- * Find closest point on a line segment to a target point.
- * @param {[number, number]} segStart Start of segment
- * @param {[number, number]} segEnd End of segment
- * @param {[number, number]} target Target point
- * @returns {[number, number]} Closest point on segment
- */
-function closestPointOnSegment(segStart, segEnd, target) {
+function closestPointOnSegment(segStart: [number, number], segEnd: [number, number], target: [number, number]): [number, number] {
   const [x1, y1] = segStart;
   const [x2, y2] = segEnd;
   const [px, py] = target;
@@ -45,18 +32,17 @@ function closestPointOnSegment(segStart, segEnd, target) {
   return [x1 + t * dx, y1 + t * dy];
 }
 
-/**
- * Find N closest points on a polyline to a target point.
- * Includes both vertices and points along segments.
- * @param {Array<[number, number]>} polyline Array of points as [lat, long]
- * @param {[number, number]} target Target point as [lat, long]
- * @param {number} n Number of closest points to return
- * @returns {Array<{point: [number, number], distance: number, segmentIndex?: number}>} N closest points with metadata
- */
-export function closestPointsOnPolyline(polyline, target, n) {
+export interface ClosestPoint {
+  point: [number, number];
+  distance: number;
+  vertexIndex?: number;
+  segmentIndex?: number;
+}
+
+export function closestPointsOnPolyline(polyline: Array<[number, number]>, target: [number, number], n: number): ClosestPoint[] {
   if (polyline.length === 0) return [];
 
-  const candidates = [];
+  const candidates: ClosestPoint[] = [];
 
   // Add all vertices
   polyline.forEach((vertex, i) => {

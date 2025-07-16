@@ -3,12 +3,13 @@ import { includeIgnoreFile } from "@eslint/compat";
 import js from "@eslint/js";
 import jsdoc from "eslint-plugin-jsdoc";
 import svelte from "eslint-plugin-svelte";
+import tseslint from "@typescript-eslint/eslint-plugin";
+import tsparser from "@typescript-eslint/parser";
 import globals from "globals";
 import { fileURLToPath } from "node:url";
 
 const gitignorePath = fileURLToPath(new URL("./.gitignore", import.meta.url));
 
-/** @type {import('eslint').Linter.Config[]} */
 export default [
   includeIgnoreFile(gitignorePath),
   js.configs.recommended,
@@ -32,11 +33,37 @@ export default [
     },
   },
   {
-    files: ["**/*.svelte", "**/*.svelte.js"],
+    files: ["**/*.ts", "**/*.tsx"],
+    languageOptions: {
+      parser: tsparser,
+      parserOptions: {
+        ecmaVersion: 2022,
+        sourceType: "module",
+        project: "./tsconfig.json",
+      },
+    },
+    plugins: {
+      "@typescript-eslint": tseslint,
+    },
+    rules: {
+      ...tseslint.configs.recommended.rules,
+      "@typescript-eslint/no-unused-vars": "error",
+      "@typescript-eslint/no-explicit-any": "warn",
+      "@typescript-eslint/explicit-function-return-type": "off",
+      "@typescript-eslint/explicit-module-boundary-types": "off",
+      "jsdoc/require-jsdoc": "off",
+    },
+  },
+  {
+    files: ["**/*.svelte"],
     languageOptions: {
       parserOptions: {
+        parser: tsparser,
         svelteConfig: "./packages/web/svelte.config.js",
       },
+    },
+    rules: {
+      "jsdoc/require-jsdoc": "off",
     },
   },
 ];
