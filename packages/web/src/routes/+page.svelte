@@ -10,9 +10,9 @@
     ServiceJourneyDetailsApiModel,
     StopPointApiModel,
   } from '@vasttrafik-tracker/vasttrafik';
-  import { onMount } from 'svelte';
-  import type Leaflet from 'leaflet';
-  import type { Map } from 'leaflet';
+  import Map from '$lib/components/Map.svelte';
+  import MapLine from '$lib/components/Line.svelte';
+  import MapPoint from '$lib/components/Point.svelte';
 
   const { data } = $props();
   const { lines } = data;
@@ -23,11 +23,6 @@
 
   let manualPosition: Point | null = $state(null);
   const currentPosition = $derived(manualPosition || $position || DEFAULT_POSITION);
-
-  let mapContainer: HTMLElement | null = null;
-  let map: Map | null = $state(null);
-  let L: typeof Leaflet | null = null;
-  let positionMarker: Leaflet.Marker | null = null;
 
   const closestLines = $derived(
     lines
@@ -59,144 +54,9 @@
       .slice(0, MAX_CLOSEST_LINES)
   );
 
-  onMount(async () => {
-    if (!mapContainer) return;
-
-    const leaflet = await import('leaflet');
-    L = leaflet.default;
-    map = L.map(mapContainer).setView(currentPosition, 13);
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-      attribution: `&copy;<a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>,
-		    &copy;<a href="https://carto.com/attributions" target="_blank">CARTO</a>`,
-      subdomains: 'abcd',
-      maxZoom: 16,
-    }).addTo(map);
-
-    const updateManualPosition = () => {
-      if (!map) return;
-      const center = map.getCenter();
-      manualPosition = [center.lat, center.lng];
-    };
-
-    map.on('drag', updateManualPosition);
-    map.on('dragend', updateManualPosition);
-  });
-
-  // Center map on gps position
-  $effect(() => {
-    if (!map) return;
-    if (!$position) return;
-    if (manualPosition) return;
-
-    map.setView($position, 15);
-  });
-
-  // render current position marker
-  $effect(() => {
-    if (!map) return;
-    if (!currentPosition) return;
-    if (!L) return;
-    if (positionMarker) {
-      map.removeLayer(positionMarker);
-    }
-
-    function createIcon(color: string): Leaflet.Icon {
-      if (!L) {
-        throw new Error('Leaflet is not loaded');
-      }
-      const svgIcon = `<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-			<circle cx="10" cy="10" r="8" fill="${color}" stroke="#000" stroke-width="2"/>
-			<circle cx="10" cy="10" r="3" fill="#000"/>
-		</svg>`;
-      const iconUrl = `data:image/svg+xml;base64,${btoa(svgIcon)}`;
-
-      return L.icon({
-        iconUrl,
-        iconSize: [20, 20],
-        iconAnchor: [10, 10],
-      });
-    }
-
-    const isGPS = !manualPosition && $position;
-    const color = isGPS ? '#00ff00' : '#ff0000';
-
-    positionMarker = L.marker(currentPosition, {
-      icon: createIcon(color),
-    })
-      .addTo(map)
-      .bindPopup(isGPS ? 'GPS' : 'Manual');
-  });
-
-  // render lines
-  $effect(() => {
-    if (!map) return;
-    if (!L) return;
-    for (const line of lines) {
-      const latlngs = [];
-      for (const coord of line.coordinates) {
-        latlngs.push(new L.LatLng(coord[0], coord[1]));
-      }
-      L.polyline(latlngs, {
-        color: line.backgroundColor,
-        weight: 3,
-        opacity: 1,
-      })
-        .addTo(map)
-        .bindPopup(`${line.name}`);
-    }
-  });
-
-  // render closest points
-  let closestPointMarkers: Leaflet.CircleMarker[] = [];
-  $effect(() => {
-    if (!map) return;
-    if (!L) return;
-
-    for (const marker of closestPointMarkers || []) {
-      map.removeLayer(marker);
-    }
-    closestPointMarkers = [];
-
-    for (const line of closestLines) {
-      const marker = L.circleMarker(line.point, {
-        radius: 4,
-        fillColor: '#ff0000', // Red for closest points
-        color: '#000',
-        weight: 1,
-        opacity: 1,
-        fillOpacity: 0.8,
-      }).addTo(map);
-      closestPointMarkers.push(marker);
-    }
-  });
-
-  // render stops
-  let stopMarkers: Leaflet.CircleMarker[] = [];
-  $effect(() => {
-    if (!L) return;
-    if (!map) return;
-
-    for (const marker of stopMarkers) {
-      map.removeLayer(marker);
-    }
-    stopMarkers = [];
-
-    for (const line of closestLines) {
-      for (const stop of line.closestStops) {
-        const marker = L.circleMarker([stop.latitude, stop.longitude], {
-          radius: 6,
-          fillColor: line.foregroundColor,
-          color: '#000',
-          weight: 1,
-          opacity: 1,
-          fillOpacity: 1,
-        })
-          .addTo(map)
-          .bindPopup(`${line.name} - ${stop.name}`);
-        stopMarkers.push(marker);
-      }
-    }
-  });
+  function handlePositionChange(position: Point) {
+    manualPosition = position;
+  }
 
   function computeCumulativeDistances(route: [number, number][]): number[] {
     const distances = [0];
@@ -283,7 +143,11 @@
       const next = calls.find((c) => c.stopPoint.gid === nextStop.gid);
       if (!prev || !next) continue;
 
-      if (!prev.estimatedOtherwisePlannedDepartureTime || !next.estimatedOtherwisePlannedArrivalTime) continue;
+      if (
+        !prev.estimatedOtherwisePlannedDepartureTime ||
+        !next.estimatedOtherwisePlannedArrivalTime
+      )
+        continue;
       const depTime = new Date(prev.estimatedOtherwisePlannedDepartureTime).getTime();
       const arrTime = new Date(next.estimatedOtherwisePlannedArrivalTime).getTime();
 
@@ -328,21 +192,44 @@
           });
 
           if (result) {
-					  console.log(result)
-				  }
-
+            console.log(result);
+          }
         });
     });
   });
 </script>
 
-<svelte:head>
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-</svelte:head>
-
 <div class="container">
   <div class="map-container">
-    <div bind:this={mapContainer} class="map"></div>
+    <Map center={currentPosition} onPositionChange={handlePositionChange}>
+      {#each lines as line}
+        <MapLine
+          coordinates={line.coordinates as Point[]}
+          color={line.backgroundColor}
+          name={line.name}
+        />
+      {/each}
+
+      <MapPoint
+        position={currentPosition}
+        color={!manualPosition && $position ? '#00ff00' : '#ff0000'}
+        icon="marker"
+        popup={!manualPosition && $position ? 'GPS' : 'Manual'}
+      />
+
+      {#each closestLines as line}
+        <MapPoint position={line.point} color="#ff0000" radius={4} />
+
+        {#each line.closestStops as stop}
+          <MapPoint
+            position={[stop.latitude, stop.longitude]}
+            color={line.foregroundColor}
+            radius={6}
+            popup="{line.name} - {stop.name}"
+          />
+        {/each}
+      {/each}
+    </Map>
   </div>
 </div>
 
@@ -362,10 +249,5 @@
     flex: 1;
     height: 100vh;
     position: relative;
-  }
-
-  .map {
-    width: 100%;
-    height: 100%;
   }
 </style>
