@@ -1,7 +1,7 @@
 <script lang="ts">
   import { useGeolocation } from '$lib/geolocation';
-  import { closestPointOnPolyline, distance, isPointOnPolyline } from '$lib/utils';
-  import type { Point } from '$lib/utils';
+  import { closestPointOnPolyline, distanceM, isPointOnPolyline } from '$lib/utils';
+  import type { ClosestPoint, Point } from '$lib/utils';
   import type {
     ApiResponse,
     ArrivalApiModel,
@@ -19,7 +19,7 @@
   const { position } = useGeolocation();
 
   const DEFAULT_POSITION: Point = [57.706924, 11.966192]; // Gothenburg
-  const MAX_CLOSEST_LINES = 5;
+  const MAX_CLOSEST_LINES = 1;
 
   let manualPosition: Point | null = $state(null);
   const currentPosition = $derived(manualPosition || $position || DEFAULT_POSITION);
@@ -28,10 +28,10 @@
     lines
       .map((line) => {
         const coordinates = line.coordinates as Point[];
-        const closestPoint = closestPointOnPolyline(coordinates, currentPosition);
+        const currentProjection = closestPointOnPolyline(coordinates, currentPosition);
 
-        const lineBeforePoint = coordinates.slice(0, closestPoint.segmentIndex + 1);
-        const lineAfterPoint = coordinates.slice(closestPoint.segmentIndex + 1);
+        const lineBeforePoint = coordinates.slice(0, currentProjection.segmentIndex + 1);
+        const lineAfterPoint = coordinates.slice(currentProjection.segmentIndex + 1);
 
         const stopBeforePoint =
           line.stopPoints
@@ -45,9 +45,9 @@
 
         return {
           ...line,
-          point: closestPoint.point,
+          currentProjection,
           closestStops: [stopBeforePoint, stopAfterPoint],
-          distance: closestPoint.distance,
+          distance: currentProjection.distance,
         };
       })
       .sort((a, b) => a.distance - b.distance)
@@ -56,48 +56,6 @@
 
   function handlePositionChange(position: Point) {
     manualPosition = position;
-  }
-
-  function computeCumulativeDistances(route: [number, number][]): number[] {
-    const distances = [0];
-    let total = 0;
-    for (let i = 1; i < route.length; i++) {
-      total += distance(route[i - 1], route[i]);
-      distances.push(total);
-    }
-    return distances;
-  }
-
-  function findDistanceAlongRoute(
-    route: [number, number][],
-    cumulative: number[],
-    point: [number, number]
-  ): number {
-    let closestDist = Infinity;
-    let projectedDist = 0;
-
-    for (let i = 0; i < route.length - 1; i++) {
-      const a = route[i];
-      const b = route[i + 1];
-
-      // Vector projection of point onto segment ab
-      const A = [b[0] - a[0], b[1] - a[1]];
-      const B = [point[0] - a[0], point[1] - a[1]];
-      const A_dot_B = A[0] * B[0] + A[1] * B[1];
-      const A_norm_sq = A[0] * A[0] + A[1] * A[1];
-      const t = Math.max(0, Math.min(1, A_dot_B / A_norm_sq));
-
-      const proj: [number, number] = [a[0] + t * A[0], a[1] + t * A[1]];
-
-      const dist = distance(point, proj);
-      if (dist < closestDist) {
-        closestDist = dist;
-        const distAlongSegment = distance(a, proj);
-        projectedDist = cumulative[i] + distAlongSegment;
-      }
-    }
-
-    return projectedDist;
   }
 
   export function inferLikelyServiceJourney({
@@ -110,22 +68,29 @@
   }: {
     journeys: Array<ServiceJourneyDetailsApiModel & { callsOnTripLeg: CallApiModel[] }>;
     route: Point[];
-    projectedPosition: Point;
+    projectedPosition: ClosestPoint;
     previousStop: StopPointApiModel;
     nextStop: StopPointApiModel;
     now?: number;
   }) {
-    const cumulative = computeCumulativeDistances(route);
+    const cumulative = route.reduce((acc, point, index) => {
+      if (index === 0) return [0];
+      const prevPoint = route[index - 1];
+      acc.push(acc[index - 1] + distanceM(prevPoint, point));
+      return acc;
+    }, [] as number[]);
 
-    const distPrev = findDistanceAlongRoute(route, cumulative, [
-      previousStop.latitude,
-      previousStop.longitude,
-    ]);
-    const distNext = findDistanceAlongRoute(route, cumulative, [
-      nextStop.latitude,
-      nextStop.longitude,
-    ]);
-    const distCurrent = findDistanceAlongRoute(route, cumulative, projectedPosition);
+    const prev = closestPointOnPolyline(route, [previousStop.latitude, previousStop.longitude]);
+    const distPrev =
+      cumulative[prev.segmentIndex] + distanceM(route[prev.segmentIndex], prev.point);
+
+    const next = closestPointOnPolyline(route, [nextStop.latitude, nextStop.longitude]);
+    const distNext =
+      cumulative[next.segmentIndex] + distanceM(route[next.segmentIndex], next.point);
+
+    const distCurrent =
+      cumulative[projectedPosition.segmentIndex] +
+      distanceM(route[projectedPosition.segmentIndex], projectedPosition.point);
 
     const progress = Math.min(1, Math.max(0, (distCurrent - distPrev) / (distNext - distPrev)));
 
@@ -186,7 +151,7 @@
           const result = inferLikelyServiceJourney({
             journeys,
             route: coordinates,
-            projectedPosition: line.point,
+            projectedPosition: line.currentProjection,
             previousStop: line.closestStops[0],
             nextStop: line.closestStops[1],
           });
@@ -218,7 +183,7 @@
       />
 
       {#each closestLines as line}
-        <MapPoint position={line.point} color="#ff0000" radius={4} />
+        <MapPoint position={line.currentProjection.point} color="#ff0000" radius={4} />
 
         {#each line.closestStops as stop}
           <MapPoint
