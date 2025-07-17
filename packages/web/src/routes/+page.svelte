@@ -33,12 +33,12 @@
         const lineBeforePoint = coordinates.slice(0, currentProjection.segmentIndex + 1);
         const lineAfterPoint = coordinates.slice(currentProjection.segmentIndex + 1);
 
-        const stopBeforePoint =
+        const left =
           line.stopPoints
             .filter((stop) => isPointOnPolyline([stop.latitude, stop.longitude], lineBeforePoint))
             .at(-1) ?? line.stopPoints[0];
 
-        const stopAfterPoint =
+        const right =
           line.stopPoints
             .filter((stop) => isPointOnPolyline([stop.latitude, stop.longitude], lineAfterPoint))
             .at(0) ?? line.stopPoints[line.stopPoints.length - 1];
@@ -46,7 +46,7 @@
         return {
           ...line,
           currentProjection,
-          closestStops: [stopBeforePoint, stopAfterPoint],
+          closestStops: [left, right],
           distance: currentProjection.distance,
         };
       })
@@ -128,16 +128,16 @@
   $effect(() => {
     closestLines.forEach((line) => {
       const coordinates = line.coordinates as Point[];
-      const [stop1] = line.closestStops;
+      const [left, _] = line.closestStops;
 
-      fetch(`/api/stop-points/${stop1.gid}/arrivals?maxArrivalsPerLineAndDirection=3`)
+	  // todo; handle right stop
+
+      fetch(`/api/stop-points/${left.gid}/arrivals?maxArrivalsPerLineAndDirection=3`)
         .then((res) => res.json())
         .then((arrivalData: ApiResponse<ArrivalApiModel>) => {
           const arrivals = arrivalData.results ?? [];
-          const validArrivals = arrivals.filter((r) => r.detailsReference);
-
           return Promise.all(
-            validArrivals.map((arrival) =>
+            arrivals.map((arrival) =>
               fetch(`/api/journeys/${arrival.detailsReference}/details`)
                 .then((res) => res.json())
                 .then((details: JourneyDetailsApiModel) => ({
@@ -184,15 +184,6 @@
 
       {#each closestLines as line}
         <MapPoint position={line.currentProjection.point} color="#ff0000" radius={4} />
-
-        {#each line.closestStops as stop}
-          <MapPoint
-            position={[stop.latitude, stop.longitude]}
-            color={line.foregroundColor}
-            radius={6}
-            popup="{line.name} - {stop.name}"
-          />
-        {/each}
       {/each}
     </Map>
   </div>
