@@ -34,7 +34,7 @@ export function useGeolocation(): GeolocationReturn {
       {
         enableHighAccuracy: true,
         timeout: 10000,
-        maximumAge: 300000, // 5 minutes
+        maximumAge: 10000, // 10 seconds
       }
     );
   }
