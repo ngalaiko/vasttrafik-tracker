@@ -5,13 +5,10 @@ import { TTLCache } from '$lib/cache';
 
 const cache = new TTLCache();
 
-export const GET: RequestHandler = async ({ url, params }) => {
+export const GET: RequestHandler = async ({ params }) => {
   try {
-    const includes = url.searchParams.getAll('includes');
-    const cacheKey = `journeyDetails-${params.detailsReference}-${includes.sort().join(',')}`;
-    const details = await cache.get(cacheKey, () =>
-      api.journeyDetails(params.detailsReference, { includes })
-    );
+    const cacheKey = `journeyDetails-${params.detailsReference}}`;
+    const details = await cache.get(cacheKey, () => api.journeyDetails(params.detailsReference));
     return json(details);
   } catch (error) {
     console.error('Error fetching arrivals:', error);

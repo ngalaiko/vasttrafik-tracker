@@ -58,7 +58,6 @@ export interface StopPointApiModel {
 }
 
 export interface LineApiModel {
-  gid: string;
   name: string;
   shortName: string;
   designation: string;
@@ -211,9 +210,18 @@ export function createClient(config: { clientId: string; clientSecret: string })
       return res.json();
     },
 
+    async stopAreaArrivals(
+      gid: string,
+      params: { includes?: ('servicejourneycoordinates' | 'servicejourneycalls')[] } = {}
+    ): Promise<ApiResponse<ArrivalApiModel>> {
+      const qs = buildQueryParams(params);
+      const res = await get(`stop-areas/${gid}/arrivals?${qs}`);
+      return res.json();
+    },
+
     async stopAreaDepartures(
       gid: string,
-      params: { includes?: string[] } = {}
+      params: { includes?: ('servicejourneycoordinates' | 'servicejourneycalls')[] } = {}
     ): Promise<ApiResponse<DepartureApiModel>> {
       const qs = buildQueryParams(params);
       const res = await get(`stop-areas/${gid}/departures?${qs}`);
@@ -223,7 +231,7 @@ export function createClient(config: { clientId: string; clientSecret: string })
     async stopAreaDepartureDetails(
       gid: string,
       detailsReference: string,
-      params: { includes?: string[] } = {}
+      params: { includes?: ('servicejourneycoordinates' | 'servicejourneycalls')[] } = {}
     ): Promise<DepartureDetailsApiModel> {
       if (!gid || !detailsReference) throw new Error('Both gid and detailsReference are required');
       const qs = buildQueryParams(params);
@@ -231,21 +239,15 @@ export function createClient(config: { clientId: string; clientSecret: string })
       return res.json();
     },
 
-    async journeyDetails(
-      detailsReference: string,
-      params: {
-        includes?: string[];
-      } = {}
-    ): Promise<JourneyDetailsApiModel> {
+    async journeyDetails(detailsReference: string): Promise<JourneyDetailsApiModel> {
       if (!detailsReference) throw new Error('detailsReference is required');
-      const qs = buildQueryParams(params);
-      const res = await get(`journeys/${detailsReference}/details?${qs}`);
+      const res = await get(`journeys/${detailsReference}/details`);
       return res.json();
     },
 
     async stopPointArrivals(
       gid: string,
-      params: { includes?: string[] } = {}
+      params: { maxArrivalsPerLineAndDirection?: number } = {}
     ): Promise<ApiResponse<ArrivalApiModel>> {
       if (!gid) throw new Error('gid is required');
       const qs = buildQueryParams(params);

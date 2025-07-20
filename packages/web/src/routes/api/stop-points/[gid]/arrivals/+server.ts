@@ -7,10 +7,12 @@ const cache = new TTLCache();
 
 export const GET: RequestHandler = async ({ url, params }) => {
   try {
-    const includes = url.searchParams.getAll('includes');
-    const cacheKey = `arrivals-${params.gid}-${includes.sort().join(',')}`;
+    const maxArrivalsPerLineAndDirection = url.searchParams.get('maxArrivalsPerLineAndDirection');
+    const cacheKey = `arrivals-${params.gid}}`;
     const arrivals = await cache.get(cacheKey, () =>
-      api.stopPointArrivals(params.gid, { includes })
+      api.stopPointArrivals(params.gid, {
+        maxArrivalsPerLineAndDirection: Number(maxArrivalsPerLineAndDirection) || undefined,
+      })
     );
     return json(arrivals);
   } catch (error) {

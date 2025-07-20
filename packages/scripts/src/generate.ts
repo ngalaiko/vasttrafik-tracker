@@ -1,20 +1,5 @@
 import { parseArgs } from 'node:util';
-import {
-  createClient,
-  type LineApiModel,
-  type StopPointApiModel,
-} from '@vasttrafik-tracker/vasttrafik';
-
-interface TramRef {
-  detailsRef: string;
-  hubGid: string;
-  line: LineApiModel;
-}
-
-interface Route extends LineApiModel {
-  coordinates: [number, number][];
-  stopPoints: StopPointApiModel[];
-}
+import { createClient, LineApiModel, StopPointApiModel } from '@vasttrafik-tracker/vasttrafik';
 
 async function main(): Promise<void> {
   const { values } = parseArgs({
@@ -33,20 +18,21 @@ async function main(): Promise<void> {
   });
 
   // main hubs
-  const hubNames = [
+  const initialHubs = [
     'Brunnsparken',
     'Gamlestads Torg',
     'Hjalmar Brantingsplatsen',
     'Korsvägen',
     'Marklandsgatan',
     'Järntorget',
+    'Seminariegatan',
   ];
 
   // Fetch all stop areas
   const allAreas = await client.stopAreas();
 
   // Map hub names to GIDs
-  const hubGids = hubNames
+  const hubGids = initialHubs
     .map((name) => {
       const area = allAreas.find((a) => a.name === name);
       if (!area) console.warn(`⚠️ Hub not found: "${name}"`);
@@ -54,60 +40,74 @@ async function main(): Promise<void> {
     })
     .filter((gid): gid is string => Boolean(gid));
 
-  if (hubGids.length === 0) {
-    throw new Error(`None of the hubs were found in stopAreas(): ${hubNames.join(', ')}`);
-  }
+  const refs = await Promise.all(
+    hubGids.map(async (gid) => {
+      const departures = await client
+        .stopAreaDepartures(gid, {
+          includes: ['servicejourneycoordinates', 'servicejourneycalls'],
+        })
+        .then((res) => res.results || []);
+      const arrivals = await client
+        .stopAreaArrivals(gid, {
+          includes: ['servicejourneycoordinates', 'servicejourneycalls'],
+        })
+        .then((res) => res.results || []);
+      return arrivals
+        .concat(departures)
+        .filter((arr) => arr.serviceJourney.line.transportMode === 'tram')
+        .map((arr) => ({
+          hubGid: gid,
+          detailsReference: arr.detailsReference,
+        }));
+    })
+  );
 
-  // Gather unique tram lines with their departure detail refs and originating hub
-  const tramRefs: Record<string, TramRef> = {};
-
-  for (const gid of hubGids) {
-    // stopAreaDepartures now returns { results, pagination, links }
-    const resp = await client.stopAreaDepartures(gid, {
-      includes: ['servicejourneycoordinates', 'servicejourneycalls'],
-    });
-    const departures = resp.results || [];
-
-    departures.forEach((dep) => {
-      const { line } = dep.serviceJourney;
-      const id = line.shortName || line.name || line.designation;
-      if (line.transportMode === 'tram' && id && !tramRefs[id] && dep.detailsReference) {
-        tramRefs[id] = { detailsRef: dep.detailsReference, hubGid: gid, line };
-      }
-    });
-  }
-
-  // For each tram line, fetch route geometry and stop list
+  type Route = LineApiModel & {
+    stopPoints: StopPointApiModel[];
+    coordinates: [number, number][];
+  };
   const routes: Route[] = await Promise.all(
-    Object.entries(tramRefs).map(async ([, { detailsRef, hubGid, line }]): Promise<Route> => {
-      // stopAreaDepartureDetails now returns DepartureDetailsApiModel with serviceJourneys
-      const details = await client.stopAreaDepartureDetails(hubGid, detailsRef!, {
+    refs.flat().map(async ({ detailsReference, hubGid }) => {
+      const details = await client.stopAreaDepartureDetails(hubGid, detailsReference, {
         includes: ['servicejourneycoordinates', 'servicejourneycalls'],
       });
 
       // Extract coordinates and stop points from the first service journey
-      const serviceJourney = details.serviceJourneys?.[0];
-      if (!serviceJourney) {
-        return { ...line, coordinates: [], stopPoints: [] };
-      }
-
-      // Extract coordinates from serviceJourneyCoordinates
-      const coordinates: [number, number][] =
-        serviceJourney.serviceJourneyCoordinates?.map((coord) => [
-          coord.latitude,
-          coord.longitude,
-        ]) || [];
-
-      // Extract stop points from callsOnServiceJourney
-      const stopPoints: StopPointApiModel[] =
-        serviceJourney.callsOnServiceJourney?.map((call) => call.stopPoint) || [];
-
-      return { ...line, coordinates, stopPoints };
+      const serviceJourney = details.serviceJourneys[0];
+      return {
+        ...serviceJourney.line,
+        stopPoints: serviceJourney.callsOnServiceJourney!.map(({ stopPoint }) => stopPoint),
+        coordinates: serviceJourney.serviceJourneyCoordinates!.map(({ latitude, longitude }) => [
+          latitude,
+          longitude,
+        ]),
+      };
     })
   );
 
+  const routePerLineDirection = routes.reduce(
+    (acc: Record<string, Route[]>, route: Route) => {
+      const key = `${route.name}-${route.stopPoints.at(0)?.gid}-${route.stopPoints.at(-1)?.gid}`;
+      if (!acc[key]) {
+        acc[key] = [route];
+      } else {
+        acc[key].push(route);
+      }
+      return acc;
+    },
+    {} as Record<string, Route[]>
+  );
+
+  // for each line, only keep the route with the most stops
+  const uniqueRoutes = Object.values(routePerLineDirection).map((lineRoutes) => {
+    // Sort routes by number of stops, descending
+    lineRoutes.sort((a, b) => (b.stopPoints?.length || 0) - (a.stopPoints?.length || 0));
+    // Return the route with the most stops
+    return lineRoutes[0];
+  });
+
   // Output JSON
-  await Bun.write(Bun.stdout, JSON.stringify(routes, null, 2));
+  await Bun.write(Bun.stdout, JSON.stringify(uniqueRoutes, null, 2));
 }
 
 main().catch((err) => {
