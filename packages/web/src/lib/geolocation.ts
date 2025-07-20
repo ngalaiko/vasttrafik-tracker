@@ -43,6 +43,8 @@ export function useGeolocation(): GeolocationReturn {
   }
 
   function startTracking(): void {
+	if (typeof window === 'undefined') return;
+
     // Get initial position
     getCurrentPosition();
 
