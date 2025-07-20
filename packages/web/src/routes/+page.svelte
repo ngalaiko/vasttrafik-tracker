@@ -1,6 +1,6 @@
 <script lang="ts">
   import { useGeolocation } from '$lib/geolocation';
-  import { closestPointOnPolyline, distanceM, isPointOnPolyline } from '$lib/utils';
+  import { closestPointOnPolyline, isPointOnPolyline, polylineLength } from '$lib/utils';
   import { stopPointArrivals, journeyDetails } from '$lib/api';
   import type { Point } from '$lib/utils';
   import type {
@@ -48,6 +48,11 @@
       .sort((a, b) => a.distance - b.distance)
   );
 
+  let stops = $state<StopPointApiModel[]>([]);
+  $effect(() => {
+    stops = lines.flatMap((line) => line.stopPoints);
+  });
+
   function handlePositionChange(position: Point) {
     manualPosition = position;
   }
@@ -75,31 +80,37 @@
     const nextStopPoint = journey.callsOnServiceJourney[nextJourneyStopPointIndex];
 
     const coordinates = journey.serviceJourneyCoordinates.map(
-      (coord): Point => [coord.latitude, coord.longitude]
+      (point): Point => [point.latitude, point.longitude]
     );
 
-    const lineLength = coordinates.reduce((acc, point, index) => {
-      if (index === 0) return acc;
-      const prevPoint = coordinates[index - 1];
-      return acc + distanceM(prevPoint, point);
-    }, 0);
+    const prevStopProjection = closestPointOnPolyline(coordinates, [
+      previousStopPoint.stopPoint.latitude,
+      previousStopPoint.stopPoint.longitude,
+    ]);
 
-    const projectedPosition = closestPointOnPolyline(coordinates, currentPosition);
-    if (projectedPosition === null) {
-      console.log(coordinates, currentPosition, journey.serviceJourneyCoordinates);
-      throw new Error('Projected position is null, likely due to being outside the segment');
-    }
-    const completedSegment = [
-      ...coordinates.slice(0, projectedPosition.segmentIndex + 1),
-      projectedPosition.point,
+    const nextStopProjection = closestPointOnPolyline(coordinates, [
+      nextStop.latitude,
+      nextStop.longitude,
+    ]);
+
+    const prevToNextSegment = [
+      ...coordinates.slice(
+        prevStopProjection.segmentIndex + 1,
+        nextStopProjection.segmentIndex + 1
+      ),
+      nextStopProjection.point,
     ];
-    const completedSegmentLength = completedSegment.reduce((acc, point, index) => {
-      if (index === 0) return acc;
-      const prevPoint = completedSegment[index - 1];
-      return acc + distanceM(prevPoint, point);
-    }, 0);
 
-    const lengthProgress = completedSegmentLength / lineLength;
+    const currentProjection = closestPointOnPolyline(prevToNextSegment, currentPosition);
+
+    const prevToCurrentSegment = [
+      ...prevToNextSegment.slice(0, currentProjection.segmentIndex + 1),
+      currentProjection.point,
+    ];
+
+    const prevToNextSegmentLength = polylineLength(prevToNextSegment);
+    const prevToCurrentSegmentLength = polylineLength(prevToCurrentSegment);
+    const currentProgress = prevToCurrentSegmentLength / prevToNextSegmentLength;
 
     if (previousStopPoint.estimatedOtherwisePlannedDepartureTime === undefined) {
       throw new Error('Previous stop point has no estimated or planned departure time');
@@ -112,7 +123,7 @@
       previousStopPoint.estimatedOtherwisePlannedDepartureTime
     ).getTime();
     const arrivalTime = new Date(nextStopPoint.estimatedOtherwisePlannedArrivalTime).getTime();
-    const estimatedTime = departureTime + lengthProgress * (arrivalTime - departureTime);
+    const estimatedTime = departureTime + currentProgress * (arrivalTime - departureTime);
     const errorMs = Math.abs(Date.now() - estimatedTime);
 
     return errorMs;
@@ -163,6 +174,15 @@
           coordinates={line.coordinates as Point[]}
           color={line.backgroundColor}
           name={line.name}
+        />
+      {/each}
+
+      {#each stops as stop}
+        <MapPoint
+          position={[stop.latitude, stop.longitude]}
+          color="#0000ff"
+          radius={3}
+          popup={stop.name}
         />
       {/each}
 

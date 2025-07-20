@@ -136,3 +136,13 @@ function closestPointOnSegment(segStart: Point, segEnd: Point, target: Point): P
   const t = Math.max(0, Math.min(1, ((px - x1) * dx + (py - y1) * dy) / (dx * dx + dy * dy)));
   return [x1 + t * dx, y1 + t * dy];
 }
+
+export function polylineLength(polyline: Array<Point>): number {
+  if (polyline.length < 2) return 0;
+
+  let totalDistance = 0;
+  for (let i = 0; i < polyline.length - 1; i++) {
+    totalDistance += distanceM(polyline[i], polyline[i + 1]);
+  }
+  return totalDistance;
+}
