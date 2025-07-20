@@ -6,12 +6,15 @@ export interface GeolocationReturn {
   error: Writable<GeolocationPositionError | Error | null>;
   loading: Writable<boolean>;
   refresh: () => void;
+  stop: () => void;
 }
 
 export function useGeolocation(): GeolocationReturn {
   const position = writable<Point | null>(null);
   const error = writable<GeolocationPositionError | Error | null>(null);
   const loading = writable(false);
+
+  let intervalId: number | null = null;
 
   function getCurrentPosition(): void {
     if (!navigator.geolocation) {
@@ -34,18 +37,36 @@ export function useGeolocation(): GeolocationReturn {
       {
         enableHighAccuracy: true,
         timeout: 10000,
-        maximumAge: 10000, // 10 seconds
+        maximumAge: 0, // Always get fresh position
       }
     );
   }
 
-  // Auto-fetch on component mount
-  getCurrentPosition();
+  function startTracking(): void {
+    // Get initial position
+    getCurrentPosition();
+
+    // Set up interval for updates every 10 seconds
+    intervalId = window.setInterval(() => {
+      getCurrentPosition();
+    }, 10000);
+  }
+
+  function stopTracking(): void {
+    if (intervalId !== null) {
+      clearInterval(intervalId);
+      intervalId = null;
+    }
+  }
+
+  // Start tracking on initialization
+  startTracking();
 
   return {
     position,
     error,
     loading,
     refresh: getCurrentPosition,
+    stop: stopTracking,
   };
 }
