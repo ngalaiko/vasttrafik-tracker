@@ -62,10 +62,7 @@
       .sort((a, b) => a.distance - b.distance)
   )
 
-  let stops = $state<StopPointApiModel[]>([])
-  $effect(() => {
-    stops = lines.flatMap(line => line.stopPoints)
-  })
+  const stops = $derived(lines.flatMap(line => line.stopPoints))
 
   function handlePositionChange(position: Point) {
     manualPosition = position
@@ -208,7 +205,7 @@
 <div class="container">
   <div class="map-container">
     <Map center={currentPosition} onPositionChange={handlePositionChange}>
-      {#each lines as line}
+      {#each lines as line (line.name)}
         <MapLine
           coordinates={line.coordinates as Point[]}
           color={line.backgroundColor}
@@ -216,7 +213,7 @@
         />
       {/each}
 
-      {#each stops as stop}
+      {#each stops as stop (stop.gid)}
         <MapPoint
           position={[stop.latitude, stop.longitude]}
           color="#0000ff"
@@ -232,7 +229,7 @@
         popup={!manualPosition && $position ? 'GPS' : 'Manual'}
       />
 
-      {#each closestLines as line}
+      {#each closestLines as line (line.name)}
         <MapPoint
           position={line.currentProjection.point}
           color="#ff0000"
@@ -250,7 +247,7 @@
     {:else}
       <h3>You are most likely on:</h3>
       <div class="journey-list">
-        {#each scored.slice(0, 5) as journey}
+        {#each scored.slice(0, 5) as journey (journey.gid)}
           <div class="journey-item">
             <div class="journey-header">
               <span class="line-name">{journey.line.name}</span>

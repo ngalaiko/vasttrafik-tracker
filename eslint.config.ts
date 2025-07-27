@@ -1,39 +1,51 @@
-import type { Linter } from 'eslint'
-import typescriptParser from '@typescript-eslint/parser'
-import svelteParser from 'svelte-eslint-parser'
+import prettier from 'eslint-config-prettier'
+import { includeIgnoreFile } from '@eslint/compat'
+import svelte from 'eslint-plugin-svelte'
+import tseslint from '@typescript-eslint/eslint-plugin'
+import tsparser from '@typescript-eslint/parser'
+import globals from 'globals'
+import { fileURLToPath } from 'node:url'
+
+const gitignorePath = fileURLToPath(new URL('./.gitignore', import.meta.url))
 
 export default [
+  includeIgnoreFile(gitignorePath),
+  ...svelte.configs.recommended,
+  prettier,
+  ...svelte.configs.prettier,
   {
-    ignores: ['*/dist/', 'web/.svelte-kit', 'web/vite.config.ts.*']
-  },
-  {
-    rules: {
-      '@typescript-eslint/no-base-to-string': 'off',
-      '@typescript-eslint/no-floating-promises': 'off',
-      '@typescript-eslint/no-unsafe-assignment': 'off',
-      '@typescript-eslint/no-unsafe-type-assertion': 'off'
-    }
-  },
-  {
-    files: ['web/**/*'],
-    rules: {
-      'n/no-unsupported-features/node-builtins': 'off'
-    }
-  },
-  {
-    files: ['web/**/*.svelte'],
     languageOptions: {
-      parser: svelteParser,
+      globals: { ...globals.browser, ...globals.node, Bun: 'readonly' }
+    }
+  },
+  {
+    files: ['**/*.ts', '**/*.tsx'],
+    languageOptions: {
+      parser: tsparser,
       parserOptions: {
-        parser: typescriptParser
+        ecmaVersion: 2022,
+        sourceType: 'module',
+        project: './tsconfig.json'
       }
     },
+    plugins: {
+      '@typescript-eslint': tseslint
+    },
     rules: {
-      '@typescript-eslint/no-confusing-void-expression': 'off',
-      '@typescript-eslint/no-unnecessary-type-assertion': 'off',
-      '@typescript-eslint/no-unsafe-argument': 'off',
-      '@typescript-eslint/no-unsafe-call': 'off',
-      '@typescript-eslint/no-unsafe-member-access': 'off'
+      ...tseslint.configs.recommended.rules,
+      '@typescript-eslint/no-unused-vars': 'error',
+      '@typescript-eslint/no-explicit-any': 'warn',
+      '@typescript-eslint/explicit-function-return-type': 'off',
+      '@typescript-eslint/explicit-module-boundary-types': 'off'
+    }
+  },
+  {
+    files: ['**/*.svelte'],
+    languageOptions: {
+      parserOptions: {
+        parser: tsparser,
+        svelteConfig: './packages/web/svelte.config.js'
+      }
     }
   }
-] satisfies Linter.Config[]
+]
