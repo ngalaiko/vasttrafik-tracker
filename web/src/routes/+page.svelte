@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { useGeolocation } from '$lib/geolocation'
+  import { useGeolocation } from '$lib/geolocation.svelte'
   import {
     closestPointOnPolyline,
     isPointOnPolyline,
@@ -15,14 +15,19 @@
   import Map from '$lib/components/Map.svelte'
   import MapLine from '$lib/components/Line.svelte'
   import MapPoint from '$lib/components/Point.svelte'
-  const { position } = useGeolocation()
+
+  const geoLocation = useGeolocation()
 
   const DEFAULT_POSITION: Point = [57.706924, 11.966192] // Gothenburg
   const MAX_LINE_DISTANCE_METERS = 50
 
   let manualPosition: Point | null = $state(null)
+  function handlePositionChange(position: Point) {
+    manualPosition = position
+  }
+
   const currentPosition = $derived(
-    manualPosition || $position || DEFAULT_POSITION
+    manualPosition || geoLocation.coordinates || DEFAULT_POSITION
   )
 
   const { data } = $props()
@@ -63,10 +68,6 @@
   )
 
   const stops = $derived(lines.flatMap(line => line.stopPoints))
-
-  function handlePositionChange(position: Point) {
-    manualPosition = position
-  }
 
   // This function scores a journey based on the current position and the next stop point.
   // lower score means better match.
@@ -205,7 +206,7 @@
 <div class="container">
   <div class="map-container">
     <Map center={currentPosition} onPositionChange={handlePositionChange}>
-      {#each lines as line (line.name)}
+      {#each lines as line}
         <MapLine
           coordinates={line.coordinates as Point[]}
           color={line.backgroundColor}
@@ -213,7 +214,7 @@
         />
       {/each}
 
-      {#each stops as stop (stop.gid)}
+      {#each stops as stop}
         <MapPoint
           position={[stop.latitude, stop.longitude]}
           color="#0000ff"
@@ -224,12 +225,12 @@
 
       <MapPoint
         position={currentPosition}
-        color={!manualPosition && $position ? '#00ff00' : '#ff0000'}
+        color={!manualPosition && currentPosition ? '#00ff00' : '#ff0000'}
         icon="marker"
-        popup={!manualPosition && $position ? 'GPS' : 'Manual'}
+        popup={!manualPosition && currentPosition ? 'GPS' : 'Manual'}
       />
 
-      {#each closestLines as line (line.name)}
+      {#each closestLines as line}
         <MapPoint
           position={line.currentProjection.point}
           color="#ff0000"
@@ -247,7 +248,7 @@
     {:else}
       <h3>You are most likely on:</h3>
       <div class="journey-list">
-        {#each scored.slice(0, 5) as journey (journey.gid)}
+        {#each scored.slice(0, 5) as journey}
           <div class="journey-item">
             <div class="journey-header">
               <span class="line-name">{journey.line.name}</span>

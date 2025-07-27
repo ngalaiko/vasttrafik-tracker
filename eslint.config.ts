@@ -3,7 +3,6 @@ import { includeIgnoreFile } from '@eslint/compat'
 import svelte from 'eslint-plugin-svelte'
 import tseslint from '@typescript-eslint/eslint-plugin'
 import tsparser from '@typescript-eslint/parser'
-import globals from 'globals'
 import { fileURLToPath } from 'node:url'
 
 const gitignorePath = fileURLToPath(new URL('./.gitignore', import.meta.url))
@@ -13,11 +12,6 @@ export default [
   ...svelte.configs.recommended,
   prettier,
   ...svelte.configs.prettier,
-  {
-    languageOptions: {
-      globals: { ...globals.browser, ...globals.node, Bun: 'readonly' }
-    }
-  },
   {
     files: ['**/*.ts', '**/*.tsx'],
     languageOptions: {
