@@ -1,23 +1,22 @@
 {
   "compilerOptions": {
-    "target": "ES2022",
-    "module": "ESNext",
-    "moduleResolution": "bundler",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "noEmit": true,
-    "jsx": "preserve",
-    "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "allowJs": true,
-    "checkJs": false,
+    "allowImportingTsExtensions": true,
+    "noUncheckedIndexedAccess": true,
+    "experimentalDecorators": true,
+    "noImplicitOverride": true,
+    "verbatimModuleSyntax": true,
+    "moduleResolution": "NodeNext",
+    "erasableSyntaxOnly": true,
     "esModuleInterop": true,
-    "sourceMap": true
+    "skipLibCheck": true,
+    "allowJs": true,
+    "target": "ES2024",
+    "module": "NodeNext",
+    "strict": true,
+    "noEmit": true,
+    "types": ["node"],
+    "lib": ["es2024", "dom"]
   },
-  "include": ["packages/*/src/**/*"],
-  "exclude": ["node_modules", "**/node_modules", "dist", "**/dist", ".svelte-kit"]
+  "include": ["**/*.ts", "web/**/*.svelte"],
+  "exclude": ["*/dist"]
 }

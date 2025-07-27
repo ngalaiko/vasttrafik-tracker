@@ -1,0 +1,11 @@
+{
+  "name": "@vasttrafik-tracker/scripts",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "download-lines": "node --experimental-strip-types ./download-lines.ts"
+  },
+  "dependencies": {
+    "@vasttrafik-tracker/vasttrafik": "workspace:*"
+  }
+}
