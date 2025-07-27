@@ -1,5 +1,6 @@
 <script lang="ts">
   import { useGeolocation } from '$lib/geolocation.svelte'
+  import lines from '$lib/lines'
   import {
     closestPointOnPolyline,
     isPointOnPolyline,
@@ -29,9 +30,6 @@
   const currentPosition = $derived(
     manualPosition || geoLocation.coordinates || DEFAULT_POSITION
   )
-
-  const { data } = $props()
-  const { lines } = data
 
   const closestLines = $derived(
     lines
