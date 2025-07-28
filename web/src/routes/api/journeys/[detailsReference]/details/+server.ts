@@ -5,11 +5,18 @@ import { TTLCache } from '$lib/cache'
 
 const cache = new TTLCache()
 
-export const GET: RequestHandler = async ({ params }) => {
+export const GET: RequestHandler = async ({ url, params }) => {
   try {
-    const cacheKey = `journeyDetails-${params.detailsReference}}`
+    const includes =
+      url.searchParams
+        .get('includes')
+        ?.split(',')
+        .filter(i => i === 'triplegcoordinates') || []
+    const cacheKey = `journeyDetails-${params.detailsReference}-${includes}`
     const details = await cache.get(cacheKey, () =>
-      api.journeyDetails(params.detailsReference)
+      api.journeyDetails(params.detailsReference, {
+        includes: includes
+      })
     )
     return json(details)
   } catch (error) {

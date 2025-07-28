@@ -111,6 +111,8 @@ export interface DepartureDetailsApiModel {
 
 export interface TripLegDetailsApiModel {
   callsOnTripLeg: CallApiModel[]
+  tripLegCoordinates?: Array<{ latitude: number; longitude: number }>
+  serviceJourneys: Array<ServiceJourneyDetailsApiModel>
 }
 
 export interface JourneyDetailsApiModel {
@@ -260,10 +262,14 @@ export function createClient(config: {
     },
 
     async journeyDetails(
-      detailsReference: string
+      detailsReference: string,
+      params: {
+        includes?: 'triplegcoordinates'[]
+      } = {}
     ): Promise<JourneyDetailsApiModel> {
       if (!detailsReference) throw new Error('detailsReference is required')
-      const res = await get(`journeys/${detailsReference}/details`)
+      const qs = buildQueryParams(params)
+      const res = await get(`journeys/${detailsReference}/details?${qs}`)
       return res.json()
     },
 

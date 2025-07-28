@@ -1,14 +1,18 @@
 <script lang="ts">
-  import { useGeolocation } from '$lib/geolocation.svelte'
+  import { Location } from '$lib/location.svelte'
+  import { StopPointArrivals } from '$lib/stopPointArrivals.svelte'
+  import { JourneyDetails } from '$lib/journeyDetails.svelte'
   import lines from '$lib/lines'
   import {
     closestPointOnPolyline,
     isPointOnPolyline,
     polylineLength
   } from '$lib/utils'
-  import { stopPointArrivals, journeyDetails } from '$lib/api'
+  import { stopPointArrivals } from '$lib/api'
   import type { Point } from '$lib/utils'
   import type {
+    ArrivalApiModel,
+    JourneyDetailsApiModel,
     ServiceJourneyApiModel,
     ServiceJourneyDetailsApiModel,
     StopPointApiModel
@@ -17,33 +21,40 @@
   import MapLine from '$lib/components/Line.svelte'
   import MapPoint from '$lib/components/Point.svelte'
 
-  const geoLocation = useGeolocation()
+  const location = new Location()
 
-  const DEFAULT_POSITION: Point = [57.706924, 11.966192] // Gothenburg
+  const DEFAULT_COORDINATES: Point = [57.706924, 11.966192] // Gothenburg
   const MAX_LINE_DISTANCE_METERS = 50
 
-  let manualPosition: Point | null = $state(null)
+  let manualCoordinates: Point | null = $state(null)
   function handlePositionChange(position: Point) {
-    manualPosition = position
+    manualCoordinates = position
   }
 
-  const currentPosition = $derived(
-    manualPosition || geoLocation.coordinates || DEFAULT_POSITION
+  const currentCoordinates = $derived(
+    manualCoordinates || location.coordinates || DEFAULT_COORDINATES
   )
+
+  const allStops = $derived(lines.flatMap(line => line.stopPoints))
 
   const closestLines = $derived(
     lines
       .map(line => {
-        const coordinates = line.coordinates as Point[]
         const currentProjection = closestPointOnPolyline(
-          coordinates,
-          currentPosition
+          line.coordinates,
+          currentCoordinates
         )
-
-        const segmentAfterCurrentPoint = coordinates.slice(
-          currentProjection.segmentIndex + 1
+        return {
+          ...line,
+          currentProjection,
+          distance: currentProjection.distance
+        }
+      })
+      .filter(line => line.distance < MAX_LINE_DISTANCE_METERS)
+      .map(line => {
+        const segmentAfterCurrentPoint = line.coordinates.slice(
+          line.currentProjection.segmentIndex + 1
         )
-
         const nextStopPoint =
           line.stopPoints
             .filter(stop =>
@@ -53,51 +64,100 @@
               )
             )
             .at(0) ?? line.stopPoints[line.stopPoints.length - 1]
-
-        return {
-          ...line,
-          currentProjection,
-          nextStopPoint,
-          distance: currentProjection.distance
-        }
+        return nextStopPoint
       })
-      .filter(line => line.distance < MAX_LINE_DISTANCE_METERS)
-      .sort((a, b) => a.distance - b.distance)
+      .filter(
+        (stopPoint): stopPoint is StopPointApiModel => stopPoint !== undefined
+      )
   )
 
-  const stops = $derived(lines.flatMap(line => line.stopPoints))
+  const arrivals = $derived(
+    closestLines.map(stopPoint => new StopPointArrivals(stopPoint.gid))
+  )
+  const arrivalValues = $derived(
+    arrivals
+      .flatMap(arrivals => arrivals.value)
+      .filter(arrival => arrival.serviceJourney.line.transportMode === 'tram')
+      .filter(
+        (arrival, i, arrivals) =>
+          arrivals.findIndex(
+            a => a.detailsReference === arrival.detailsReference
+          ) === i
+      ) // Unique by detailsReference
+  )
+
+  const journeyDetails = $derived(
+    arrivalValues.map(arrival => new JourneyDetails(arrival.detailsReference))
+  )
+  const journeyDetailsValues = $derived(
+    journeyDetails
+      .flatMap(details => details.value)
+      .filter((details): details is JourneyDetailsApiModel => details !== null)
+  )
+
+  const arrivalJourneys = $derived(
+    arrivalValues
+      .map(arrival => {
+        const journeyDetails = journeyDetailsValues.find(sj =>
+          sj.tripLegs.some(leg =>
+            leg.serviceJourneys.some(
+              sj => sj.gid === arrival.serviceJourney.gid
+            )
+          )
+        )
+        return {
+          arrival,
+          journeyDetails
+        }
+      })
+      .filter(
+        (
+          aj
+        ): aj is {
+          arrival: ArrivalApiModel
+          journeyDetails: JourneyDetailsApiModel
+        } => aj.journeyDetails !== undefined
+      )
+  )
+
+  const scored = $derived(
+    arrivalJourneys
+      .map(({ arrival, journeyDetails }) => {
+        return {
+          ...arrival,
+          score: scoreJourney(journeyDetails, arrival, currentCoordinates)
+        }
+      })
+      .sort((a, b) => {
+        if (a === null || b === null) return 0
+        return a.score - b.score
+      })
+  )
 
   // This function scores a journey based on the current position and the next stop point.
   // lower score means better match.
   function scoreJourney(
-    journey: ServiceJourneyDetailsApiModel,
-    nextStop: StopPointApiModel,
+    journey: JourneyDetailsApiModel,
+    arrival: ArrivalApiModel,
     currentPosition: Point
   ) {
-    if (
-      !journey.callsOnServiceJourney ||
-      journey.callsOnServiceJourney.length === 0
-    ) {
-      throw new Error('Journey has no valid calls')
-    }
-    if (
-      !journey.serviceJourneyCoordinates ||
-      journey.serviceJourneyCoordinates.length === 0
-    ) {
-      throw new Error('Journey has no valid coordinates')
-    }
-    const nextJourneyStopPointIndex = journey.callsOnServiceJourney.findIndex(
-      call => call.stopPoint.gid === nextStop.gid
+    const tripLeg = journey.tripLegs.at(-1)
+    if (!tripLeg) return Infinity
+    const nextJourneyStopPointIndex = tripLeg.callsOnTripLeg.findIndex(
+      call => call.stopPoint.gid === arrival.stopPoint.gid
     )
     if (nextJourneyStopPointIndex === -1) {
       throw new Error('Next stop point not found in journey calls')
     }
-    const previousStopPoint =
-      journey.callsOnServiceJourney[nextJourneyStopPointIndex - 1]
-    const nextStopPoint =
-      journey.callsOnServiceJourney[nextJourneyStopPointIndex]
+    const previousStopPoint = tripLeg.callsOnTripLeg.at(
+      nextJourneyStopPointIndex - 1
+    )
+    if (!previousStopPoint) return Infinity
+    const nextStopPoint = tripLeg.callsOnTripLeg.at(nextJourneyStopPointIndex)
+    if (!nextStopPoint) return Infinity
 
-    const coordinates = journey.serviceJourneyCoordinates.map(
+    if (!tripLeg.tripLegCoordinates) return Infinity
+    const coordinates = tripLeg.tripLegCoordinates.map(
       (point): Point => [point.latitude, point.longitude]
     )
 
@@ -107,8 +167,8 @@
     ])
 
     const nextStopProjection = closestPointOnPolyline(coordinates, [
-      nextStop.latitude,
-      nextStop.longitude
+      arrival.stopPoint.latitude,
+      arrival.stopPoint.longitude
     ])
 
     const prevToNextSegment = [
@@ -158,53 +218,12 @@
 
     return errorMs
   }
-
-  let scored = $derived<
-    (ServiceJourneyApiModel & { nextStop: StopPointApiModel })[] | null
-  >(null)
-  $effect(() => {
-    Promise.all(
-      closestLines.map(line =>
-        stopPointArrivals(line.nextStopPoint.gid, {
-          maxArrivalsPerLineAndDirection: 1
-        }).then(res => {
-          const arrivals = res.results ?? []
-          return Promise.all(
-            arrivals.map(arrival =>
-              journeyDetails(arrival.detailsReference).then(details => ({
-                ...arrival.serviceJourney,
-                callsOnServiceJourney:
-                  details.tripLegs.at(0)?.callsOnTripLeg ?? [],
-                nextStop: line.nextStopPoint,
-                serviceJourneyCoordinates: line.coordinates.map(point => ({
-                  latitude: point[0],
-                  longitude: point[1]
-                }))
-              }))
-            )
-          )
-        })
-      )
-    )
-      .then(journeys => journeys.flat())
-      .then(journeys =>
-        journeys.filter(journey => journey.line.transportMode === 'tram')
-      )
-      .then(journeys => {
-        scored = journeys
-          .map(journey => ({
-            ...journey,
-            score: scoreJourney(journey, journey.nextStop, currentPosition)
-          }))
-          .sort((a, b) => a.score - b.score)
-      })
-  })
 </script>
 
 <div class="container">
   <div class="map-container">
-    <Map center={currentPosition} onPositionChange={handlePositionChange}>
-      {#each lines as line}
+    <Map center={currentCoordinates} onPositionChange={handlePositionChange}>
+      {#each lines as line, i (i)}
         <MapLine
           coordinates={line.coordinates as Point[]}
           color={line.backgroundColor}
@@ -212,7 +231,7 @@
         />
       {/each}
 
-      {#each stops as stop}
+      {#each allStops as stop, i (i)}
         <MapPoint
           position={[stop.latitude, stop.longitude]}
           color="#0000ff"
@@ -222,19 +241,11 @@
       {/each}
 
       <MapPoint
-        position={currentPosition}
-        color={!manualPosition && currentPosition ? '#00ff00' : '#ff0000'}
+        position={currentCoordinates}
+        color={!manualCoordinates && currentCoordinates ? '#00ff00' : '#ff0000'}
         icon="marker"
-        popup={!manualPosition && currentPosition ? 'GPS' : 'Manual'}
+        popup={!manualCoordinates && currentCoordinates ? 'GPS' : 'Manual'}
       />
-
-      {#each closestLines as line}
-        <MapPoint
-          position={line.currentProjection.point}
-          color="#ff0000"
-          radius={4}
-        />
-      {/each}
     </Map>
   </div>
 
@@ -246,13 +257,14 @@
     {:else}
       <h3>You are most likely on:</h3>
       <div class="journey-list">
-        {#each scored.slice(0, 5) as journey}
+        {#each scored.slice(0, 5) as journey, i (i)}
           <div class="journey-item">
             <div class="journey-header">
-              <span class="line-name">{journey.line.name}</span>
+              <span class="line-name">{journey.serviceJourney.line.name}</span>
             </div>
             <div class="journey-details">
-              <div>Next: {journey.nextStop.name}</div>
+              <div>ID: {journey.serviceJourney.gid}</div>
+              <div>Next: {journey.stopPoint.name}</div>
             </div>
           </div>
         {/each}

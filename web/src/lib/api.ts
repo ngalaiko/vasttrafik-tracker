@@ -14,9 +14,13 @@ export async function stopPointArrivals(
 }
 
 export async function journeyDetails(
-  detailsReference: string
+  detailsReference: string,
+  opts: {
+    includes?: Array<'triplegcoordinates'>
+  } = {}
 ): Promise<JourneyDetailsApiModel> {
-  const response = await get(`/api/journeys/${detailsReference}/details`)
+  const qs = buildQueryParams(opts)
+  const response = await get(`/api/journeys/${detailsReference}/details?${qs}`)
   return response.json()
 }
 
