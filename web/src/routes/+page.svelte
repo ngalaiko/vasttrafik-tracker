@@ -8,16 +8,13 @@
     isPointOnPolyline,
     polylineLength
   } from '$lib/utils'
-  import { stopPointArrivals } from '$lib/api'
   import type { Point } from '$lib/utils'
   import type {
     ArrivalApiModel,
     JourneyDetailsApiModel,
-    ServiceJourneyApiModel,
-    ServiceJourneyDetailsApiModel,
     StopPointApiModel
   } from '@vasttrafik-tracker/vasttrafik'
-  import Map from '$lib/components/Map.svelte'
+  import DisplayMap from '$lib/components/Map.svelte'
   import MapLine from '$lib/components/Line.svelte'
   import MapPoint from '$lib/components/Point.svelte'
 
@@ -31,12 +28,25 @@
     manualCoordinates = position
   }
 
-  const currentCoordinates = $derived(
+  function roundCoordinates(coords: Point, precision = 0.0001): Point {
+    return [
+      Math.round(coords[0] / precision) * precision,
+      Math.round(coords[1] / precision) * precision
+    ]
+  }
+
+  const rawCoordinates = $derived(
     manualCoordinates || location.coordinates || DEFAULT_COORDINATES
+  )
+  
+  const currentCoordinates = $derived(
+    roundCoordinates(rawCoordinates)
   )
 
   const allStops = $derived(lines.flatMap(line => line.stopPoints))
 
+  let selectedStops = $state<StopPointApiModel[]>([])
+  
   const closestLines = $derived(
     lines
       .map(line => {
@@ -71,11 +81,35 @@
       )
   )
 
-  const arrivals = $derived(
-    closestLines.map(stopPoint => new StopPointArrivals(stopPoint.gid))
-  )
-  const arrivalValues = $derived(
-    arrivals
+  function stopsEqual(a: StopPointApiModel[], b: StopPointApiModel[]): boolean {
+    if (a.length !== b.length) return false
+    return a.every((stop, i) => stop.gid === b[i]?.gid)
+  }
+
+  $effect(() => {
+    if (!stopsEqual(closestLines, selectedStops)) {
+      selectedStops = [...closestLines]
+    }
+  })
+
+  const arrivalCache = new Map<string, StopPointArrivals>()
+  const journeyCache = new Map<string, JourneyDetails>()
+  
+  let stableArrivals = $state<StopPointArrivals[]>([])
+  let stableArrivalValues = $state<ArrivalApiModel[]>([])
+  let stableJourneyDetails = $state<JourneyDetails[]>([])
+
+  $effect(() => {
+    stableArrivals = selectedStops.map(stopPoint => {
+      if (!arrivalCache.has(stopPoint.gid)) {
+        arrivalCache.set(stopPoint.gid, new StopPointArrivals(stopPoint.gid))
+      }
+      return arrivalCache.get(stopPoint.gid)!
+    })
+  })
+
+  $effect(() => {
+    stableArrivalValues = stableArrivals
       .flatMap(arrivals => arrivals.value)
       .filter(arrival => arrival.serviceJourney.line.transportMode === 'tram')
       .filter(
@@ -83,12 +117,20 @@
           arrivals.findIndex(
             a => a.detailsReference === arrival.detailsReference
           ) === i
-      ) // Unique by detailsReference
-  )
+      )
+  })
 
-  const journeyDetails = $derived(
-    arrivalValues.map(arrival => new JourneyDetails(arrival.detailsReference))
-  )
+  $effect(() => {
+    stableJourneyDetails = stableArrivalValues.map(arrival => {
+      if (!journeyCache.has(arrival.detailsReference)) {
+        journeyCache.set(arrival.detailsReference, new JourneyDetails(arrival.detailsReference))
+      }
+      return journeyCache.get(arrival.detailsReference)!
+    })
+  })
+
+  const arrivalValues = $derived(stableArrivalValues)
+  const journeyDetails = $derived(stableJourneyDetails)
   const journeyDetailsValues = $derived(
     journeyDetails
       .flatMap(details => details.value)
@@ -222,8 +264,8 @@
 
 <div class="container">
   <div class="map-container">
-    <Map center={currentCoordinates} onPositionChange={handlePositionChange}>
-      {#each lines as line, i (i)}
+    <DisplayMap center={currentCoordinates } onPositionChange={handlePositionChange}>
+      {#each lines as line }
         <MapLine
           coordinates={line.coordinates as Point[]}
           color={line.backgroundColor}
@@ -231,7 +273,7 @@
         />
       {/each}
 
-      {#each allStops as stop, i (i)}
+      {#each allStops as stop}
         <MapPoint
           position={[stop.latitude, stop.longitude]}
           color="#0000ff"
@@ -246,7 +288,7 @@
         icon="marker"
         popup={!manualCoordinates && currentCoordinates ? 'GPS' : 'Manual'}
       />
-    </Map>
+    </DisplayMap>
   </div>
 
   <div class="sidebar">
@@ -257,7 +299,7 @@
     {:else}
       <h3>You are most likely on:</h3>
       <div class="journey-list">
-        {#each scored.slice(0, 5) as journey, i (i)}
+        {#each scored.slice(0, 5) as journey (journey.serviceJourney.gid)}
           <div class="journey-item">
             <div class="journey-header">
               <span class="line-name">{journey.serviceJourney.line.name}</span>
