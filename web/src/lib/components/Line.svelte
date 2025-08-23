@@ -30,7 +30,9 @@
       map.removeLayer(polyline)
     }
 
-    const latlngs = coordinates.map(coord => new L.LatLng(coord[0], coord[1]))
+    const latlngs = coordinates.map(
+      (coord: Point) => new L.LatLng(coord[0], coord[1])
+    )
     polyline = L.polyline(latlngs, {
       color,
       weight,

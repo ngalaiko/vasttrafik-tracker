@@ -40,9 +40,18 @@ export class StopPointArrivals {
       if (this.#interval !== null) {
         clearInterval(this.#interval)
       }
-      this.#interval = window.setInterval(() => {
-        this.#fetchArrivals(gid)
-      }, opts.refreshInterval)
+      if (typeof window !== 'undefined') {
+        this.#interval = window.setInterval(() => {
+          this.#fetchArrivals(gid)
+        }, opts.refreshInterval)
+      }
+
+      return () => {
+        if (this.#interval !== null) {
+          clearInterval(this.#interval)
+          this.#interval = null
+        }
+      }
     })
   }
 }

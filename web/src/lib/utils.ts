@@ -21,7 +21,9 @@ export function isPointOnPolyline(
   if (line.length < 2) return false
 
   for (let i = 0; i < line.length - 1; i++) {
-    if (isPointOnSegment(point, line[i], line[i + 1], tolerance)) {
+    const start = line[i]!
+    const end = line[i + 1]!
+    if (isPointOnSegment(point, start, end, tolerance)) {
       return true
     }
   }
@@ -38,10 +40,13 @@ export function closestPointOnPolyline(
   polyline: Array<Point>,
   target: Point
 ): ClosestPoint {
+  if (polyline.length === 0) {
+    throw new Error('Polyline cannot be empty')
+  }
   if (polyline.length === 1) {
     return {
-      point: polyline[0],
-      distance: distanceM(polyline[0], target),
+      point: polyline[0]!,
+      distance: distanceM(polyline[0]!, target),
       segmentIndex: 0
     }
   }
@@ -50,8 +55,8 @@ export function closestPointOnPolyline(
 
   // Check each segment
   for (let i = 0; i < polyline.length - 1; i++) {
-    const segStart = polyline[i]
-    const segEnd = polyline[i + 1]
+    const segStart = polyline[i]!
+    const segEnd = polyline[i + 1]!
     const closestOnSeg = closestPointOnSegment(segStart, segEnd, target)
 
     const result: ClosestPoint = {
@@ -64,7 +69,11 @@ export function closestPointOnPolyline(
   }
 
   candidates.sort((a, b) => a.distance - b.distance)
-  return candidates[0] || null
+  const closest = candidates[0]
+  if (!closest) {
+    throw new Error('No closest point found')
+  }
+  return closest
 }
 
 function isPointOnSegment(
@@ -162,7 +171,7 @@ export function polylineLength(polyline: Array<Point>): number {
 
   let totalDistance = 0
   for (let i = 0; i < polyline.length - 1; i++) {
-    totalDistance += distanceM(polyline[i], polyline[i + 1])
+    totalDistance += distanceM(polyline[i]!, polyline[i + 1]!)
   }
   return totalDistance
 }

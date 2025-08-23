@@ -3,14 +3,19 @@ import type {
   ArrivalApiModel,
   JourneyDetailsApiModel
 } from '@vasttrafik-tracker/vasttrafik'
+import { globalRequestDeduplicator } from './utils/requestDedup'
 
 export async function stopPointArrivals(
   gid: string,
   options: { maxArrivalsPerLineAndDirection?: number } = {}
 ): Promise<ApiResponse<ArrivalApiModel>> {
   const qs = buildQueryParams(options)
-  const response = await get(`/api/stop-points/${gid}/arrivals?${qs}`)
-  return response.json()
+  const key = `arrivals:${gid}:${qs.toString()}`
+  
+  return globalRequestDeduplicator.dedupe(key, async () => {
+    const response = await get(`/api/stop-points/${gid}/arrivals?${qs}`)
+    return response.json()
+  })
 }
 
 export async function journeyDetails(
@@ -20,8 +25,12 @@ export async function journeyDetails(
   } = {}
 ): Promise<JourneyDetailsApiModel> {
   const qs = buildQueryParams(opts)
-  const response = await get(`/api/journeys/${detailsReference}/details?${qs}`)
-  return response.json()
+  const key = `journey:${detailsReference}:${qs.toString()}`
+  
+  return globalRequestDeduplicator.dedupe(key, async () => {
+    const response = await get(`/api/journeys/${detailsReference}/details?${qs}`)
+    return response.json()
+  })
 }
 
 async function get(url: string, init?: RequestInit): Promise<Response> {
