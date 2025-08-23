@@ -1,7 +1,7 @@
 import type { ArrivalApiModel } from '@vasttrafik-tracker/vasttrafik'
 import { stopPointArrivals } from './api'
 
-const DEFAULT_REFRESH_INTERVAL = 10000 // 10 seconds
+const DEFAULT_REFRESH_INTERVAL = 5000 // 5 seconds for real-time updates
 
 export class StopPointArrivals {
   value = $state<ArrivalApiModel[]>([])

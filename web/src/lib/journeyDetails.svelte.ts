@@ -1,7 +1,7 @@
 import type { JourneyDetailsApiModel } from '@vasttrafik-tracker/vasttrafik'
 import { journeyDetails } from './api'
 
-const DEFAULT_REFRESH_INTERVAL = 10000 // 10 seconds
+const DEFAULT_REFRESH_INTERVAL = 5000 // 5 seconds for real-time updates
 
 export class JourneyDetails {
   value = $state<JourneyDetailsApiModel | null>(null)

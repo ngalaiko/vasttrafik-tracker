@@ -52,5 +52,5 @@ export class RequestDeduplicator {
   }
 }
 
-// Global instance for app-wide deduplication
-export const globalRequestDeduplicator = new RequestDeduplicator()
+// Global instance for app-wide deduplication with shorter TTL for real-time data
+export const globalRequestDeduplicator = new RequestDeduplicator(1000) // 1 second for real-time transit data
