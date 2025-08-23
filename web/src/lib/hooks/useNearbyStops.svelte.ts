@@ -71,24 +71,17 @@ function calculateNearbyStops(coordinates: Point): StopPointApiModel[] {
   return result
 }
 
-export function useNearbyStops(rawCoordinates: Point | (() => Point)) {
-  const coordinates = $derived(() => {
-    const coords =
-      typeof rawCoordinates === 'function' ? rawCoordinates() : rawCoordinates
-    return roundCoordinates(coords)
-  })
+export function useNearbyStops(rawCoordinates: () => Point) {
+  const coordinates = $derived(roundCoordinates(rawCoordinates()))
 
-  // Initialize with the current coordinates value
-  const initialCoords =
-    typeof rawCoordinates === 'function' ? rawCoordinates() : rawCoordinates
   const debouncedCoords = createDebouncedState(
-    roundCoordinates(initialCoords),
+    roundCoordinates(rawCoordinates()),
     200
   )
 
   // Update debounced coordinates when coordinates change
   $effect(() => {
-    debouncedCoords.value = coordinates()
+    debouncedCoords.value = coordinates
   })
 
   let selectedStops = $state<StopPointApiModel[]>([])
@@ -105,7 +98,7 @@ export function useNearbyStops(rawCoordinates: Point | (() => Point)) {
 
   return {
     get coordinates() {
-      return coordinates()
+      return coordinates
     },
     get stops() {
       return selectedStops

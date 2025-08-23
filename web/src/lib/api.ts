@@ -11,7 +11,7 @@ export async function stopPointArrivals(
 ): Promise<ApiResponse<ArrivalApiModel>> {
   const qs = buildQueryParams(options)
   const key = `arrivals:${gid}:${qs.toString()}`
-  
+
   return globalRequestDeduplicator.dedupe(key, async () => {
     const response = await get(`/api/stop-points/${gid}/arrivals?${qs}`)
     return response.json()
@@ -26,9 +26,11 @@ export async function journeyDetails(
 ): Promise<JourneyDetailsApiModel> {
   const qs = buildQueryParams(opts)
   const key = `journey:${detailsReference}:${qs.toString()}`
-  
+
   return globalRequestDeduplicator.dedupe(key, async () => {
-    const response = await get(`/api/journeys/${detailsReference}/details?${qs}`)
+    const response = await get(
+      `/api/journeys/${detailsReference}/details?${qs}`
+    )
     return response.json()
   })
 }

@@ -19,7 +19,6 @@
     manualCoordinates || location.coordinates || DEFAULT_COORDINATES
   )
 
-  // Use the hooks directly, they manage their own reactivity
   const nearbyStops = useNearbyStops(() => rawCoordinates)
   const transitData = useTransitData(() => nearbyStops.stops)
   const journeyScoring = useJourneyScoring(

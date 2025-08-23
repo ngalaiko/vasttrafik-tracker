@@ -5,20 +5,16 @@ import type {
 } from '@vasttrafik-tracker/vasttrafik'
 import { transitStore } from '$lib/stores/transitStore.svelte'
 
-export function useTransitData(
-  stops: StopPointApiModel[] | (() => StopPointApiModel[])
-) {
-  const stableArrivals = $derived(() => {
-    const currentStops = typeof stops === 'function' ? stops() : stops
+export function useTransitData(stops: () => StopPointApiModel[]) {
+  const stableArrivals = $derived.by(() => {
     // Preload stops for better performance
-    transitStore.preloadStops(currentStops)
-    return currentStops.map(stopPoint =>
+    return stops().map(stopPoint =>
       transitStore.getStopPointArrivals(stopPoint.gid)
     )
   })
 
-  const stableArrivalValues = $derived(() => {
-    const arrivals = stableArrivals()
+  const stableArrivalValues = $derived.by(() => {
+    const arrivals = stableArrivals
     return arrivals
       .flatMap(arrivals => arrivals.value)
       .filter(arrival => arrival.serviceJourney.line.transportMode === 'tram')
@@ -30,23 +26,23 @@ export function useTransitData(
       )
   })
 
-  const stableJourneyDetails = $derived(() => {
-    const arrivalValues = stableArrivalValues()
+  const stableJourneyDetails = $derived.by(() => {
+    const arrivalValues = stableArrivalValues
     return arrivalValues.map(arrival =>
       transitStore.getJourneyDetails(arrival.detailsReference)
     )
   })
 
-  const journeyDetailsValues = $derived(() => {
-    const journeyDetails = stableJourneyDetails()
+  const journeyDetailsValues = $derived.by(() => {
+    const journeyDetails = stableJourneyDetails
     return journeyDetails
       .flatMap(details => details.value)
       .filter((details): details is JourneyDetailsApiModel => details !== null)
   })
 
-  const arrivalJourneys = $derived(() => {
-    const arrivalValues = stableArrivalValues()
-    const journeyValues = journeyDetailsValues()
+  const arrivalJourneys = $derived.by(() => {
+    const arrivalValues = stableArrivalValues
+    const journeyValues = journeyDetailsValues
     return arrivalValues
       .map(arrival => {
         const journeyDetails = journeyValues.find(sj =>
@@ -73,16 +69,16 @@ export function useTransitData(
 
   return {
     get arrivals() {
-      return stableArrivals()
+      return stableArrivals
     },
     get arrivalValues() {
-      return stableArrivalValues()
+      return stableArrivalValues
     },
     get journeyDetails() {
-      return stableJourneyDetails()
+      return stableJourneyDetails
     },
     get arrivalJourneys() {
-      return arrivalJourneys()
+      return arrivalJourneys
     }
   }
 }

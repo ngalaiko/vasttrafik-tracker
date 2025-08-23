@@ -3,18 +3,15 @@ interface RequestEntry<T> {
   timestamp: number
 }
 
-export class RequestDeduplicator {
-  private activeRequests = new Map<string, RequestEntry<any>>()
+export class RequestDeduplicator<T> {
+  private activeRequests = new Map<string, RequestEntry<T>>()
   private requestTTL: number
 
   constructor(requestTTL: number = 5000) {
     this.requestTTL = requestTTL
   }
 
-  async dedupe<T>(
-    key: string,
-    requestFn: () => Promise<T>
-  ): Promise<T> {
+  async dedupe(key: string, requestFn: () => Promise<T>): Promise<T> {
     const now = Date.now()
     const existing = this.activeRequests.get(key)
 

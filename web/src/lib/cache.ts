@@ -120,7 +120,8 @@ export class TTLCache<T> {
     }))
 
     const totalAccess = entries.reduce((sum, e) => sum + e.accessCount, 0)
-    const hitRate = totalAccess > 0 ? totalAccess / (totalAccess + entries.length) : 0
+    const hitRate =
+      totalAccess > 0 ? totalAccess / (totalAccess + entries.length) : 0
 
     return {
       size: this.cache.size,

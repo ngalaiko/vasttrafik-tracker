@@ -5,7 +5,10 @@
   "type": "module",
   "scripts": {
     "dev": "vite dev",
-    "build": "vite build"
+    "build": "vite build",
+	"format": "pnpm run -r --include-workspace-root /^format:/",
+    "format:js": "eslint --fix .",
+    "format:prettier": "prettier --experimental-cli --write ."
   },
   "dependencies": {
     "@vasttrafik-tracker/vasttrafik": "workspace:*",

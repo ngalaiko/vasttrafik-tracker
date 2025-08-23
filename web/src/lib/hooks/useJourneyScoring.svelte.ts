@@ -85,32 +85,18 @@ export function scoreJourney(
 }
 
 export function useJourneyScoring(
-  arrivalJourneys:
-    | Array<{
-        arrival: ArrivalApiModel
-        journeyDetails: JourneyDetailsApiModel
-      }>
-    | (() => Array<{
-        arrival: ArrivalApiModel
-        journeyDetails: JourneyDetailsApiModel
-      }>),
-  currentPosition: Point | (() => Point)
+  arrivalJourneys: () => Array<{
+    arrival: ArrivalApiModel
+    journeyDetails: JourneyDetailsApiModel
+  }>,
+  currentPosition: () => Point
 ) {
-  const scored = $derived(() => {
-    const journeys =
-      typeof arrivalJourneys === 'function'
-        ? arrivalJourneys()
-        : arrivalJourneys
-    const position =
-      typeof currentPosition === 'function'
-        ? currentPosition()
-        : currentPosition
-
-    return journeys
+  const scored = $derived.by(() => {
+    return arrivalJourneys()
       .map(({ arrival, journeyDetails }) => {
         return {
           ...arrival,
-          score: scoreJourney(journeyDetails, arrival, position)
+          score: scoreJourney(journeyDetails, arrival, currentPosition())
         }
       })
       .sort((a, b) => {
@@ -121,7 +107,7 @@ export function useJourneyScoring(
 
   return {
     get scored() {
-      return scored()
+      return scored
     }
   }
 }
