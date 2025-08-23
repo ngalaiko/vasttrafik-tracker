@@ -12,11 +12,11 @@ class TransitStore {
   private arrivalCache = new Map<string, CacheEntry<StopPointArrivals>>()
   private journeyCache = new Map<string, CacheEntry<JourneyDetails>>()
 
-  // Cache configuration
+  // Cache configuration for real-time data
   private readonly MAX_ARRIVAL_CACHE_SIZE = 50
   private readonly MAX_JOURNEY_CACHE_SIZE = 100
-  private readonly CACHE_CLEANUP_INTERVAL = 2 * 60 * 1000 // 2 minutes
-  private readonly CACHE_MAX_AGE = 10 * 60 * 1000 // 10 minutes
+  private readonly CACHE_CLEANUP_INTERVAL = 30 * 1000 // 30 seconds for more aggressive cleanup
+  private readonly CACHE_MAX_AGE = 2 * 60 * 1000 // 2 minutes for real-time data
   
   private cleanupInterval: number | null = null
   private lastCleanup = Date.now()
@@ -98,7 +98,7 @@ class TransitStore {
     // Evict if cache is full
     this.evictLRUArrivals()
 
-    const arrival = new StopPointArrivals(stopGid)
+    const arrival = new StopPointArrivals(stopGid, { refreshInterval: 3000 }) // 3 seconds for real-time
     this.arrivalCache.set(stopGid, {
       value: arrival,
       timestamp: now,
@@ -120,7 +120,7 @@ class TransitStore {
     // Evict if cache is full
     this.evictLRUJourneys()
 
-    const journey = new JourneyDetails(detailsReference)
+    const journey = new JourneyDetails(detailsReference, { refreshInterval: 3000 }) // 3 seconds for real-time
     this.journeyCache.set(detailsReference, {
       value: journey,
       timestamp: now,
@@ -137,7 +137,7 @@ class TransitStore {
       if (!this.arrivalCache.has(stop.gid)) {
         // Only preload if we have cache space
         if (this.arrivalCache.size < this.MAX_ARRIVAL_CACHE_SIZE) {
-          const arrival = new StopPointArrivals(stop.gid)
+          const arrival = new StopPointArrivals(stop.gid, { refreshInterval: 3000 }) // 3 seconds for real-time
           this.arrivalCache.set(stop.gid, {
             value: arrival,
             timestamp: now,
