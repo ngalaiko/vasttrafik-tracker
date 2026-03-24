@@ -1,5 +1,6 @@
 <script lang="ts">
   import { Location } from '$lib/location.svelte'
+  import { GpsHistory } from '$lib/gpsHistory.svelte'
   import type { Point } from '$lib/utils'
   import { useNearbyStops } from '$lib/hooks/useNearbyStops.svelte'
   import { useTransitData } from '$lib/hooks/useTransitData.svelte'
@@ -8,6 +9,9 @@
   import JourneyList from '$lib/components/JourneyList.svelte'
 
   const location = new Location()
+  $effect(() => () => location.destroy())
+
+  const gpsHistory = new GpsHistory()
   const DEFAULT_COORDINATES: Point = [57.706924, 11.966192]
 
   let manualCoordinates: Point | null = $state(null)
@@ -19,11 +23,20 @@
     manualCoordinates || location.coordinates || DEFAULT_COORDINATES
   )
 
+  const locationError = $derived(
+    location.error ? location.error.message : null
+  )
+
+  // Feed position updates into GPS history for trajectory scoring
+  $effect(() => {
+    gpsHistory.add(rawCoordinates)
+  })
+
   const nearbyStops = useNearbyStops(() => rawCoordinates)
   const transitData = useTransitData(() => nearbyStops.stops)
   const journeyScoring = useJourneyScoring(
     () => transitData.arrivalJourneys,
-    () => nearbyStops.coordinates
+    () => gpsHistory.samples
   )
 </script>
 
@@ -37,17 +50,11 @@
   </div>
 
   <div class="sidebar">
-    <JourneyList journeys={journeyScoring.scored} />
+    <JourneyList journeys={journeyScoring.scored} {locationError} />
   </div>
 </div>
 
 <style>
-  :global(html, body) {
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-  }
-
   .container {
     display: flex;
     font-family: monospace;

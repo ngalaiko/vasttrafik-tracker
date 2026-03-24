@@ -10,7 +10,7 @@ export const GET: RequestHandler = async ({ url, params }) => {
     const maxArrivalsPerLineAndDirection = url.searchParams.get(
       'maxArrivalsPerLineAndDirection'
     )
-    const cacheKey = `arrivals-${params.gid}}`
+    const cacheKey = `arrivals-${params.gid}-${maxArrivalsPerLineAndDirection ?? 'default'}`
     const arrivals = await cache.get(cacheKey, () =>
       api.stopPointArrivals(params.gid, {
         maxArrivalsPerLineAndDirection:

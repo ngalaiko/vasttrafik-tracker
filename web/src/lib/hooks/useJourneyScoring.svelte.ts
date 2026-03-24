@@ -1,108 +1,180 @@
-import type { Point } from '$lib/utils'
 import type {
-  ArrivalApiModel,
-  JourneyDetailsApiModel
+  Arrival,
+  JourneyDetails,
+  TripLeg
 } from '@vasttrafik-tracker/vasttrafik'
-import { closestPointOnPolyline, polylineLength } from '$lib/utils'
+import type { Point } from '$lib/utils'
+import type { GpsSample } from '$lib/gpsHistory.svelte'
+import {
+  closestPointOnPolyline,
+  distanceM,
+  buildCumulativeDistances,
+  distanceAlongPolyline,
+  pointAtDistance
+} from '$lib/utils'
 
-export function scoreJourney(
-  journey: JourneyDetailsApiModel,
-  arrival: ArrivalApiModel,
-  currentPosition: Point
-) {
-  const tripLeg = journey.tripLegs.at(-1)
-  if (!tripLeg) return Infinity
-  const nextJourneyStopPointIndex = tripLeg.callsOnTripLeg.findIndex(
-    call => call.stopPoint.gid === arrival.stopPoint.gid
-  )
-  if (nextJourneyStopPointIndex === -1) {
-    throw new Error('Next stop point not found in journey calls')
+interface SchedulePoint {
+  distance: number
+  time: number
+}
+
+/**
+ * Find the trip leg that contains the arrival's service journey.
+ * The old code used `journey.tripLegs.at(-1)` which is wrong for multi-leg journeys.
+ */
+function findTripLeg(
+  journey: JourneyDetails,
+  arrival: Arrival
+): TripLeg | null {
+  for (const leg of journey.tripLegs) {
+    for (const sj of leg.serviceJourneys) {
+      if (sj.gid === arrival.serviceJourney.gid) {
+        return leg
+      }
+    }
   }
-  const previousStopPoint = tripLeg.callsOnTripLeg.at(
-    nextJourneyStopPointIndex - 1
-  )
-  if (!previousStopPoint) return Infinity
-  const nextStopPoint = tripLeg.callsOnTripLeg.at(nextJourneyStopPointIndex)
-  if (!nextStopPoint) return Infinity
+  return null
+}
 
-  if (!tripLeg.tripLegCoordinates) return Infinity
-  const coordinates = tripLeg.tripLegCoordinates.map(
-    (point): Point => [point.latitude, point.longitude]
-  )
+/**
+ * Build a schedule mapping: distance along route → time.
+ * Uses departure time at each stop (or arrival time for the last stop).
+ */
+function buildSchedule(
+  tripLeg: TripLeg,
+  route: Point[],
+  cumulativeDistances: number[]
+): SchedulePoint[] {
+  const schedule: SchedulePoint[] = []
 
-  const prevStopProjection = closestPointOnPolyline(coordinates, [
-    previousStopPoint.stopPoint.latitude,
-    previousStopPoint.stopPoint.longitude
-  ])
+  if (!tripLeg.callsOnTripLeg) return schedule
 
-  const nextStopProjection = closestPointOnPolyline(coordinates, [
-    arrival.stopPoint.latitude,
-    arrival.stopPoint.longitude
-  ])
+  for (const call of tripLeg.callsOnTripLeg) {
+    const timeStr =
+      call.estimatedOtherwisePlannedDepartureTime ??
+      call.estimatedOtherwisePlannedArrivalTime
+    if (!timeStr) continue
 
-  const prevToNextSegment = [
-    ...coordinates.slice(
-      prevStopProjection.segmentIndex + 1,
-      nextStopProjection.segmentIndex + 1
-    ),
-    nextStopProjection.point
-  ]
-
-  const currentProjection = closestPointOnPolyline(
-    prevToNextSegment,
-    currentPosition
-  )
-
-  const prevToCurrentSegment = [
-    ...prevToNextSegment.slice(0, currentProjection.segmentIndex + 1),
-    currentProjection.point
-  ]
-
-  const prevToNextSegmentLength = polylineLength(prevToNextSegment)
-  const prevToCurrentSegmentLength = polylineLength(prevToCurrentSegment)
-  const currentProgress = prevToCurrentSegmentLength / prevToNextSegmentLength
-
-  if (previousStopPoint.estimatedOtherwisePlannedDepartureTime === undefined) {
-    throw new Error(
-      'Previous stop point has no estimated or planned departure time'
+    const projection = closestPointOnPolyline(route, [
+      call.stopPoint.latitude,
+      call.stopPoint.longitude
+    ])
+    const distance = distanceAlongPolyline(
+      route,
+      cumulativeDistances,
+      projection
     )
-  }
-  if (nextStopPoint.estimatedOtherwisePlannedArrivalTime === undefined) {
-    throw new Error('Next stop point has no estimated or planned arrival time')
+
+    schedule.push({
+      distance,
+      time: Date.parse(timeStr)
+    })
   }
 
-  const departureTime = Date.parse(
-    previousStopPoint.estimatedOtherwisePlannedDepartureTime
-  )
-  const arrivalTime = Date.parse(
-    nextStopPoint.estimatedOtherwisePlannedArrivalTime
-  )
-  const estimatedTime =
-    departureTime + currentProgress * (arrivalTime - departureTime)
-  const errorMs = Math.abs(Date.now() - estimatedTime)
+  return schedule
+}
 
-  return errorMs
+/**
+ * Given a schedule (distance/time pairs at each stop) and a timestamp,
+ * interpolate to find the expected distance along the route.
+ * Assumes constant speed between stops.
+ */
+function interpolateScheduleDistance(
+  schedule: SchedulePoint[],
+  timestamp: number
+): number | null {
+  if (schedule.length < 2) return null
+
+  const first = schedule[0]!
+  const last = schedule[schedule.length - 1]!
+
+  // Clamp to schedule range
+  if (timestamp <= first.time) return first.distance
+  if (timestamp >= last.time) return last.distance
+
+  for (let i = 0; i < schedule.length - 1; i++) {
+    const a = schedule[i]!
+    const b = schedule[i + 1]!
+    if (timestamp >= a.time && timestamp <= b.time) {
+      const timeFraction = (timestamp - a.time) / (b.time - a.time)
+      return a.distance + timeFraction * (b.distance - a.distance)
+    }
+  }
+
+  return null
+}
+
+/**
+ * Score how well a GPS trajectory matches a tram journey.
+ *
+ * For each GPS sample, we compute where the tram *should* be at that moment
+ * (by interpolating its schedule along the route), then measure how far the
+ * user is from that expected position.
+ *
+ * The score is the average distance in meters. A user on the correct tram
+ * should score ~10-30m (GPS accuracy). A user standing still, walking, or
+ * on a different tram will score hundreds or thousands of meters.
+ */
+export function scoreJourney(
+  journey: JourneyDetails,
+  arrival: Arrival,
+  gpsSamples: GpsSample[]
+): number {
+  if (gpsSamples.length === 0) return Infinity
+
+  const tripLeg = findTripLeg(journey, arrival)
+  if (!tripLeg?.tripLegCoordinates || tripLeg.tripLegCoordinates.length < 2)
+    return Infinity
+  if (!tripLeg.callsOnTripLeg || tripLeg.callsOnTripLeg.length < 2)
+    return Infinity
+
+  const route = tripLeg.tripLegCoordinates.map(
+    (p): Point => [p.latitude, p.longitude]
+  )
+  const cumulativeDistances = buildCumulativeDistances(route)
+  const schedule = buildSchedule(tripLeg, route, cumulativeDistances)
+
+  if (schedule.length < 2) return Infinity
+
+  let totalError = 0
+  let validSamples = 0
+
+  for (const sample of gpsSamples) {
+    const expectedDistance = interpolateScheduleDistance(
+      schedule,
+      sample.timestamp
+    )
+    if (expectedDistance === null) continue
+
+    const expectedPosition = pointAtDistance(
+      route,
+      cumulativeDistances,
+      expectedDistance
+    )
+    const error = distanceM(sample.position, expectedPosition)
+    totalError += error
+    validSamples++
+  }
+
+  if (validSamples === 0) return Infinity
+  return totalError / validSamples
 }
 
 export function useJourneyScoring(
   arrivalJourneys: () => Array<{
-    arrival: ArrivalApiModel
-    journeyDetails: JourneyDetailsApiModel
+    arrival: Arrival
+    journeyDetails: JourneyDetails
   }>,
-  currentPosition: () => Point
+  gpsSamples: () => GpsSample[]
 ) {
   const scored = $derived.by(() => {
+    const samples = gpsSamples()
     return arrivalJourneys()
-      .map(({ arrival, journeyDetails }) => {
-        return {
-          ...arrival,
-          score: scoreJourney(journeyDetails, arrival, currentPosition())
-        }
-      })
-      .sort((a, b) => {
-        if (a === null || b === null) return 0
-        return a.score - b.score
-      })
+      .map(({ arrival, journeyDetails }) => ({
+        ...arrival,
+        score: scoreJourney(journeyDetails, arrival, samples)
+      }))
+      .sort((a, b) => a.score - b.score)
   })
 
   return {

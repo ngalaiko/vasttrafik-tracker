@@ -1,5 +1,13 @@
+import { writeFileSync } from 'node:fs'
+import { resolve, dirname } from 'node:path'
+import { fileURLToPath } from 'node:url'
 import { parseArgs } from 'node:util'
 import { createClient } from '@vasttrafik-tracker/vasttrafik'
+
+const OUTPUT_PATH = resolve(
+  dirname(fileURLToPath(import.meta.url)),
+  '../web/src/lib/lines/lines.json'
+)
 
 async function main() {
   const { values } = parseArgs({
@@ -12,10 +20,13 @@ async function main() {
     allowPositionals: true
   })
 
-  const client = createClient({
-    clientId: values['client-id'],
-    clientSecret: values['client-secret']
-  })
+  const clientId = values['client-id']
+  const clientSecret = values['client-secret']
+  if (!clientId || !clientSecret) {
+    throw new Error('--client-id and --client-secret are required')
+  }
+
+  const client = createClient({ clientId, clientSecret })
 
   // main hubs
   const initialHubs = [
@@ -38,7 +49,7 @@ async function main() {
       if (!area) console.warn(`⚠️ Hub not found: "${name}"`)
       return area?.gid
     })
-    .filter(gid => Boolean(gid))
+    .filter((gid): gid is string => Boolean(gid))
 
   const refs = await Promise.all(
     hubGids.map(async gid => {
@@ -54,12 +65,11 @@ async function main() {
         })
         .then(res => res.results || [])
 
-      return arrivals
-        .concat(departures)
-        .filter(arr => arr.serviceJourney.line.transportMode === 'tram')
-        .map(arr => ({
+      return [...arrivals, ...departures]
+        .filter(item => item.serviceJourney.line.transportMode === 'tram')
+        .map(item => ({
           hubGid: gid,
-          detailsReference: arr.detailsReference
+          detailsReference: item.detailsReference
         }))
     })
   )
@@ -74,13 +84,29 @@ async function main() {
         }
       )
 
-      // Extract coordinates and stop points from the first service journey
       const serviceJourney = details.serviceJourneys[0]
+      if (
+        !serviceJourney?.callsOnServiceJourney ||
+        !serviceJourney.serviceJourneyCoordinates
+      ) {
+        return null
+      }
+
+      const { name, backgroundColor, foregroundColor, borderColor, transportMode } =
+        serviceJourney.line
+
       return {
-        ...serviceJourney.line,
-        stopPoints: serviceJourney.callsOnServiceJourney.map(
-          ({ stopPoint }) => stopPoint
-        ),
+        name,
+        backgroundColor,
+        foregroundColor,
+        borderColor,
+        transportMode,
+        stopPoints: serviceJourney.callsOnServiceJourney.map(({ stopPoint }) => ({
+          gid: stopPoint.gid,
+          name: stopPoint.name,
+          latitude: stopPoint.latitude,
+          longitude: stopPoint.longitude
+        })),
         coordinates: serviceJourney.serviceJourneyCoordinates.map(
           ({ latitude, longitude }) => [latitude, longitude]
         )
@@ -88,28 +114,30 @@ async function main() {
     })
   )
 
-  const routePerLineDirection = routes.reduce((acc, route) => {
+  const validRoutes = routes.filter(r => r !== null)
+
+  const routePerLineDirection: Record<string, typeof validRoutes> = {}
+  for (const route of validRoutes) {
     const key = `${route.name}-${route.stopPoints.at(0)?.gid}-${route.stopPoints.at(-1)?.gid}`
-    if (!acc[key]) {
-      acc[key] = [route]
+    if (!routePerLineDirection[key]) {
+      routePerLineDirection[key] = [route]
     } else {
-      acc[key].push(route)
+      routePerLineDirection[key].push(route)
     }
-    return acc
-  }, {})
+  }
 
   // for each line, only keep the route with the most stops
-  const uniqueRoutes = Object.values(routePerLineDirection).map(lineRoutes => {
-    // Sort routes by number of stops, descending
-    lineRoutes.sort(
-      (a, b) => (b.stopPoints?.length || 0) - (a.stopPoints?.length || 0)
-    )
-    // Return the route with the most stops
-    return lineRoutes[0]
-  })
+  const uniqueRoutes = Object.values(routePerLineDirection).map(
+    lineRoutes => {
+      lineRoutes.sort(
+        (a, b) => (b.stopPoints?.length || 0) - (a.stopPoints?.length || 0)
+      )
+      return lineRoutes[0]
+    }
+  )
 
-  // Output JSON to stdout
-  process.stdout.write(JSON.stringify(uniqueRoutes, null, 2))
+  writeFileSync(OUTPUT_PATH, JSON.stringify(uniqueRoutes, null, 2) + '\n')
+  console.log(`Wrote ${uniqueRoutes.length} lines to ${OUTPUT_PATH}`)
 }
 
 main().catch(err => {

@@ -1,9 +1,7 @@
 import type { Point } from '$lib/utils'
-import type { StopPointApiModel } from '@vasttrafik-tracker/vasttrafik'
+import type { StopPoint } from '@vasttrafik-tracker/vasttrafik'
 import lines from '$lib/lines'
-import { closestPointOnPolyline, isPointOnPolyline } from '$lib/utils'
-import { createDebouncedState } from '$lib/utils/debounce.svelte'
-import { coordinateCache } from '$lib/utils/cache'
+import { closestPointOnPolyline } from '$lib/utils'
 
 const MAX_LINE_DISTANCE_METERS = 50
 
@@ -18,17 +16,13 @@ function getCacheKey(coords: Point): string {
   return `${coords[0].toFixed(4)},${coords[1].toFixed(4)}`
 }
 
-function stopsEqual(a: StopPointApiModel[], b: StopPointApiModel[]): boolean {
-  if (a.length !== b.length) return false
-  return a.every((stop, i) => stop.gid === b[i]?.gid)
-}
+const nearbyStopsCache = new Map<string, StopPoint[]>()
 
-function calculateNearbyStops(coordinates: Point): StopPointApiModel[] {
+function calculateNearbyStops(coordinates: Point): StopPoint[] {
   const cacheKey = getCacheKey(coordinates)
 
-  if (coordinateCache.has(cacheKey)) {
-    return coordinateCache.get(cacheKey)!
-  }
+  const cached = nearbyStopsCache.get(cacheKey)
+  if (cached) return cached
 
   const result = lines
     .map(line => {
@@ -48,60 +42,39 @@ function calculateNearbyStops(coordinates: Point): StopPointApiModel[] {
         line.currentProjection.segmentIndex + 1
       )
       const nextStopPoint =
-        line.stopPoints
-          .filter(stop =>
-            isPointOnPolyline(
-              [stop.latitude, stop.longitude],
-              segmentAfterCurrentPoint
-            )
-          )
-          .at(0) ?? line.stopPoints[line.stopPoints.length - 1]
+        (segmentAfterCurrentPoint.length >= 1
+          ? line.stopPoints.find(stop => {
+              const projection = closestPointOnPolyline(
+                segmentAfterCurrentPoint,
+                [stop.latitude, stop.longitude]
+              )
+              return projection.distance < 15 // meters
+            })
+          : undefined) ?? line.stopPoints[line.stopPoints.length - 1]
       return nextStopPoint
     })
     .filter(
-      (stopPoint): stopPoint is StopPointApiModel => stopPoint !== undefined
+      (stopPoint): stopPoint is StopPoint => stopPoint !== undefined
     )
 
-  // Cache with cleanup to prevent memory leaks
-  if (coordinateCache.size > 100) {
-    coordinateCache.clear()
+  if (nearbyStopsCache.size > 100) {
+    nearbyStopsCache.clear()
   }
-  coordinateCache.set(cacheKey, result)
+  nearbyStopsCache.set(cacheKey, result)
 
   return result
 }
 
 export function useNearbyStops(rawCoordinates: () => Point) {
   const coordinates = $derived(roundCoordinates(rawCoordinates()))
-
-  const debouncedCoords = createDebouncedState(
-    roundCoordinates(rawCoordinates()),
-    200
-  )
-
-  // Update debounced coordinates when coordinates change
-  $effect(() => {
-    debouncedCoords.value = coordinates
-  })
-
-  let selectedStops = $state<StopPointApiModel[]>([])
-
-  const closestLines = $derived(
-    calculateNearbyStops(debouncedCoords.debouncedValue)
-  )
-
-  $effect(() => {
-    if (!stopsEqual(closestLines, selectedStops)) {
-      selectedStops = [...closestLines]
-    }
-  })
+  const stops = $derived(calculateNearbyStops(coordinates))
 
   return {
     get coordinates() {
       return coordinates
     },
     get stops() {
-      return selectedStops
+      return stops
     }
   }
 }

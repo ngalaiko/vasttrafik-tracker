@@ -13,23 +13,6 @@ export function distanceM(p1: Point, p2: Point): number {
   return R * c
 }
 
-export function isPointOnPolyline(
-  point: Point,
-  line: Point[],
-  tolerance: number = 0.0001
-): boolean {
-  if (line.length < 2) return false
-
-  for (let i = 0; i < line.length - 1; i++) {
-    const start = line[i]!
-    const end = line[i + 1]!
-    if (isPointOnSegment(point, start, end, tolerance)) {
-      return true
-    }
-  }
-  return false
-}
-
 export interface ClosestPoint {
   point: Point
   distance: number
@@ -76,75 +59,6 @@ export function closestPointOnPolyline(
   return closest
 }
 
-function isPointOnSegment(
-  p: Point,
-  a: Point,
-  b: Point,
-  tolerance: number
-): boolean {
-  // Check if point is within bounding box of segment
-  if (!isInBoundingBox(p, a, b, tolerance)) {
-    return false
-  }
-
-  // Calculate distance from point to line segment
-  return distanceToSegment(p, a, b) <= tolerance
-}
-
-function distanceToSegment(p: Point, a: Point, b: Point): number {
-  // For very short segments, just return distance to nearest endpoint
-  const segmentDistance = distanceM(a, b)
-  if (segmentDistance < 1) {
-    // Less than 1 meter
-    return Math.min(distanceM(p, a), distanceM(p, b))
-  }
-
-  // Use segment midpoint as projection origin
-  const origin: Point = [(a[0] + b[0]) / 2, (a[1] + b[1]) / 2]
-
-  // Project to local coordinates
-  const aLocal = projectToLocal(a, origin)
-  const bLocal = projectToLocal(b, origin)
-  const pLocal = projectToLocal(p, origin)
-
-  // Find closest point in local coordinates
-  const closestLocal = closestPointOnSegment(aLocal, bLocal, pLocal)
-
-  // Convert back to geographic coordinates
-  const closestPoint = projectToGeo(closestLocal, origin)
-
-  // Use geographic distance for final calculation
-  return distanceM(p, closestPoint)
-}
-
-function isInBoundingBox(
-  p: Point,
-  a: Point,
-  b: Point,
-  tolerance: number
-): boolean {
-  const minX = Math.min(a[0], b[0]) - tolerance
-  const maxX = Math.max(a[0], b[0]) + tolerance
-  const minY = Math.min(a[1], b[1]) - tolerance
-  const maxY = Math.max(a[1], b[1]) + tolerance
-
-  return p[0] >= minX && p[0] <= maxX && p[1] >= minY && p[1] <= maxY
-}
-
-function projectToLocal(point: Point, origin: Point): [number, number] {
-  const latToM = 111320 // meters per degree latitude
-  const lonToM = 111320 * Math.cos((origin[0] * Math.PI) / 180) // meters per degree longitude
-
-  return [(point[0] - origin[0]) * latToM, (point[1] - origin[1]) * lonToM]
-}
-
-function projectToGeo(local: [number, number], origin: Point): Point {
-  const latToM = 111320
-  const lonToM = 111320 * Math.cos((origin[0] * Math.PI) / 180)
-
-  return [origin[0] + local[0] / latToM, origin[1] + local[1] / lonToM]
-}
-
 function closestPointOnSegment(
   segStart: Point,
   segEnd: Point,
@@ -166,12 +80,58 @@ function closestPointOnSegment(
   return [x1 + t * dx, y1 + t * dy]
 }
 
-export function polylineLength(polyline: Array<Point>): number {
-  if (polyline.length < 2) return 0
-
-  let totalDistance = 0
-  for (let i = 0; i < polyline.length - 1; i++) {
-    totalDistance += distanceM(polyline[i]!, polyline[i + 1]!)
+/**
+ * Build an array of cumulative distances along a polyline.
+ * Result[i] = total distance from polyline[0] to polyline[i].
+ */
+export function buildCumulativeDistances(polyline: Point[]): number[] {
+  const distances = [0]
+  for (let i = 1; i < polyline.length; i++) {
+    distances.push(distances[i - 1]! + distanceM(polyline[i - 1]!, polyline[i]!))
   }
-  return totalDistance
+  return distances
+}
+
+/**
+ * Given a projection (from closestPointOnPolyline), compute the distance
+ * from the start of the polyline to the projected point.
+ */
+export function distanceAlongPolyline(
+  polyline: Point[],
+  cumulativeDistances: number[],
+  projection: ClosestPoint
+): number {
+  const baseDistance = cumulativeDistances[projection.segmentIndex]!
+  const segStart = polyline[projection.segmentIndex]!
+  return baseDistance + distanceM(segStart, projection.point)
+}
+
+/**
+ * Find the point on a polyline at a given cumulative distance from the start.
+ */
+export function pointAtDistance(
+  polyline: Point[],
+  cumulativeDistances: number[],
+  distance: number
+): Point {
+  const totalLength = cumulativeDistances[cumulativeDistances.length - 1]!
+
+  if (distance <= 0) return polyline[0]!
+  if (distance >= totalLength) return polyline[polyline.length - 1]!
+
+  for (let i = 0; i < cumulativeDistances.length - 1; i++) {
+    const startDist = cumulativeDistances[i]!
+    const endDist = cumulativeDistances[i + 1]!
+    if (distance >= startDist && distance <= endDist) {
+      const segLength = endDist - startDist
+      if (segLength === 0) return polyline[i]!
+      const t = (distance - startDist) / segLength
+      return [
+        polyline[i]![0] + t * (polyline[i + 1]![0] - polyline[i]![0]),
+        polyline[i]![1] + t * (polyline[i + 1]![1] - polyline[i]![1])
+      ]
+    }
+  }
+
+  return polyline[polyline.length - 1]!
 }

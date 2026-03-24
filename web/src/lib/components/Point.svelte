@@ -4,19 +4,21 @@
   import type Leaflet from 'leaflet'
   import type { Map } from 'leaflet'
 
-  const {
-    position,
-    color = '#ff0000',
-    radius = 6,
-    popup,
-    icon
-  } = $props<{
+  interface Props {
     position: Point
     color?: string
     radius?: number
     popup?: string
     icon?: 'circle' | 'marker'
-  }>()
+  }
+
+  let {
+    position,
+    color = '#ff0000',
+    radius = 6,
+    popup,
+    icon
+  }: Props = $props()
 
   const getMapContext = getContext<() => { map: Map; L: typeof Leaflet }>('map')
 

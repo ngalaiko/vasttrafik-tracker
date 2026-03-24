@@ -1,23 +1,21 @@
 <script lang="ts">
   import type { Point } from '$lib/utils'
-  import type { StopPointApiModel } from '@vasttrafik-tracker/vasttrafik'
+  import type { StopPoint } from '@vasttrafik-tracker/vasttrafik'
   import lines from '$lib/lines'
   import Map from '$lib/components/Map.svelte'
   import MapLine from '$lib/components/Line.svelte'
   import MapPoint from '$lib/components/Point.svelte'
 
-  const {
-    center,
-    onPositionChange,
-    manualCoordinates = null
-  } = $props<{
+  interface Props {
     center: Point
     onPositionChange?: (position: Point) => void
     manualCoordinates?: Point | null
-  }>()
+  }
+
+  let { center, onPositionChange, manualCoordinates = null }: Props = $props()
 
   const allStops = $derived.by(() => {
-    const stopMap: Record<string, StopPointApiModel> = {}
+    const stopMap: Record<string, StopPoint> = {}
     lines.forEach(line => {
       line.stopPoints.forEach(stop => {
         stopMap[stop.gid] = stop

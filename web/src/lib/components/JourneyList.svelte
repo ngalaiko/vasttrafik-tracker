@@ -1,10 +1,17 @@
 <script lang="ts">
-  import type { ArrivalApiModel } from '@vasttrafik-tracker/vasttrafik'
+  import type { Arrival } from '@vasttrafik-tracker/vasttrafik'
 
-  const { journeys } = $props<{
-    journeys: (ArrivalApiModel & { score: number })[] | null
-  }>()
+  interface Props {
+    journeys: (Arrival & { score: number })[] | null
+    locationError?: string | null
+  }
+
+  let { journeys, locationError = null }: Props = $props()
 </script>
+
+{#if locationError}
+  <div class="error">{locationError}</div>
+{/if}
 
 {#if journeys === null}
   <div class="loading">Loading...</div>
@@ -37,6 +44,14 @@
   .loading,
   .no-results {
     padding: 8px 0;
+  }
+
+  .error {
+    padding: 8px;
+    margin-bottom: 8px;
+    background: #fee;
+    border: 1px solid #c00;
+    color: #c00;
   }
 
   .journey-item {

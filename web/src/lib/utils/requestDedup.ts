@@ -1,37 +1,39 @@
-interface RequestEntry<T> {
-  promise: Promise<T>
+interface RequestEntry {
+  promise: Promise<unknown>
   timestamp: number
 }
 
-export class RequestDeduplicator<T> {
-  private activeRequests = new Map<string, RequestEntry<T>>()
+export class RequestDeduplicator {
+  private activeRequests = new Map<string, RequestEntry>()
   private requestTTL: number
 
   constructor(requestTTL: number = 5000) {
     this.requestTTL = requestTTL
   }
 
-  async dedupe(key: string, requestFn: () => Promise<T>): Promise<T> {
+  async dedupe<T>(key: string, requestFn: () => Promise<T>): Promise<T> {
     const now = Date.now()
     const existing = this.activeRequests.get(key)
 
     // Return existing promise if still active and not expired
     if (existing && now - existing.timestamp < this.requestTTL) {
-      return existing.promise
+      return existing.promise as Promise<T>
     }
 
     // Create new request
-    const promise = requestFn().finally(() => {
-      // Clean up after request completes
-      this.activeRequests.delete(key)
-    })
-
-    this.activeRequests.set(key, {
-      promise,
+    const entry: RequestEntry = {
+      promise: requestFn().finally(() => {
+        // Only clean up if this is still the active request for this key
+        if (this.activeRequests.get(key) === entry) {
+          this.activeRequests.delete(key)
+        }
+      }),
       timestamp: now
-    })
+    }
 
-    return promise
+    this.activeRequests.set(key, entry)
+
+    return entry.promise as Promise<T>
   }
 
   clear(): void {

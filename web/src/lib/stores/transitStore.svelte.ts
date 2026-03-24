@@ -1,15 +1,59 @@
-import { StopPointArrivals } from '$lib/stopPointArrivals.svelte'
-import { JourneyDetails } from '$lib/journeyDetails.svelte'
+import { PollingResource } from '$lib/pollingResource.svelte'
+import { stopPointArrivals, journeyDetails } from '$lib/api'
+import type { Arrival, JourneyDetails } from '@vasttrafik-tracker/vasttrafik'
 
 class TransitStore {
-  getStopPointArrivals(stopGid: string): StopPointArrivals {
-    return new StopPointArrivals(stopGid, { refreshInterval: 3000 }) // 3 seconds for real-time
+  #arrivals = new Map<string, PollingResource<Arrival[]>>()
+  #journeyDetails = new Map<string, PollingResource<JourneyDetails | null>>()
+
+  getStopPointArrivals(stopGid: string): PollingResource<Arrival[]> {
+    let instance = this.#arrivals.get(stopGid)
+    if (!instance) {
+      instance = new PollingResource(
+        () =>
+          stopPointArrivals(stopGid, {
+            maxArrivalsPerLineAndDirection: 1
+          }).then(r => r.results ?? []),
+        [],
+        { refreshInterval: 3000 }
+      )
+      this.#arrivals.set(stopGid, instance)
+    }
+    return instance
   }
 
-  getJourneyDetails(detailsReference: string): JourneyDetails {
-    return new JourneyDetails(detailsReference, {
-      refreshInterval: 3000
-    }) // 3 seconds for real-time
+  releaseStopPointArrivals(stopGid: string) {
+    const instance = this.#arrivals.get(stopGid)
+    if (instance) {
+      instance.destroy()
+      this.#arrivals.delete(stopGid)
+    }
+  }
+
+  getJourneyDetails(
+    detailsReference: string
+  ): PollingResource<JourneyDetails | null> {
+    let instance = this.#journeyDetails.get(detailsReference)
+    if (!instance) {
+      instance = new PollingResource(
+        () =>
+          journeyDetails(detailsReference, {
+            includes: ['triplegcoordinates']
+          }),
+        null,
+        { refreshInterval: 3000 }
+      )
+      this.#journeyDetails.set(detailsReference, instance)
+    }
+    return instance
+  }
+
+  releaseJourneyDetails(detailsReference: string) {
+    const instance = this.#journeyDetails.get(detailsReference)
+    if (instance) {
+      instance.destroy()
+      this.#journeyDetails.delete(detailsReference)
+    }
   }
 }
 

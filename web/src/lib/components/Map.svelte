@@ -4,21 +4,24 @@
   import type { Map } from 'leaflet'
   import { onMount, setContext } from 'svelte'
 
-  const {
+  interface Props {
+    center?: Point
+    zoom?: number
+    onPositionChange?: (position: Point) => void
+    children?: import('svelte').Snippet
+  }
+
+  let {
     center = [57.706924, 11.966192] as Point,
     zoom = 13,
     onPositionChange,
     children
-  } = $props<{
-    center?: Point
-    zoom?: number
-    onPositionChange?: (position: Point) => void
-    children?: () => any
-  }>()
+  }: Props = $props()
 
   let mapContainer: HTMLElement | null = null
   let map: Map | null = $state(null)
   let L: typeof Leaflet | null = null
+  let userDragging = false
 
   setContext('map', () => ({ map, L }))
 
@@ -39,6 +42,10 @@
     ).addTo(map)
 
     if (onPositionChange) {
+      map.on('dragstart', () => {
+        userDragging = true
+      })
+
       const updatePosition = () => {
         if (!map) return
         const mapCenter = map.getCenter()
@@ -46,12 +53,17 @@
       }
 
       map.on('drag', updatePosition)
-      map.on('dragend', updatePosition)
+      map.on('dragend', () => {
+        updatePosition()
+        userDragging = false
+      })
     }
   })
 
+  // Only programmatically recenter when the user isn't dragging
+  // (e.g. GPS update), not in response to drag-triggered coordinate changes
   $effect(() => {
-    if (!map) return
+    if (!map || userDragging) return
     map.setView(center, map.getZoom())
   })
 </script>
@@ -60,6 +72,8 @@
   <link
     rel="stylesheet"
     href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin=""
   />
 </svelte:head>
 

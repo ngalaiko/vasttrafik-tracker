@@ -1,14 +1,14 @@
 import type {
-  ApiResponse,
-  ArrivalApiModel,
-  JourneyDetailsApiModel
+  PaginatedResponse,
+  Arrival,
+  JourneyDetails
 } from '@vasttrafik-tracker/vasttrafik'
 import { globalRequestDeduplicator } from './utils/requestDedup'
 
 export async function stopPointArrivals(
   gid: string,
   options: { maxArrivalsPerLineAndDirection?: number } = {}
-): Promise<ApiResponse<ArrivalApiModel>> {
+): Promise<PaginatedResponse<Arrival>> {
   const qs = buildQueryParams(options)
   const key = `arrivals:${gid}:${qs.toString()}`
 
@@ -23,7 +23,7 @@ export async function journeyDetails(
   opts: {
     includes?: Array<'triplegcoordinates'>
   } = {}
-): Promise<JourneyDetailsApiModel> {
+): Promise<JourneyDetails> {
   const qs = buildQueryParams(opts)
   const key = `journey:${detailsReference}:${qs.toString()}`
 
@@ -48,7 +48,7 @@ type QueryParamValue =
   | string
   | number
   | boolean
-  | string
+  | string[]
   | number[]
   | boolean[]
   | undefined

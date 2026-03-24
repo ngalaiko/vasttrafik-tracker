@@ -1,24 +1,20 @@
-export interface TokenResponse {
-  access_token: string
-  expires_in: number
+// ---- App-level types (simplified, only fields we use) ----
+
+export interface StopArea {
+  gid: string
+  name: string
 }
 
-export interface PaginationProperties {
-  limit: number
-  offset: number
-  size: number
+export interface StopPoint {
+  gid: string
+  name: string
+  latitude: number
+  longitude: number
 }
 
-export interface PaginationLinks {
-  previous: string | null
-  next: string | null
-  current: string | null
-}
-
-export interface ApiResponse<T> {
-  results: T[] | null
-  pagination: PaginationProperties
-  links: PaginationLinks
+export interface Coordinate {
+  latitude: number
+  longitude: number
 }
 
 export type TransportMode =
@@ -34,90 +30,66 @@ export type TransportMode =
   | 'unknown'
   | 'teletaxi'
 
-export type DateTimeRelatesTo = 'departure' | 'arrival'
-
-export interface ApiError {
-  errorCode: number
-  errorMessage?: string
-}
-
-export interface StopAreaApiModel {
-  gid: string
+export interface Line {
   name: string
-  latitude: number
-  longitude: number
-}
-
-export interface StopPointApiModel {
-  gid: string
-  name: string
-  platform: string
-  latitude: number
-  longitude: number
-  stopArea: StopAreaApiModel
-}
-
-export interface LineApiModel {
-  name: string
-  shortName: string
-  designation: string
   backgroundColor: string
   foregroundColor: string
   borderColor: string
   transportMode: TransportMode
 }
 
-export interface ServiceJourneyApiModel {
+export interface ServiceJourney {
   gid: string
-  origin?: string
-  direction?: string
-  line: LineApiModel
+  line: Line
 }
 
-export interface ArrivalApiModel {
+export interface Arrival {
   detailsReference: string
-  serviceJourney: ServiceJourneyApiModel
-  stopPoint: StopPointApiModel
-  estimatedOtherwisePlannedTime: string
-  isCancelled: boolean
-  isPartCancelled: boolean
+  serviceJourney: ServiceJourney
+  stopPoint: StopPoint
 }
 
-export interface DepartureApiModel {
+export interface Departure {
   detailsReference: string
-  serviceJourney: ServiceJourneyApiModel
-  stopPoint: StopPointApiModel
-  estimatedOtherwisePlannedTime: string
-  isCancelled: boolean
-  isPartCancelled: boolean
+  serviceJourney: ServiceJourney
 }
 
-export interface CallApiModel {
-  stopPoint: StopPointApiModel
+export interface Call {
+  stopPoint: StopPoint
   estimatedOtherwisePlannedDepartureTime?: string
   estimatedOtherwisePlannedArrivalTime?: string
 }
 
-export interface ServiceJourneyDetailsApiModel {
+export interface PaginatedResponse<T> {
+  results: T[] | null
+}
+
+// ---- Departure details (used by download-lines.ts) ----
+
+export interface ServiceJourneyDetails {
   gid: string
-  line: LineApiModel
-  serviceJourneyCoordinates?: Array<{ latitude: number; longitude: number }>
-  callsOnServiceJourney?: CallApiModel[]
+  line: Line
+  serviceJourneyCoordinates?: Coordinate[]
+  callsOnServiceJourney?: Call[]
 }
 
-export interface DepartureDetailsApiModel {
-  serviceJourneys: ServiceJourneyDetailsApiModel[]
+export interface DepartureDetails {
+  serviceJourneys: ServiceJourneyDetails[]
 }
 
-export interface TripLegDetailsApiModel {
-  callsOnTripLeg: CallApiModel[]
-  tripLegCoordinates?: Array<{ latitude: number; longitude: number }>
-  serviceJourneys: Array<ServiceJourneyDetailsApiModel>
+// ---- Journey details (used by web app) ----
+
+export interface TripLeg {
+  callsOnTripLeg?: Call[]
+  tripLegCoordinates?: Coordinate[]
+  serviceJourneys: Array<{ gid: string }>
 }
 
-export interface JourneyDetailsApiModel {
-  tripLegs: TripLegDetailsApiModel[]
+export interface JourneyDetails {
+  tripLegs: TripLeg[]
 }
+
+// ---- Client ----
 
 const host = 'https://ext-api.vasttrafik.se'
 const tokenUrl = `${host}/token`
@@ -148,6 +120,11 @@ function buildQueryParams(
     }
   })
   return qs
+}
+
+interface TokenResponse {
+  access_token: string
+  expires_in: number
 }
 
 async function exchangeClientCredentials(config: {
@@ -218,9 +195,12 @@ export function createClient(config: {
   }
 
   return {
-    async stopAreas(): Promise<StopAreaApiModel[]> {
+    async stopAreas(): Promise<StopArea[]> {
       const res = await get('stop-areas')
-      return res.json()
+      // API returns { gid, name, lat, long } — map to our types
+      const raw: Array<{ gid: string; name: string; lat: number; long: number }> =
+        await res.json()
+      return raw.map(a => ({ gid: a.gid, name: a.name }))
     },
 
     async stopAreaArrivals(
@@ -228,7 +208,7 @@ export function createClient(config: {
       params: {
         includes?: ('servicejourneycoordinates' | 'servicejourneycalls')[]
       } = {}
-    ): Promise<ApiResponse<ArrivalApiModel>> {
+    ): Promise<PaginatedResponse<Arrival>> {
       const qs = buildQueryParams(params)
       const res = await get(`stop-areas/${gid}/arrivals?${qs}`)
       return res.json()
@@ -239,7 +219,7 @@ export function createClient(config: {
       params: {
         includes?: ('servicejourneycoordinates' | 'servicejourneycalls')[]
       } = {}
-    ): Promise<ApiResponse<DepartureApiModel>> {
+    ): Promise<PaginatedResponse<Departure>> {
       const qs = buildQueryParams(params)
       const res = await get(`stop-areas/${gid}/departures?${qs}`)
       return res.json()
@@ -251,7 +231,7 @@ export function createClient(config: {
       params: {
         includes?: ('servicejourneycoordinates' | 'servicejourneycalls')[]
       } = {}
-    ): Promise<DepartureDetailsApiModel> {
+    ): Promise<DepartureDetails> {
       if (!gid || !detailsReference)
         throw new Error('Both gid and detailsReference are required')
       const qs = buildQueryParams(params)
@@ -266,7 +246,7 @@ export function createClient(config: {
       params: {
         includes?: 'triplegcoordinates'[]
       } = {}
-    ): Promise<JourneyDetailsApiModel> {
+    ): Promise<JourneyDetails> {
       if (!detailsReference) throw new Error('detailsReference is required')
       const qs = buildQueryParams(params)
       const res = await get(`journeys/${detailsReference}/details?${qs}`)
@@ -276,7 +256,7 @@ export function createClient(config: {
     async stopPointArrivals(
       gid: string,
       params: { maxArrivalsPerLineAndDirection?: number } = {}
-    ): Promise<ApiResponse<ArrivalApiModel>> {
+    ): Promise<PaginatedResponse<Arrival>> {
       if (!gid) throw new Error('gid is required')
       const qs = buildQueryParams(params)
       const res = await get(`stop-points/${gid}/arrivals?${qs}`)

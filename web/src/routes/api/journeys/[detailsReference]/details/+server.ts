@@ -20,7 +20,7 @@ export const GET: RequestHandler = async ({ url, params }) => {
     )
     return json(details)
   } catch (error) {
-    console.error('Error fetching arrivals:', error)
+    console.error('Error fetching journey details:', error)
     return json({ error: 'something went wrong' }, { status: 500 })
   }
 }

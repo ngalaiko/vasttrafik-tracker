@@ -4,19 +4,21 @@
   import type Leaflet from 'leaflet'
   import { getContext } from 'svelte'
 
-  const {
-    coordinates,
-    color = '#000000',
-    weight = 3,
-    opacity = 1,
-    name
-  } = $props<{
+  interface Props {
     coordinates: Point[]
     color?: string
     weight?: number
     opacity?: number
     name?: string
-  }>()
+  }
+
+  let {
+    coordinates,
+    color = '#000000',
+    weight = 3,
+    opacity = 1,
+    name
+  }: Props = $props()
 
   const getMapContext = getContext<() => { map: Map; L: typeof Leaflet }>('map')
 

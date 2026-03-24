@@ -1,82 +1,101 @@
 import type {
-  StopPointApiModel,
-  ArrivalApiModel,
-  JourneyDetailsApiModel
+  StopPoint,
+  Arrival,
+  JourneyDetails
 } from '@vasttrafik-tracker/vasttrafik'
 import { transitStore } from '$lib/stores/transitStore.svelte'
 
-export function useTransitData(stops: () => StopPointApiModel[]) {
-  const stableArrivals = $derived.by(() => {
-    // Preload stops for better performance
+export function useTransitData(stops: () => StopPoint[]) {
+  // Track active keys so we can release stale instances
+  let prevArrivalGids = new Set<string>()
+  let prevDetailRefs = new Set<string>()
+
+  const arrivals = $derived.by(() => {
     return stops().map(stopPoint =>
       transitStore.getStopPointArrivals(stopPoint.gid)
     )
   })
 
-  const stableArrivalValues = $derived.by(() => {
-    const arrivals = stableArrivals
+  // Release stale stop point arrival instances
+  $effect(() => {
+    const currentGids = new Set(stops().map(s => s.gid))
+    for (const gid of prevArrivalGids) {
+      if (!currentGids.has(gid)) {
+        transitStore.releaseStopPointArrivals(gid)
+      }
+    }
+    prevArrivalGids = currentGids
+
+    return () => {
+      for (const gid of currentGids) {
+        transitStore.releaseStopPointArrivals(gid)
+      }
+    }
+  })
+
+  const arrivalValues = $derived.by(() => {
     return arrivals
-      .flatMap(arrivals => arrivals.value)
+      .flatMap(a => a.value)
       .filter(arrival => arrival.serviceJourney.line.transportMode === 'tram')
       .filter(
-        (arrival, i, arrivals) =>
-          arrivals.findIndex(
-            a => a.detailsReference === arrival.detailsReference
-          ) === i
+        (arrival, i, all) =>
+          all.findIndex(a => a.detailsReference === arrival.detailsReference) ===
+          i
       )
   })
 
-  const stableJourneyDetails = $derived.by(() => {
-    const arrivalValues = stableArrivalValues
+  const journeyDetails = $derived.by(() => {
     return arrivalValues.map(arrival =>
       transitStore.getJourneyDetails(arrival.detailsReference)
     )
   })
 
+  // Release stale journey detail instances
+  $effect(() => {
+    const currentRefs = new Set(arrivalValues.map(a => a.detailsReference))
+    for (const ref of prevDetailRefs) {
+      if (!currentRefs.has(ref)) {
+        transitStore.releaseJourneyDetails(ref)
+      }
+    }
+    prevDetailRefs = currentRefs
+
+    return () => {
+      for (const ref of currentRefs) {
+        transitStore.releaseJourneyDetails(ref)
+      }
+    }
+  })
+
   const journeyDetailsValues = $derived.by(() => {
-    const journeyDetails = stableJourneyDetails
     return journeyDetails
-      .flatMap(details => details.value)
-      .filter((details): details is JourneyDetailsApiModel => details !== null)
+      .flatMap(d => d.value)
+      .filter((d): d is JourneyDetails => d !== null)
   })
 
   const arrivalJourneys = $derived.by(() => {
-    const arrivalValues = stableArrivalValues
-    const journeyValues = journeyDetailsValues
     return arrivalValues
       .map(arrival => {
-        const journeyDetails = journeyValues.find(sj =>
+        const details = journeyDetailsValues.find(sj =>
           sj.tripLegs.some(leg =>
             leg.serviceJourneys.some(
               sj => sj.gid === arrival.serviceJourney.gid
             )
           )
         )
-        return {
-          arrival,
-          journeyDetails
-        }
+        return { arrival, journeyDetails: details }
       })
       .filter(
         (
           aj
         ): aj is {
-          arrival: ArrivalApiModel
-          journeyDetails: JourneyDetailsApiModel
+          arrival: Arrival
+          journeyDetails: JourneyDetails
         } => aj.journeyDetails !== undefined
       )
   })
 
   return {
-    get arrivals() {
-      return stableArrivals
-    },
-    get arrivalValues() {
-      return stableArrivalValues
-    },
-    get journeyDetails() {
-      return stableJourneyDetails
-    },
     get arrivalJourneys() {
       return arrivalJourneys
     }
