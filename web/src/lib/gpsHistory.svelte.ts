@@ -1,5 +1,5 @@
 import { untrack } from 'svelte'
-import type { Point } from './utils'
+import type { Point } from '$lib/types'
 
 export interface GpsSample {
   position: Point

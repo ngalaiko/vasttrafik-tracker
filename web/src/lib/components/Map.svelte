@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { Point } from '$lib/utils'
+  import type { Point } from '$lib/types'
   import type Leaflet from 'leaflet'
   import type { Map } from 'leaflet'
   import { onMount, setContext } from 'svelte'

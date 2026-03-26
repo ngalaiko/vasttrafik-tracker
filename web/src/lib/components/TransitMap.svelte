@@ -1,6 +1,5 @@
 <script lang="ts">
-  import type { Point } from '$lib/utils'
-  import type { StopPoint } from '@vasttrafik-tracker/vasttrafik'
+  import type { Point, Stop } from '$lib/types'
   import lines from '$lib/lines'
   import Map from '$lib/components/Map.svelte'
   import MapLine from '$lib/components/Line.svelte'
@@ -15,9 +14,9 @@
   let { center, onPositionChange, manualCoordinates = null }: Props = $props()
 
   const allStops = $derived.by(() => {
-    const stopMap: Record<string, StopPoint> = {}
-    lines.forEach(line => {
-      line.stopPoints.forEach(stop => {
+    const stopMap: Record<string, Stop> = {}
+    lines.forEach(route => {
+      route.stops.forEach(stop => {
         stopMap[stop.gid] = stop
       })
     })
@@ -26,17 +25,17 @@
 </script>
 
 <Map {center} {onPositionChange}>
-  {#each lines as line}
+  {#each lines as route}
     <MapLine
-      coordinates={line.coordinates as Point[]}
-      color={line.backgroundColor}
-      name={line.name}
+      coordinates={route.coordinates}
+      color={route.colors.background === '#ffffff' ? route.colors.border : route.colors.background}
+      name={`${route.name} → ${route.direction}`}
     />
   {/each}
 
   {#each allStops as stop}
     <MapPoint
-      position={[stop.latitude, stop.longitude]}
+      position={stop.position}
       color="#0000ff"
       radius={3}
       popup={stop.name}

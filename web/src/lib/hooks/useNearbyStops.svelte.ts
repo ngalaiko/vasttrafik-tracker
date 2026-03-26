@@ -1,5 +1,4 @@
-import type { Point } from '$lib/utils'
-import type { StopPoint } from '@vasttrafik-tracker/vasttrafik'
+import type { Point, Route } from '$lib/types'
 import lines from '$lib/lines'
 import { closestPointOnPolyline } from '$lib/utils'
 
@@ -16,65 +15,40 @@ function getCacheKey(coords: Point): string {
   return `${coords[0].toFixed(4)},${coords[1].toFixed(4)}`
 }
 
-const nearbyStopsCache = new Map<string, StopPoint[]>()
+const nearbyRoutesCache = new Map<string, Route[]>()
 
-function calculateNearbyStops(coordinates: Point): StopPoint[] {
+function calculateNearbyRoutes(coordinates: Point): Route[] {
   const cacheKey = getCacheKey(coordinates)
 
-  const cached = nearbyStopsCache.get(cacheKey)
+  const cached = nearbyRoutesCache.get(cacheKey)
   if (cached) return cached
 
   const result = lines
-    .map(line => {
-      const currentProjection = closestPointOnPolyline(
-        line.coordinates,
-        coordinates
-      )
-      return {
-        ...line,
-        currentProjection,
-        distance: currentProjection.distance
-      }
+    .map(route => {
+      const projection = closestPointOnPolyline(route.coordinates, coordinates)
+      return { route, distance: projection.distance }
     })
-    .filter(line => line.distance < MAX_LINE_DISTANCE_METERS)
-    .map(line => {
-      const segmentAfterCurrentPoint = line.coordinates.slice(
-        line.currentProjection.segmentIndex + 1
-      )
-      const nextStopPoint =
-        (segmentAfterCurrentPoint.length >= 1
-          ? line.stopPoints.find(stop => {
-              const projection = closestPointOnPolyline(
-                segmentAfterCurrentPoint,
-                [stop.latitude, stop.longitude]
-              )
-              return projection.distance < 15 // meters
-            })
-          : undefined) ?? line.stopPoints[line.stopPoints.length - 1]
-      return nextStopPoint
-    })
-    .filter(
-      (stopPoint): stopPoint is StopPoint => stopPoint !== undefined
-    )
+    .filter(({ distance }) => distance < MAX_LINE_DISTANCE_METERS)
+    .map(({ route }) => route)
 
-  if (nearbyStopsCache.size > 100) {
-    nearbyStopsCache.clear()
+  if (nearbyRoutesCache.size > 100) {
+    nearbyRoutesCache.clear()
   }
-  nearbyStopsCache.set(cacheKey, result)
+  nearbyRoutesCache.set(cacheKey, result)
 
   return result
 }
 
 export function useNearbyStops(rawCoordinates: () => Point) {
   const coordinates = $derived(roundCoordinates(rawCoordinates()))
-  const stops = $derived(calculateNearbyStops(coordinates))
+  const routes = $derived(calculateNearbyRoutes(coordinates))
 
   return {
     get coordinates() {
       return coordinates
     },
-    get stops() {
-      return stops
+    get routes() {
+      return routes
     }
   }
 }

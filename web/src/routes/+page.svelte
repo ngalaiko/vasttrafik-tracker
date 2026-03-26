@@ -1,7 +1,7 @@
 <script lang="ts">
   import { Location } from '$lib/location.svelte'
   import { GpsHistory } from '$lib/gpsHistory.svelte'
-  import type { Point } from '$lib/utils'
+  import type { Point } from '$lib/types'
   import { useNearbyStops } from '$lib/hooks/useNearbyStops.svelte'
   import { useTransitData } from '$lib/hooks/useTransitData.svelte'
   import { useJourneyScoring } from '$lib/hooks/useJourneyScoring.svelte'
@@ -33,9 +33,9 @@
   })
 
   const nearbyStops = useNearbyStops(() => rawCoordinates)
-  const transitData = useTransitData(() => nearbyStops.stops)
+  const transitData = useTransitData(() => nearbyStops.routes)
   const journeyScoring = useJourneyScoring(
-    () => transitData.arrivalJourneys,
+    () => transitData.trips,
     () => gpsHistory.samples
   )
 </script>

@@ -1,4 +1,4 @@
-import type { Point } from './utils'
+import type { Point } from '$lib/types'
 
 export class Location {
   coordinates = $state<Point | null>(null)

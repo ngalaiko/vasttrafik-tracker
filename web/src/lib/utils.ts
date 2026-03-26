@@ -1,4 +1,5 @@
-export type Point = [number, number]
+export type { Point } from '$lib/types'
+import type { Point } from '$lib/types'
 
 export function distanceM(p1: Point, p2: Point): number {
   const R = 6371e3 // Radius of the Earth in meters

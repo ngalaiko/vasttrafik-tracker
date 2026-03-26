@@ -9,6 +9,24 @@ const OUTPUT_PATH = resolve(
   '../web/src/lib/lines/lines.json'
 )
 
+interface Stop {
+  gid: string
+  name: string
+  position: [number, number]
+}
+
+interface Route {
+  name: string
+  direction: string
+  colors: {
+    background: string
+    foreground: string
+    border: string
+  }
+  stops: Stop[]
+  coordinates: Array<[number, number]>
+}
+
 async function main() {
   const { values } = parseArgs({
     args: process.argv,
@@ -92,33 +110,46 @@ async function main() {
         return null
       }
 
-      const { name, backgroundColor, foregroundColor, borderColor, transportMode } =
+      const { name, backgroundColor, foregroundColor, borderColor } =
         serviceJourney.line
 
-      return {
-        name,
-        backgroundColor,
-        foregroundColor,
-        borderColor,
-        transportMode,
-        stopPoints: serviceJourney.callsOnServiceJourney.map(({ stopPoint }) => ({
+      const stops: Stop[] = serviceJourney.callsOnServiceJourney.map(
+        ({ stopPoint }) => ({
           gid: stopPoint.gid,
           name: stopPoint.name,
-          latitude: stopPoint.latitude,
-          longitude: stopPoint.longitude
-        })),
+          position: [stopPoint.latitude, stopPoint.longitude] as [
+            number,
+            number
+          ]
+        })
+      )
+
+      const lastStop = stops[stops.length - 1]
+      if (!lastStop) return null
+
+      const route: Route = {
+        name,
+        direction: lastStop.name,
+        colors: {
+          background: backgroundColor,
+          foreground: foregroundColor,
+          border: borderColor
+        },
+        stops,
         coordinates: serviceJourney.serviceJourneyCoordinates.map(
-          ({ latitude, longitude }) => [latitude, longitude]
+          ({ latitude, longitude }): [number, number] => [latitude, longitude]
         )
       }
+
+      return route
     })
   )
 
-  const validRoutes = routes.filter(r => r !== null)
+  const validRoutes = routes.filter((r): r is Route => r !== null)
 
-  const routePerLineDirection: Record<string, typeof validRoutes> = {}
+  const routePerLineDirection: Record<string, Route[]> = {}
   for (const route of validRoutes) {
-    const key = `${route.name}-${route.stopPoints.at(0)?.gid}-${route.stopPoints.at(-1)?.gid}`
+    const key = `${route.name}-${route.stops.at(0)?.gid}-${route.stops.at(-1)?.gid}`
     if (!routePerLineDirection[key]) {
       routePerLineDirection[key] = [route]
     } else {
@@ -126,18 +157,21 @@ async function main() {
     }
   }
 
-  // for each line, only keep the route with the most stops
-  const uniqueRoutes = Object.values(routePerLineDirection).map(
-    lineRoutes => {
-      lineRoutes.sort(
-        (a, b) => (b.stopPoints?.length || 0) - (a.stopPoints?.length || 0)
-      )
-      return lineRoutes[0]
-    }
-  )
+  // for each line+direction, only keep the route with the most stops
+  const uniqueRoutes = Object.values(routePerLineDirection)
+    .map(lineRoutes => {
+      lineRoutes.sort((a, b) => b.stops.length - a.stops.length)
+      return lineRoutes[0]!
+    })
+    .sort((a, b) => {
+      const numA = parseInt(a.name, 10) || 0
+      const numB = parseInt(b.name, 10) || 0
+      if (numA !== numB) return numA - numB
+      return a.direction.localeCompare(b.direction)
+    })
 
   writeFileSync(OUTPUT_PATH, JSON.stringify(uniqueRoutes, null, 2) + '\n')
-  console.log(`Wrote ${uniqueRoutes.length} lines to ${OUTPUT_PATH}`)
+  console.log(`Wrote ${uniqueRoutes.length} routes to ${OUTPUT_PATH}`)
 }
 
 main().catch(err => {
